@@ -1,0 +1,27 @@
+### create by admin
+POST localhost:8080/category/create
+Content-Type: application/json
+
+{
+  "orderNumber": 1,
+  "nameEng": "World",
+  "nameUz": "Jahon",
+  "nameRu": "Мир"
+}
+
+### update by admin
+PUT localhost:8080/category/update/1
+Content-Type: application/json
+
+{
+  "orderNumber": 2,
+  "nameEng": "Sport",
+  "nameUz": "Sport",
+  "nameRu": "Спорт"
+}
+### delete by admin
+DELETE localhost:8080/category/delete/1
+### get all by admin
+GET localhost:8080/category/getAll
+### get by language
+GET localhost:8080/category/language?lang=uz

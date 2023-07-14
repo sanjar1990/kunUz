@@ -1,0 +1,50 @@
+### create staff(admin)
+POST localhost:8080/profile/createStaff
+Content-Type: application/json
+
+{
+  "name": "VAli",
+  "surname": "VAliyev",
+  "email": "vali@gmail.com",
+  "phone": "+998908070176",
+  "password": "vali123",
+  "role": "MODERATOR"
+}
+
+### staff Update By Admin
+PUT localhost:8080/profile/staffUpdateByAdmin/1
+Content-Type: application/json
+
+{
+  "name": "Vali",
+  "surname": "VAliyev",
+  "email": "vali@gmail.com",
+  "phone": "+998909090909",
+  "password": "ali123",
+  "role": "PUBLISHER"
+}
+### updateStaffByStaff
+PUT localhost:8080/profile/updateStaffByStaff/1
+Content-Type: application/json
+
+{
+  "name": "Ali",
+  "surname": "Aliyev",
+  "email": "ali@gmail.com",
+  "phone": "+998909099999",
+  "password": "ali123"
+}
+### profileListPaginationByAdmin
+GET localhost:8080/profile/profileListPagination?page=1&size10
+### delete profile by id
+DELETE localhost:8080/profile/delete/1
+### filter pagination by Admin
+POST localhost:8080/profile/filterPagination?page=1&size=10
+Content-Type: application/json
+
+{
+  "created_date_from": "2023-07-01",
+  "created_date_to": "2023-07-14"
+
+
+}

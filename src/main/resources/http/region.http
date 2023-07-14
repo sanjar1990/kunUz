@@ -1,0 +1,35 @@
+### create region by admin
+POST localhost:8080/region/create
+Content-Type: application/json
+
+//{
+//  "orderNumber": 1,
+//  "nameEng": "Tashkent",
+//  "nameUz": "Toshkent",
+//  "nameRu": "Ташкент"
+//}
+
+{
+  "orderNumber": 2,
+  "nameEng": "Bukhara",
+  "nameUz": "Buxoro",
+  "nameRu": "Бухара"
+}
+### update by Admin
+PUT localhost:8080/region/update/1
+Content-Type: application/json
+
+{
+  "orderNumber": 2,
+  "nameEng": "Bukhara",
+  "nameUz": "Buxoro",
+  "nameRu": "Бухара"
+}
+
+### deleted region by admin
+DELETE localhost:8080/region/delete/1
+### get all by id admin
+GET localhost:8080/region/getAll
+
+### get by language
+GET localhost:8080/region/language?lang=uz
