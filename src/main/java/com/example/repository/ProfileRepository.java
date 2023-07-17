@@ -2,8 +2,12 @@ package com.example.repository;
 
 import com.example.dto.ProfileDTO;
 import com.example.entity.ProfileEntity;
+import com.example.entity.RegionEntity;
+import com.example.enums.ProfileStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,11 +20,12 @@ import java.util.Optional;
 public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer>,
         PagingAndSortingRepository<ProfileEntity,Integer> {
 
-     Optional<ProfileEntity> findAllByPhone(String phone);
-    Optional<ProfileEntity> findAllByEmail(String email);
+    Boolean existsAllByPhoneAndVisibleTrueAndStatus(String phone, ProfileStatus profileStatus);
+    Boolean existsAllByEmailAndVisibleTrueAndStatus(String email,ProfileStatus profileStatus);
     @Transactional
     @Modifying
     @Query("update ProfileEntity set visible=false where id=:id")
     int deleteVisible(@Param("id")Integer id);
-
+    Optional<ProfileEntity> findByIdAndVisibleTrue(Integer profileId);
+    Page<ProfileEntity>findAllByVisibleTrue(Pageable pageable);
 }

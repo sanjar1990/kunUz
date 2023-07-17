@@ -8,20 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/api/v1/profile")
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
-    @PostMapping("/createStaff")
+    @PostMapping("")
     public ResponseEntity<?> createProfile(@RequestBody ProfileDTO profileDTO){
         return ResponseEntity.ok(profileService.createProfile(profileDTO));
     }
-    @PutMapping("/staffUpdateByAdmin/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> staffUpdateByAdmin(@RequestBody ProfileDTO profileDTO,
                                                 @PathVariable Integer id){
         return ResponseEntity.ok(profileService.staffUpdateByAdmin(profileDTO,id));
     }
-    @PutMapping("/updateStaffByStaff/{id}")
+    @PutMapping("/updateDetail/{id}")
     public ResponseEntity<?>updateStaffByStaff(@RequestBody ProfileDTO profileDTO,
                                                 @PathVariable Integer id){
         return ResponseEntity.ok(profileService.updateStaffByStaff(profileDTO,id));
@@ -31,7 +31,7 @@ public class ProfileController {
                                                          @RequestParam(value = "size",defaultValue = "10") Integer size){
         return ResponseEntity.ok(profileService.profileListPagination(page-1,size));
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?>deleteProfileById(@PathVariable Integer id){
         return ResponseEntity.ok(profileService.deleteProfile(id));
     }

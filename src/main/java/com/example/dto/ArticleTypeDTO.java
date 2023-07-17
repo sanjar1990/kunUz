@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryDTO  {
+public class ArticleTypeDTO {
     private Integer id;
     private Integer orderNumber;
     private String nameUz;
@@ -19,7 +19,5 @@ public class CategoryDTO  {
     private String nameEn;
     private Boolean visible;
     private LocalDateTime createdDate;
-    private String categoryName;
-
-
+    private String articleTypeName;
 }

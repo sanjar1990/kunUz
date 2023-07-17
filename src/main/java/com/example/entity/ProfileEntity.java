@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
 @Table(name = "profile")
 public class ProfileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(name = "name",length = 50)
     private String name;
     @Column(name = "surname", length = 50)
     private String surname;
-    @Column(name = "email", length = 50, unique = true, nullable = false)
+    @Column(name = "email", length = 50, nullable = false)
     private String email;
-    @Column(name = "phone", length = 13, unique = true, nullable = false)
+    @Column(name = "phone", length = 13,  nullable = false)
     private String phone;
     @Column(name = "password", length = 50, nullable = false)
     private String password;

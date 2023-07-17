@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "category")
 public class CategoryEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(name = "order_number",unique = true)
     private Integer orderNumber;
@@ -22,8 +22,8 @@ public class CategoryEntity {
     private String nameUz;
     @Column(name = "name_ru")
     private String nameRu;
-    @Column(name = "name_eng")
-    private String nameEng;
+    @Column(name = "name_en")
+    private String nameEn;
     @Column(name = "visible")
     private Boolean visible=true;
     @Column(name = "created_date")

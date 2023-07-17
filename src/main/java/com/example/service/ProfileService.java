@@ -12,12 +12,11 @@ import com.example.exception.ItemNotFoundException;
 import com.example.repository.CustomProfileRepository;
 import com.example.repository.ProfileRepository;
 import com.example.utility.CheckValidationUtility;
+import com.example.utility.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -32,25 +31,23 @@ public class ProfileService {
         //check
         ProfileDTO dto= checkValidationUtility.checkForStaff(profileDTO);
         // check is exist phone
-        Optional<ProfileEntity> getByPhone=profileRepository.findAllByPhone(dto.getPhone());
+        Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
         // check is exist email
-        Optional<ProfileEntity> getByEmail=profileRepository.findAllByEmail(dto.getEmail());
-        if(getByPhone.isPresent()) throw new ItemAlreadyExists("this phone is exists!");
-        if(getByEmail.isPresent()) throw new ItemAlreadyExists("this email is exist");
+        Boolean checkByEmail=profileRepository.existsAllByEmailAndVisibleTrueAndStatus(dto.getEmail(),ProfileStatus.ACTIVE);
+        if(checkByPhone) throw new ItemAlreadyExists("this phone is exists!");
+        if(checkByEmail) throw new ItemAlreadyExists("this email is exist");
         //to entity
         ProfileEntity profileEntity=toEntity(dto);
         profileRepository.save(profileEntity);
         profileDTO.setId(profileEntity.getId());
         profileDTO.setCreatedDate(profileEntity.getCreatedDate());
         profileDTO.setVisible(profileEntity.getVisible());
+        profileDTO.setPassword(profileEntity.getPassword());
         return profileDTO;
     }
     //By Admin
     public String staffUpdateByAdmin(ProfileDTO profileDTO, Integer id){
-        //check is exists
-        Optional<ProfileEntity> optional=profileRepository.findById(id);
-        if (optional.isEmpty()) throw new ItemNotFoundException("profile not found");
-        ProfileEntity profileEntity=optional.get();
+        ProfileEntity profileEntity=getProfileEntity(id);
         //check validation
         if(profileDTO.getStatus()!=null){
             profileEntity.setStatus(profileDTO.getStatus());
@@ -68,8 +65,9 @@ public class ProfileService {
             if(!profileDTO.getEmail().contains("@")){
                 throw new AppBadRequestException("Enter valid email!");
             }
-            Optional<ProfileEntity> getByEmail=profileRepository.findAllByEmail(profileDTO.getEmail());
-            if(getByEmail.isPresent()) throw new AppBadRequestException("this email is exist");
+            if(profileRepository.existsAllByEmailAndVisibleTrueAndStatus(profileDTO.getEmail(),ProfileStatus.ACTIVE)){
+                throw new AppBadRequestException("this email is exist");
+            }
             profileEntity.setEmail(profileDTO.getEmail());
         }
         if(profileDTO.getPhone()!=null){
@@ -80,8 +78,8 @@ public class ProfileService {
             }else if(!profileDTO.getPhone().substring(2).chars().allMatch(Character::isDigit)){
                 throw new AppBadRequestException("invalid phone number");
             }
-            Optional<ProfileEntity> entityOptional=profileRepository.findAllByPhone(profileDTO.getPhone());
-            if (entityOptional.isPresent()) throw new AppBadRequestException("this phone is exists!");
+            if (profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(profileDTO.getPhone(),ProfileStatus.ACTIVE))
+                throw new AppBadRequestException("this phone is exists!");
             profileEntity.setPhone(profileDTO.getPhone());
         }
         if(profileDTO.getName()!=null){
@@ -104,16 +102,10 @@ public class ProfileService {
     //Staff
 
     public String updateStaffByStaff(ProfileDTO profileDTO, Integer id){
-        //check is exists
-        Optional<ProfileEntity> optional=profileRepository.findById(id);
-        if (optional.isEmpty()) throw new ItemNotFoundException("profile not found");
-        ProfileEntity profileEntity=optional.get();
-        //profile status and visible
+        ProfileEntity profileEntity=getProfileEntity(id);
+        //profile status
         if(!profileEntity.getStatus().equals(ProfileStatus.ACTIVE)){
             throw new ItemNotAvailable("Profile status is not active");
-        }
-        if(!profileEntity.getVisible()){
-            throw new ItemNotAvailable("Profile not available");
         }
         //check validation
         if(profileDTO.getPassword()!=null){
@@ -126,8 +118,9 @@ public class ProfileService {
             if(!profileDTO.getEmail().contains("@")){
                 throw new AppBadRequestException("Enter valid email!");
             }
-            Optional<ProfileEntity> getByEmail=profileRepository.findAllByEmail(profileDTO.getEmail());
-            if(getByEmail.isPresent()) throw new AppBadRequestException("this email is exist");
+
+            if( profileRepository.existsAllByEmailAndVisibleTrueAndStatus(profileDTO.getEmail(),ProfileStatus.ACTIVE))
+                throw new AppBadRequestException("this email is exist");
             profileEntity.setEmail(profileDTO.getEmail());
         }
         if(profileDTO.getPhone()!=null){
@@ -138,8 +131,9 @@ public class ProfileService {
             }else if(!profileDTO.getPhone().substring(2).chars().allMatch(Character::isDigit)){
                 throw new AppBadRequestException("invalid phone number");
             }
-            Optional<ProfileEntity> entityOptional=profileRepository.findAllByPhone(profileDTO.getPhone());
-            if (entityOptional.isPresent()) throw new AppBadRequestException("this phone is exists!");
+
+            if (profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(profileDTO.getPhone(),ProfileStatus.ACTIVE))
+                throw new AppBadRequestException("this phone is exists!");
             profileEntity.setPhone(profileDTO.getPhone());
         }
         if(profileDTO.getName()!=null){
@@ -153,19 +147,13 @@ public class ProfileService {
     public PageImpl<ProfileDTO> profileListPagination(Integer page, Integer size){
         Sort sort=Sort.by(Sort.Direction.ASC,"createdDate");
         Pageable pageable= PageRequest.of(page,size,sort);
-        Page<ProfileEntity>pageObj=profileRepository.findAll(pageable);
+        Page<ProfileEntity>pageObj=profileRepository.findAllByVisibleTrue(pageable);
         List<ProfileDTO> dtoList=pageObj.getContent().stream().map(s->toDto(s)).toList();
         return new PageImpl<>(dtoList,pageObj.getPageable(),pageObj.getTotalElements());
     }
 
     //Admin
     public String deleteProfile(Integer id){
-        Optional<ProfileEntity> optional=profileRepository.findById(id);
-        if (optional.isEmpty()) throw new ItemNotFoundException("profile not found");
-        ProfileEntity profileEntity=optional.get();
-        if(!profileEntity.getVisible()){
-            throw new ItemNotAvailable("Profile not available");
-        }
         return profileRepository.deleteVisible(id)>0?"deleted":"not deleted";
     }
 
@@ -184,7 +172,7 @@ public class ProfileService {
         profileEntity.setSurname(profileDTO.getSurname());
         profileEntity.setEmail(profileDTO.getEmail());
         profileEntity.setPhone(profileDTO.getPhone());
-        profileEntity.setPassword(profileDTO.getPassword());
+        profileEntity.setPassword(MD5Util.encode(profileDTO.getPassword()));
         profileEntity.setRole(profileDTO.getRole());
         profileEntity.setStatus(profileDTO.getStatus());
         return profileEntity;
@@ -203,6 +191,11 @@ public class ProfileService {
         profileDTO.setStatus(profileEntity.getStatus());
         profileDTO.setVisible(profileEntity.getVisible());
         return profileDTO;
+    }
+
+    private ProfileEntity getProfileEntity(Integer profileId){
+        return profileRepository.findByIdAndVisibleTrue(profileId)
+                .orElseThrow(()-> new ItemNotFoundException("profile not found"));
     }
 
 }

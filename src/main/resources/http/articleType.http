@@ -1,0 +1,26 @@
+### create by admin
+POST localhost:8080/api/v1/articleType
+Content-Type:  application/json
+
+{
+  "orderNumber": 1,
+  "nameEn": "Main",
+  "nameUz": "Asosiy",
+  "nameRu": "Главный"
+}
+### update by admin
+PUT localhost:8080/api/v1/articleType/1
+Content-Type: application/json
+
+{
+  "orderNumber": 2,
+  "nameEn": "Breaking News",
+  "nameUz": "Dolzarb",
+  "nameRu": "Последние новости"
+}
+### delete by admin
+DELETE localhost:8080/api/v1/articleType/1
+### get all admin
+GET localhost:8080/api/v1/articleType/getAll?page=1&size=10
+### get by lang
+GET localhost:8080/api/v1/articleType/language?lang=En

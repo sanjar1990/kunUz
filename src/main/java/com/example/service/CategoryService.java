@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dto.CategoryDTO;
 import com.example.entity.CategoryEntity;
+import com.example.enums.Language;
 import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemAlreadyExists;
 import com.example.exception.ItemNotFoundException;
@@ -11,6 +12,7 @@ import com.example.utility.CheckValidationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +27,12 @@ public class CategoryService {
     // 1 create by admin
     public CategoryDTO createCategory(CategoryDTO categoryDTO){
         checkValidationUtility.checkCategory(categoryDTO);
-        Optional<CategoryEntity> optional=categoryRepository
-                .findByNameEngOrNameUzOrNameRu(categoryDTO.getNameEng(),categoryDTO.getNameUz(), categoryDTO.getNameRu());
-        if(optional.isPresent())throw new ItemAlreadyExists("This category is exists");
-        Optional<CategoryEntity>byOrderNum=categoryRepository.findByOrderNumber(categoryDTO.getOrderNumber());
-        if (byOrderNum.isPresent())throw new ItemAlreadyExists("This order num is exists");
+        Boolean exists=categoryRepository
+                .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
+                        categoryDTO.getNameUz(), categoryDTO.getNameRu(),categoryDTO.getOrderNumber());
+        if(exists)throw new ItemAlreadyExists("This category is exists");
+//        Optional<CategoryEntity>byOrderNum=categoryRepository.findByOrderNumber(categoryDTO.getOrderNumber());
+//        if (byOrderNum.isPresent())throw new ItemAlreadyExists("This order num is exists");
         CategoryEntity categoryEntity=toEntity(categoryDTO);
         categoryRepository.save(categoryEntity);
         categoryDTO.setId(categoryEntity.getId());
@@ -39,20 +42,16 @@ public class CategoryService {
     }
     //2 update by admin
     public String updateCategory(CategoryDTO categoryDTO, Integer id){
-        Optional<CategoryEntity> optional=categoryRepository.findById(id);
-        Optional<CategoryEntity> isExists=categoryRepository
-                .findByNameEngOrNameUzOrNameRu(categoryDTO.getNameEng(),categoryDTO.getNameUz(), categoryDTO.getNameRu());
-        if(optional.isEmpty()){
-            throw new ItemNotFoundException("Category not found!");
-        }
-        if(isExists.isPresent()) throw new ItemAlreadyExists("this category already exists");
-        CategoryEntity categoryEntity=optional.get();
-
+       CategoryEntity categoryEntity=getCategoryEntity(id);
+            Boolean isExists=categoryRepository
+                .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
+                        categoryDTO.getNameUz(), categoryDTO.getNameRu(),categoryDTO.getOrderNumber());
+        if(isExists) throw new ItemAlreadyExists("this category already exists");
        if(categoryDTO.getOrderNumber()!=null){
          categoryEntity.setOrderNumber(categoryDTO.getOrderNumber());
        }
-       if(categoryDTO.getNameEng()!=null){
-           categoryEntity.setNameEng(categoryDTO.getNameEng());
+       if(categoryDTO.getNameEn()!=null){
+           categoryEntity.setNameEn(categoryDTO.getNameEn());
        }
        if(categoryDTO.getNameUz()!=null){
            categoryEntity.setNameUz(categoryDTO.getNameUz());
@@ -65,40 +64,30 @@ public class CategoryService {
     }
     //3 delete by admin
     public String deleteCategory(Integer id){
-        Optional<CategoryEntity> optional=categoryRepository.findById(id);
-        if(optional.isEmpty()){
-            throw new ItemNotFoundException("Category not found!");
-        }
-        CategoryEntity categoryEntity=optional.get();
-        if(!categoryEntity.getVisible()){
-            throw new AppBadRequestException("this category already deleted");
-        }
-        int result= categoryRepository.deleteCategory(id);
-        return result>0?"category deleted":"category not deleted";
+        return categoryRepository.deleteCategory(id)>0?"category deleted":"category not deleted";
     }
     //4 get all admin
     public List<CategoryDTO>getAll(){
-        Iterable<CategoryEntity> iterable=categoryRepository.findAll();
-        List<CategoryDTO> dtoList=new LinkedList<>();
-        iterable.forEach(s->dtoList.add(toDto(s)));
-        return dtoList;
+     return categoryRepository.findAllByVisibleTrueOrderByOrderNumberAsc().stream().map(s->toDto(s)).toList();
     }
     //5 get by language
-    public List<CategoryLanguageMapper>getByLang(String language){
-        if(language==null) throw new AppBadRequestException("Enter language!");
-        if(language.toLowerCase().startsWith("eng")){
-            return categoryRepository.getByEnglish();
-        } else if (language.toLowerCase().startsWith("uz")) {
-            return categoryRepository.getByUzbek();
-        }else if(language.toLowerCase().startsWith("ru")){
-            return categoryRepository.getByRussian();
-        }
-        return null;
+    public List<CategoryDTO>getByLang(Language language){
+        List<CategoryLanguageMapper>mapperList=categoryRepository.getAllByLang(language.name().toLowerCase());
+        List<CategoryDTO> dtoList=new LinkedList<>();
+        mapperList.forEach(s->{
+            CategoryDTO categoryDTO=new CategoryDTO();
+            categoryDTO.setId(s.getId());
+            categoryDTO.setOrderNumber(s.getOrderNumber());
+            categoryDTO.setCategoryName(s.getName());
+            dtoList.add(categoryDTO);
+        });
+        System.out.println(dtoList);
+        return dtoList;
     }
     private CategoryEntity toEntity(CategoryDTO categoryDTO){
         CategoryEntity categoryEntity=new CategoryEntity();
         categoryEntity.setOrderNumber(categoryDTO.getOrderNumber());
-        categoryEntity.setNameEng(categoryDTO.getNameEng());
+        categoryEntity.setNameEn(categoryDTO.getNameEn());
         categoryEntity.setNameUz(categoryDTO.getNameUz());
         categoryEntity.setNameRu(categoryDTO.getNameRu());
         return categoryEntity;
@@ -108,11 +97,16 @@ public class CategoryService {
         categoryDTO.setId(categoryEntity.getId());
         categoryDTO.setOrderNumber(categoryEntity.getOrderNumber());
         categoryDTO.setCreatedDate(categoryEntity.getCreatedDate());
-        categoryDTO.setNameEng(categoryEntity.getNameEng());
+        categoryDTO.setNameEn(categoryEntity.getNameEn());
         categoryDTO.setNameUz(categoryEntity.getNameUz());
         categoryDTO.setNameRu(categoryEntity.getNameRu());
         categoryDTO.setVisible(categoryEntity.getVisible());
         return categoryDTO;
+    }
+
+    private CategoryEntity getCategoryEntity(Integer categoryId){
+        return categoryRepository.findByIdAndVisibleTrue(categoryId)
+                .orElseThrow(()->new ItemNotFoundException("Category not found"));
     }
 
 }

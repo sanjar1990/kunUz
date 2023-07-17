@@ -15,18 +15,26 @@ import java.util.Optional;
 
 public interface CategoryRepository extends CrudRepository<CategoryEntity, Integer>,
         PagingAndSortingRepository<CategoryEntity,Integer> {
-    Optional<CategoryEntity>findByNameEngOrNameUzOrNameRu(String nameEng, String nameUz, String nameRu);
+    Boolean existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(String nameEn, String nameUz, String nameRu,Integer orderNumber);
     Optional<CategoryEntity>findByOrderNumber(Integer orderNumber);
     @Transactional
     @Modifying
     @Query("update CategoryEntity set visible=false where id=:id")
     int deleteCategory(@Param("id") Integer id);
-    @Query("select new com.example.mapper.CategoryLanguageMapper(id, orderNumber,nameEng) from CategoryEntity where visible=true")
-    List<CategoryLanguageMapper>getByEnglish();
-    @Query("select new com.example.mapper.CategoryLanguageMapper(id, orderNumber,nameUz) from CategoryEntity where visible=true")
-    List<CategoryLanguageMapper>getByUzbek();
-    @Query("select new com.example.mapper.CategoryLanguageMapper(id, orderNumber,nameRu) from CategoryEntity where visible=true")
-    List<CategoryLanguageMapper>getByRussian();
+    Optional<CategoryEntity> findByIdAndVisibleTrue(Integer id);
+    List<CategoryEntity>findAllByVisibleTrueOrderByOrderNumberAsc();
+
+    @Query(value = "select id, order_number as orderNumber, " +
+            "(case :lang" +
+            " when 'uz' then name_uz" +
+            " when 'ru' then name_ru" +
+            " when 'en' then name_en" +
+            " else name_uz" +
+            " end) as name" +
+            " from category where visible=true" +
+            " order by order_number asc ", nativeQuery = true)
+    List<CategoryLanguageMapper>getAllByLang(@Param("lang") String lang);
+
 
 
 }

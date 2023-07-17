@@ -1,7 +1,7 @@
 package com.example.service;
-
 import com.example.dto.RegionDTO;
 import com.example.entity.RegionEntity;
+import com.example.enums.Language;
 import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemAlreadyExists;
 import com.example.exception.ItemNotFoundException;
@@ -10,7 +10,6 @@ import com.example.repository.RegionRepository;
 import com.example.utility.CheckValidationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +23,9 @@ public class RegionService {
     //1 create By Admin
     public RegionDTO createRegion(RegionDTO regionDTO){
         checkValidationUtility.checkRegion(regionDTO);
-        Optional<RegionEntity> optional=regionRepository
-                .findByNameEngOrNameUzOrNameRu(regionDTO.getNameEng(),regionDTO.getNameRu(),regionDTO.getNameUz());
-        if (optional.isPresent()) throw new ItemAlreadyExists("This Region already exists");
+        Boolean exists=regionRepository
+                .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
+        if (exists) throw new ItemAlreadyExists("This Region already exists");
         Optional<RegionEntity>byOrderNum=regionRepository.findByOrderNumber(regionDTO.getOrderNumber());
         if (byOrderNum.isPresent())  throw new ItemAlreadyExists("This Region order number is exist");
     RegionEntity regionEntity=toEntity(regionDTO);
@@ -39,16 +38,12 @@ public class RegionService {
     //2 update region by Admin
 
     public String updateRegion(RegionDTO regionDTO, Integer id){
-       Optional <RegionEntity> optional=regionRepository.findById(id);
-       if(optional.isEmpty()){
-           throw new ItemNotFoundException("Region not found!");
-       }
-        Optional<RegionEntity> checkOption=regionRepository
-                .findByNameEngOrNameUzOrNameRu(regionDTO.getNameEng(),regionDTO.getNameRu(),regionDTO.getNameUz());
-        if (checkOption.isPresent()) throw new ItemAlreadyExists("This Region already exists");
-       RegionEntity regionEntity=optional.get();
-        if(regionDTO.getNameEng()!=null){
-           regionEntity.setNameEng(regionDTO.getNameEng());
+       RegionEntity regionEntity=getRegionEntity(id);
+    Boolean exists=regionRepository
+            .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
+        if (exists) throw new ItemAlreadyExists("This Region already exists");
+        if(regionDTO.getNameEn()!=null){
+           regionEntity.setNameEn(regionDTO.getNameEn());
         }
         if (regionDTO.getNameUz()!=null){
             regionEntity.setNameUz(regionDTO.getNameUz());
@@ -67,38 +62,29 @@ public class RegionService {
     }
     //3 delete by Admin
     public String deleteRegion(Integer id){
-        Optional <RegionEntity> optional=regionRepository.findById(id);
-        if(optional.isEmpty()){
-            throw new ItemNotFoundException("Region not found!");
-        }
-        if (!optional.get().getVisible()) throw new ItemAlreadyExists("Region already deleted");
-        int result=regionRepository.deleteRegionById(id);
-        return result>0?"region deleted":"region not deleted";
+        return regionRepository.deleteRegionById(id)>0?"region deleted":"region not deleted";
     }
     //4 region list
     public List<RegionDTO>getAllRegion(){
-        Iterable<RegionEntity> iterable=regionRepository.findAll();
-        List<RegionDTO> dtoList=new LinkedList<>();
-        iterable.forEach(s->dtoList.add(toDto(s)));
-        return dtoList;
+       return regionRepository.findAllByVisibleTrueOrderByOrderNumberAsc().stream().map(s->toDto(s)).toList();
     }
     //5 getBy language
-    public List<RegionLanguageMapper>getByLanguage(String  language){
+    public List<RegionDTO>getByLanguage(Language language){
         if(language==null) throw new AppBadRequestException("Enter language!");
-        if(language.toLowerCase().startsWith("eng")){
-          return regionRepository.getByEnglish();
-        }
-        else if(language.toLowerCase().startsWith("uz")){
-           return regionRepository.getByUz();
-        }
-        else if(language.toLowerCase().startsWith("ru")){
-            return regionRepository.getByRussian();
-        }
-        return null;
+       List<RegionLanguageMapper> regionLanguageMapper= regionRepository.getByLanguage(language.name().toLowerCase());
+       List<RegionDTO> dtoList=new LinkedList<>();
+       for (RegionLanguageMapper r: regionLanguageMapper){
+           RegionDTO regionDTO=new RegionDTO();
+           regionDTO.setId(r.getId());
+           regionDTO.setOrderNumber(r.getOrderNumber());
+           regionDTO.setRegionName(r.getName());
+           dtoList.add(regionDTO);
+       }
+       return dtoList;
     }
     private RegionEntity toEntity(RegionDTO dto){
         RegionEntity regionEntity=new RegionEntity();
-        regionEntity.setNameEng(dto.getNameEng());
+        regionEntity.setNameEn(dto.getNameEn());
         regionEntity.setNameUz(dto.getNameUz());
         regionEntity.setNameRu(dto.getNameRu());
         regionEntity.setOrderNumber(dto.getOrderNumber());
@@ -108,14 +94,17 @@ public class RegionService {
         RegionDTO regionDTO=new RegionDTO();
         regionDTO.setNameUz(regionEntity.getNameUz());
         regionDTO.setNameRu(regionEntity.getNameRu());
-        regionDTO.setNameEng(regionEntity.getNameEng());
+        regionDTO.setNameEn(regionEntity.getNameEn());
         regionDTO.setOrderNumber(regionEntity.getOrderNumber());
         regionDTO.setVisible(regionEntity.getVisible());
         regionDTO.setCreatedDate(regionEntity.getCreatedDate());
         regionDTO.setId(regionEntity.getId());
         return regionDTO;
     }
-
+    private RegionEntity getRegionEntity(Integer regionId){
+        return regionRepository.findByIdAndVisibleTrue(regionId)
+                .orElseThrow(()-> new ItemNotFoundException("region not found"));
+    }
 
 
 }

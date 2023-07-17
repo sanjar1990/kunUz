@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "region")
-public class RegionEntity {
+@Table(name = "article_type")
+public class ArticleTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
-    @Column(name = "order_number", unique = true)
+    @Column(name = "orderNumber")
     private Integer orderNumber;
     @Column(name = "name_uz")
     private String nameUz;

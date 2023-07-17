@@ -1,8 +1,7 @@
 package com.example.utility;
 
-import com.example.dto.CategoryDTO;
-import com.example.dto.ProfileDTO;
-import com.example.dto.RegionDTO;
+import com.example.dto.*;
+import com.example.entity.ArticleTypeEntity;
 import com.example.entity.ProfileEntity;
 import com.example.enums.ProfileStatus;
 import com.example.exception.AppBadRequestException;
@@ -12,16 +11,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class CheckValidationUtility {
        public ProfileDTO checkForStaff(ProfileDTO profileDTO){
-        if(profileDTO.getName()==null || profileDTO.getName().isBlank()){
+        if(profileDTO.getName()==null || profileDTO.getName().isBlank()
+        || profileDTO.getName().length()<3){
             throw new AppBadRequestException("name not found!");
         }
-        if (profileDTO.getSurname()==null || profileDTO.getSurname().isBlank()){
+        if (profileDTO.getSurname()==null || profileDTO.getSurname().isBlank()
+        || profileDTO.getSurname().length()<3){
             throw new AppBadRequestException("surname not found!");
         }
         if(profileDTO.getPhone()==null || profileDTO.getPhone().isBlank()){
             throw new AppBadRequestException("phone not found");
-        }
-        if(!profileDTO.getPhone().startsWith("+998")){
+        } else if(!profileDTO.getPhone().startsWith("+998")){
             throw new AppBadRequestException("phone number should start with +998");
         } else if (profileDTO.getPhone().length()!=13) {
             throw new AppBadRequestException("phone length should be 13");
@@ -34,7 +34,8 @@ public class CheckValidationUtility {
         if(!profileDTO.getEmail().contains("@")){
             throw new AppBadRequestException("Enter valid email!");
         }
-        if(profileDTO.getPassword()==null || profileDTO.getPassword().isBlank()){
+        if(profileDTO.getPassword()==null || profileDTO.getPassword().isBlank()
+        || profileDTO.getPassword().length()<5){
             throw new AppBadRequestException("password not found");
         }
         if(profileDTO.getRole()==null){
@@ -48,7 +49,7 @@ public class CheckValidationUtility {
 
 
     public void checkRegion(RegionDTO regionDTO) {
-           if (regionDTO.getNameEng()==null || regionDTO.getNameEng().isBlank()){
+           if (regionDTO.getNameEn()==null || regionDTO.getNameEn().isBlank()){
                throw new AppBadRequestException("Region english name not found!");
            }
         if (regionDTO.getNameRu()==null || regionDTO.getNameRu().isBlank()){
@@ -72,8 +73,24 @@ public class CheckValidationUtility {
         if(categoryDTO.getNameRu()==null||categoryDTO.getNameRu().isBlank()){
             throw new ItemNotFoundException("NameRu not found");
         }
-        if(categoryDTO.getNameEng()==null||categoryDTO.getNameEng().isBlank()){
+        if(categoryDTO.getNameEn()==null||categoryDTO.getNameEn().isBlank()){
             throw new ItemNotFoundException("NameEng not found");
         }
     }
+
+    public void checkArticleType(ArticleTypeDTO articleTypeDTO) {
+        if(articleTypeDTO.getOrderNumber()==null){
+            throw new ItemNotFoundException("Order number not found");
+        }
+        if(articleTypeDTO.getNameUz()==null||articleTypeDTO.getNameUz().isBlank()){
+            throw new ItemNotFoundException("NameUz not found");
+        }
+        if(articleTypeDTO.getNameRu()==null||articleTypeDTO.getNameRu().isBlank()){
+            throw new ItemNotFoundException("NameRu not found");
+        }
+        if(articleTypeDTO.getNameEn()==null||articleTypeDTO.getNameEn().isBlank()){
+            throw new ItemNotFoundException("NameEng not found");
+        }
+    }
+
 }
