@@ -7,7 +7,6 @@ import com.example.entity.ProfileEntity;
 import com.example.enums.ProfileRole;
 import com.example.enums.ProfileStatus;
 import com.example.exception.ItemAlreadyExists;
-import com.example.exception.ItemNotFoundException;
 import com.example.repository.ProfileRepository;
 import com.example.utility.CheckValidationUtility;
 import com.example.utility.JWTUtil;
