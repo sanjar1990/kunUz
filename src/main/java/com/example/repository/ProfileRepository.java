@@ -28,4 +28,5 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer>
     int deleteVisible(@Param("id")Integer id);
     Optional<ProfileEntity> findByIdAndVisibleTrue(Integer profileId);
     Page<ProfileEntity>findAllByVisibleTrue(Pageable pageable);
+    Optional<ProfileEntity>findAllByPhoneAndPasswordAndVisibleTrue(String phone, String password);
 }

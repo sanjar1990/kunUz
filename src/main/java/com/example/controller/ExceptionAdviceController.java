@@ -1,9 +1,7 @@
 package com.example.controller;
 
-import com.example.exception.AppBadRequestException;
-import com.example.exception.ItemAlreadyExists;
-import com.example.exception.ItemNotAvailable;
-import com.example.exception.ItemNotFoundException;
+import com.example.exception.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,4 +25,13 @@ public class ExceptionAdviceController {
     public ResponseEntity<String>handler(ItemAlreadyExists e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ResponseEntity<String>handler(UnAuthorizedException e){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+    @ExceptionHandler(MethodNotAllowedException.class)
+    public ResponseEntity<String>handler(MethodNotAllowedException e){
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(e.getMessage());
+    }
+
 }

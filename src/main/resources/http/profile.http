@@ -1,6 +1,21 @@
+### create admin(admin)
+POST localhost:8080/api/v1/profile
+Content-Type: application/json
+
+{
+  "name": "Ali",
+  "surname": "Aliyev",
+  "email": "ali@gmail.com",
+  "phone": "+998908070176",
+  "password": "ali123",
+  "role": "ADMIN",
+  "prtId": 1
+}
+
 ### create staff(admin)
 POST localhost:8080/api/v1/profile
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
 {
   "name": "VAli",
@@ -8,12 +23,14 @@ Content-Type: application/json
   "email": "vali@gmail.com",
   "phone": "+998908070176",
   "password": "vali123",
-  "role": "MODERATOR"
+  "role": "MODERATOR",
+  "prtId": 1
 }
 
 ### staff Update By Admin
 PUT localhost:8080/profile/staffUpdateByAdmin/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
 {
   "name": "Vali",
@@ -26,6 +43,7 @@ Content-Type: application/json
 ### updateStaffByStaff
 PUT localhost:8080/profile/updateStaffByStaff/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
 {
   "name": "Ali",
@@ -36,10 +54,16 @@ Content-Type: application/json
 }
 ### profileListPaginationByAdmin
 GET localhost:8080/api/v1/profile/profileListPagination?page=1&size10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+
 ### delete profile by id
 DELETE localhost:8080/api/v1/profile/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+
 ### filter pagination by Admin
 POST localhost:8080/profile/filterPagination?page=1&size=10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+
 Content-Type: application/json
 
 {

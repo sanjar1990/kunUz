@@ -40,4 +40,6 @@ public class ProfileEntity {
     private LocalDateTime createdDate=LocalDateTime.now();
     @Column(name = "photo_id")
     private String photoId;
+    @Column(name = "prt_id")
+    private Integer prtId;
 }

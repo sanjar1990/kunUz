@@ -2,6 +2,7 @@ package com.example.dto;
 
 import com.example.enums.ProfileRole;
 import com.example.enums.ProfileStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileDTO {
     private Integer id;
     private String name;
@@ -23,4 +25,6 @@ public class ProfileDTO {
     private Boolean visible;
     private LocalDateTime createdDate;
     private String photoId;
+    private Integer prtId;
+    private String jwt;
 }

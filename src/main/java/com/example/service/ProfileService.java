@@ -27,7 +27,7 @@ public class ProfileService {
     @Autowired
     private CustomProfileRepository customProfileRepository;
     //Admin
-    public ProfileDTO createProfile(ProfileDTO profileDTO){
+    public ProfileDTO createProfile(ProfileDTO profileDTO, Integer adminId){
         //check
         ProfileDTO dto= checkValidationUtility.checkForStaff(profileDTO);
         // check is exist phone
@@ -38,6 +38,7 @@ public class ProfileService {
         if(checkByEmail) throw new ItemAlreadyExists("this email is exist");
         //to entity
         ProfileEntity profileEntity=toEntity(dto);
+        profileEntity.setPrtId(adminId);
         profileRepository.save(profileEntity);
         profileDTO.setId(profileEntity.getId());
         profileDTO.setCreatedDate(profileEntity.getCreatedDate());
