@@ -26,23 +26,18 @@ public class JWTUtil {
 
     public static JwtDTO decode(String token) {
         try {
-
             JwtParser jwtParser = Jwts.parser();
             jwtParser.setSigningKey(secretKey);
-
             Jws<Claims> jws = jwtParser.parseClaimsJws(token);
-
             Claims claims = jws.getBody();
-
             Integer id = (Integer) claims.get("id");
-
             String role = (String) claims.get("role");
             ProfileRole profileRole = ProfileRole.valueOf(role);
-
             return new JwtDTO(id, profileRole);
+        }catch (ExpiredJwtException e){
+            throw new UnAuthorizedException("your session is expired");
         }catch (JwtException e){
-            throw new UnAuthorizedException("your session expired");
+            throw new UnAuthorizedException(e.getMessage());
         }
     }
-
 }

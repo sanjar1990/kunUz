@@ -102,7 +102,7 @@ public class ProfileService {
 
     //Staff
 
-    public String updateStaffByStaff(ProfileDTO profileDTO, Integer id){
+    public String updateProfile(ProfileDTO profileDTO, Integer id){
         ProfileEntity profileEntity=getProfileEntity(id);
         //profile status
         if(!profileEntity.getStatus().equals(ProfileStatus.ACTIVE)){

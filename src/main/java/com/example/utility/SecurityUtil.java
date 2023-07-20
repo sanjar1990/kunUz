@@ -2,8 +2,9 @@ package com.example.utility;
 
 import com.example.dto.JwtDTO;
 import com.example.enums.ProfileRole;
-import com.example.exception.AppMethodNotAllowedException;
+import com.example.exception.MethodNotAllowedException;
 import com.example.exception.UnAuthorizedException;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class SecurityUtil {
@@ -14,52 +15,38 @@ public class SecurityUtil {
         }
         throw new UnAuthorizedException("Not Authorized");
     }
-    public static JwtDTO checkRoleForAdmin(String jwt, ProfileRole profileRole){
-        JwtDTO jwtDTO=getJwtDTO(jwt);
-        if(jwtDTO.getRole().equals(profileRole)){
-            return jwtDTO;
-        }
-        throw new AppMethodNotAllowedException("Method not allowed");
-    }
-    public static JwtDTO checkRoleForStaff(String jwt){
-        JwtDTO jwtDTO=getJwtDTO(jwt);
-        if(!jwtDTO.getRole().equals(ProfileRole.ADMIN)){
-            return jwtDTO;
-        }
-        throw new AppMethodNotAllowedException("Method not allowed");
-    }
-    public static JwtDTO hasRole(HttpServletRequest request, ProfileRole... requiredRoles) {
-        Integer id = (Integer) request.getAttribute("id");
-        ProfileRole role = (ProfileRole) request.getAttribute("role");
-        if (requiredRoles == null) {
+    public static JwtDTO hasRole(HttpServletRequest request, ProfileRole... requiredRole){
+        Integer id=(Integer) request.getAttribute("id");
+        ProfileRole role=(ProfileRole)request.getAttribute("role");
+        if(requiredRole==null){
             return new JwtDTO(id, role);
         }
-        boolean found = false;
-        for (ProfileRole required : requiredRoles) {
-            if (role.equals(required)) {
-                found = true;
+        boolean found=false;
+        for (ProfileRole r: requiredRole){
+            if(role.equals(r)){
+                found=true;
             }
         }
-        if (!found) {
-            throw new AppMethodNotAllowedException("");
+        if(!found){
+            throw new MethodNotAllowedException("Method not allowed");
         }
         return new JwtDTO(id, role);
     }
-//    public static JwtDTO hasRole(HttpServletRequest request, ProfileRole... requiredRoles) {
-//        Integer id= request.
-//        JwtDTO jwtDTO = getJwtDTO(authToken);
-//        if(requiredRoles==null){
-//            return jwtDTO;
-//        }
-//        boolean found = false;
-//        for (ProfileRole role : requiredRoles) {
-//            if (jwtDTO.getRole().equals(role)) {
-//                found = true;
-//            }
-//        }
-//        if (!found) {
-//            throw new AppMethodNotAllowedException("not found");
-//        }
-//        return jwtDTO;
-//    }
+    public static JwtDTO hasRole(String jwt, ProfileRole... requiredRole){
+        JwtDTO jwtDTO=getJwtDTO(jwt);
+        if(requiredRole==null){
+        return jwtDTO;
+        }
+        boolean found=false;
+        for (ProfileRole r: requiredRole) {
+            if(jwtDTO.getRole().equals(r)){
+                found=true;
+            }
+        }
+        if(!found){
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return jwtDTO;
+    }
+
 }

@@ -25,27 +25,27 @@ public class ProfileController {
     @PutMapping("/{id}")
     public ResponseEntity<?> staffUpdateByAdmin(@RequestBody ProfileDTO profileDTO,
                                                 @PathVariable Integer id,
-                                                @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                                HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.staffUpdateByAdmin(profileDTO,id));
     }
     @PutMapping("/updateDetail")
-    public ResponseEntity<?>updateStaffByStaff(@RequestBody ProfileDTO profileDTO,
+    public ResponseEntity<?>updateProfile(@RequestBody ProfileDTO profileDTO,
                                                HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request,null);
-        return ResponseEntity.ok(profileService.updateStaffByStaff(profileDTO,null));
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, null);
+        return ResponseEntity.ok(profileService.updateProfile(profileDTO,jwtDTO.getId()));
     }
     @GetMapping("/profileListPagination")
     public ResponseEntity<?>profileListPagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(value = "size",defaultValue = "10") Integer size,
-                                                  @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                                  HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.profileListPagination(page-1,size));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?>deleteProfileById(@PathVariable Integer id,
-                                              @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                              HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.deleteProfile(id));
     }
     @PostMapping("/filterPagination")
@@ -53,7 +53,7 @@ public class ProfileController {
                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                                              HttpServletRequest request){
-
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.filterPagination(filterProfileDTO,page-1,size));
     }
 }
