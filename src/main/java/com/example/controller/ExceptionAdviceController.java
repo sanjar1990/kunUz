@@ -29,8 +29,8 @@ public class ExceptionAdviceController {
     public ResponseEntity<String>handler(UnAuthorizedException e){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
-    @ExceptionHandler(MethodNotAllowedException.class)
-    public ResponseEntity<String>handler(MethodNotAllowedException e){
+    @ExceptionHandler(AppMethodNotAllowedException.class)
+    public ResponseEntity<String>handler(AppMethodNotAllowedException e){
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(e.getMessage());
     }
 

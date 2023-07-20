@@ -6,6 +6,7 @@ import com.example.dto.ProfileDTO;
 import com.example.enums.ProfileRole;
 import com.example.service.ProfileService;
 import com.example.utility.SecurityUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class ProfileController {
     private ProfileService profileService;
     @PostMapping("")
     public ResponseEntity<?> createProfile(@RequestBody ProfileDTO profileDTO,
-                                           @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                           HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.createProfile(profileDTO,jwtDTO.getId()));
     }
     @PutMapping("/{id}")
@@ -28,11 +29,11 @@ public class ProfileController {
         JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.staffUpdateByAdmin(profileDTO,id));
     }
-    @PutMapping("/updateDetail/{id}")
+    @PutMapping("/updateDetail")
     public ResponseEntity<?>updateStaffByStaff(@RequestBody ProfileDTO profileDTO,
-                                               @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForStaff(authToken);
-        return ResponseEntity.ok(profileService.updateStaffByStaff(profileDTO,jwtDTO.getId()));
+                                               HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request,null);
+        return ResponseEntity.ok(profileService.updateStaffByStaff(profileDTO,null));
     }
     @GetMapping("/profileListPagination")
     public ResponseEntity<?>profileListPagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -51,8 +52,8 @@ public class ProfileController {
     public ResponseEntity<?>filterPagination(@RequestBody FilterProfileDTO filterProfileDTO,
                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                             @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                             HttpServletRequest request){
+
         return ResponseEntity.ok(profileService.filterPagination(filterProfileDTO,page-1,size));
     }
 }

@@ -2,6 +2,7 @@ package com.example.utility;
 
 import com.example.dto.JwtDTO;
 import com.example.enums.ProfileRole;
+import com.example.exception.UnAuthorizedException;
 import io.jsonwebtoken.*;
 
 import java.util.Date;
@@ -24,18 +25,24 @@ public class JWTUtil {
     }
 
     public static JwtDTO decode(String token) {
-        JwtParser jwtParser = Jwts.parser();
-        jwtParser.setSigningKey(secretKey);
+        try {
 
-        Jws<Claims> jws = jwtParser.parseClaimsJws(token);
+            JwtParser jwtParser = Jwts.parser();
+            jwtParser.setSigningKey(secretKey);
 
-        Claims claims = jws.getBody();
+            Jws<Claims> jws = jwtParser.parseClaimsJws(token);
 
-        Integer id = (Integer) claims.get("id");
+            Claims claims = jws.getBody();
 
-        String role = (String) claims.get("role");
-        ProfileRole profileRole = ProfileRole.valueOf(role);
+            Integer id = (Integer) claims.get("id");
 
-        return new JwtDTO(id, profileRole);
+            String role = (String) claims.get("role");
+            ProfileRole profileRole = ProfileRole.valueOf(role);
+
+            return new JwtDTO(id, profileRole);
+        }catch (JwtException e){
+            throw new UnAuthorizedException("your session expired");
+        }
     }
+
 }

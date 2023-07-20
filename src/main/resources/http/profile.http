@@ -15,15 +15,15 @@ Content-Type: application/json
 ### create staff(admin)
 POST localhost:8080/api/v1/profile
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NzY1NzcsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3ODAxNzcsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9._KOIHK3fTuHCeXieyf0WUs4qT5jGJRkt0fwMSO5W3C7lIbHT4QC4rYDz49nzp0WTgrO0uvdzk0jqFoIp7iLabA
 
 {
-  "name": "VAli",
+  "name": "Toshmat",
   "surname": "VAliyev",
-  "email": "vali@gmail.com",
-  "phone": "+998908070176",
+  "email": "wwali@gmail.com",
+  "phone": "+998328070176",
   "password": "vali123",
-  "role": "MODERATOR",
+  "role": "PUBLISHER",
   "prtId": 1
 }
 
@@ -61,14 +61,11 @@ DELETE localhost:8080/api/v1/profile/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
 ### filter pagination by Admin
-POST localhost:8080/profile/filterPagination?page=1&size=10
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
-
+POST localhost:8080/api/v1/profile/filterPagination?page=1&size=10
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3ODUwOTEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3ODg2OTEsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.-52wXvcwP7CNmLIfEB0P1ClHpSnC1f-vniFLbQ5bPPC7VhZ9I5EKfYJ3JeOdi1PaHmbduTjqaTLAw7884pQIrA
 
 {
   "created_date_from": "2023-07-01",
   "created_date_to": "2023-07-14"
-
-
 }
