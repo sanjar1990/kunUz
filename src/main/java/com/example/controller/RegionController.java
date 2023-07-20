@@ -5,6 +5,7 @@ import com.example.enums.Language;
 import com.example.enums.ProfileRole;
 import com.example.service.RegionService;
 import com.example.utility.SecurityUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,34 +16,32 @@ public class RegionController {
     @Autowired
     private RegionService regionService;
 
-    @PostMapping({"","/"})
+    @PostMapping({"/admin","/admin/"})
     public ResponseEntity<?> createRegion(@RequestBody RegionDTO regionDTO,
-                                          @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                          HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.createRegion(regionDTO));
     }
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<?>updateRegion(@PathVariable Integer id,
                                          @RequestBody RegionDTO regionDTO,
-                                         @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                         HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.updateRegion(regionDTO,id));
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<?>deleteById(@PathVariable Integer id,
-                                       @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+                                       HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.deleteRegion(id));
     }
-    @GetMapping("/getAll")
-    public ResponseEntity<?>getAll( @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+    @GetMapping("/admin/getAll")
+    public ResponseEntity<?>getAll( HttpServletRequest request){
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.getAllRegion());
     }
     @GetMapping("/language")
-    public ResponseEntity<?>getByLanguage(@RequestParam(value = "lang",defaultValue = "Uz") Language language,
-                                          @RequestHeader ("Authorization") String authToken){
-        JwtDTO jwtDTO= SecurityUtil.checkRoleForAdmin(authToken, ProfileRole.ADMIN);
+    public ResponseEntity<?>getByLanguage(@RequestParam(value = "lang",defaultValue = "Uz") Language language){
         return ResponseEntity.ok(regionService.getByLanguage(language));
     }
 }
