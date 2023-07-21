@@ -18,6 +18,7 @@ public class SecuredFilterConfig {
         bean.addUrlPatterns("/api/v1/region/admin/*");
         bean.addUrlPatterns("/api/v1/category/admin/*");
         bean.addUrlPatterns("/api/v1/articleType/admin/*");
+        bean.addUrlPatterns("/api/v1/article/closed/*");
         return bean;
     }
 }

@@ -28,4 +28,8 @@ public class RegionEntity {
     private Boolean visible=true;
     @Column(name = "created_date")
     private LocalDateTime createdDate=LocalDateTime.now();
+
+    public RegionEntity(Integer id) {
+        this.id = id;
+    }
 }

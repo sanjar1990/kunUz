@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "profile")
 public class ProfileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "name",length = 50)
     private String name;
@@ -42,4 +42,8 @@ public class ProfileEntity {
     private String photoId;
     @Column(name = "prt_id")
     private Integer prtId;
+
+    public ProfileEntity(Integer id) {
+        this.id = id;
+    }
 }

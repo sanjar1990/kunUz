@@ -2,9 +2,8 @@ package com.example.utility;
 
 import com.example.dto.JwtDTO;
 import com.example.enums.ProfileRole;
-import com.example.exception.MethodNotAllowedException;
+import com.example.exception.AppMethodNotAllowedException;
 import com.example.exception.UnAuthorizedException;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class SecurityUtil {
@@ -28,7 +27,7 @@ public class SecurityUtil {
             }
         }
         if(!found){
-            throw new MethodNotAllowedException("Method not allowed");
+            throw new AppMethodNotAllowedException("Method not allowed, profile role not match");
         }
         return new JwtDTO(id, role);
     }
@@ -44,7 +43,7 @@ public class SecurityUtil {
             }
         }
         if(!found){
-            throw new MethodNotAllowedException("Method not allowed");
+            throw new AppMethodNotAllowedException("Method not allowed");
         }
         return jwtDTO;
     }

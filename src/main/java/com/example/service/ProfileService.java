@@ -41,9 +41,6 @@ public class ProfileService {
         profileEntity.setPrtId(adminId);
         profileRepository.save(profileEntity);
         profileDTO.setId(profileEntity.getId());
-        profileDTO.setCreatedDate(profileEntity.getCreatedDate());
-        profileDTO.setVisible(profileEntity.getVisible());
-        profileDTO.setPassword(profileEntity.getPassword());
         return profileDTO;
     }
     //By Admin

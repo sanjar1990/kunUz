@@ -30,4 +30,7 @@ public interface ArticleTypeRepository extends CrudRepository<ArticleTypeEntity,
             " end) as name " +
             " from article_type order by order_number", nativeQuery = true)
     List<ArticleTypeLangMapper> getByLang(@Param("lang") String lowerCase);
+    Optional<ArticleTypeEntity>findByIdAndVisibleTrue(Integer id);
+
+    List<ArticleTypeEntity> findAllByVisibleTrue();
 }

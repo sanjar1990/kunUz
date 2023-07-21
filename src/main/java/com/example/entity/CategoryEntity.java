@@ -28,4 +28,8 @@ public class CategoryEntity {
     private Boolean visible=true;
     @Column(name = "created_date")
     private LocalDateTime createdDate=LocalDateTime.now();
+
+    public CategoryEntity(Integer id) {
+        this.id = id;
+    }
 }

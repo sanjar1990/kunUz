@@ -1,26 +1,19 @@
 ### create region by admin
-POST localhost:8080/api/v1/region
+POST localhost:8080/api/v1/region/admin
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
-
-
-//{
-//  "orderNumber": 1,
-//  "nameEng": "Tashkent",
-//  "nameUz": "Toshkent",
-//  "nameRu": "Ташкент"
-//}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk5Mjk5ODksImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.LutDDXiH-2P7gdVOX4IM-Enj_tQlxDNd9aNE87G1hnn1mhhmdSk0-pN-e4eb7bE56UVZCJ-LgxMomST81h-c6Q
 
 {
-  "orderNumber": 2,
-  "nameEn": "Bukhara",
-  "nameUz": "Buxoro",
-  "nameRu": "Бухара"
+  "orderNumber": 1,
+  "nameEn": "Tashkent",
+  "nameUz": "Toshkent",
+  "nameRu": "Ташкент"
 }
+
 ### update by Admin
 PUT localhost:8080/api/v1/region/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk5Mjk5ODksImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.LutDDXiH-2P7gdVOX4IM-Enj_tQlxDNd9aNE87G1hnn1mhhmdSk0-pN-e4eb7bE56UVZCJ-LgxMomST81h-c6Q
 
 
 {

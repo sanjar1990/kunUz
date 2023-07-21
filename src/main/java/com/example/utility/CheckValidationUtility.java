@@ -138,4 +138,27 @@ public class CheckValidationUtility {
         }
 
     }
+
+    public void checkForArticle(ArticleDTO articleDTO) {
+        if (articleDTO.getTitle() == null || articleDTO.getTitle().isBlank()) {
+            throw new AppBadRequestException("title not found!");
+        }
+        if (articleDTO.getDescription() == null || articleDTO.getDescription().isBlank()) {
+            throw new AppBadRequestException("description not found!");
+        }
+        if (articleDTO.getContent() == null || articleDTO.getContent().isBlank()) {
+            throw new AppBadRequestException("content not found!");
+        }
+        if (articleDTO.getPublisherId() == null) {
+            throw new AppBadRequestException("publisher id not found!");
+        }
+        if (articleDTO.getRegionId() == null) {
+            throw new AppBadRequestException("region id not found!");
+        }
+        if (articleDTO.getCategoryId() == null) {
+            throw new AppBadRequestException("category id not found!");
+        }if(articleDTO.getArticleTypes()==null ){
+            throw new AppBadRequestException("Article type not found!");
+        }
+    }
 }

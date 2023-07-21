@@ -35,7 +35,7 @@ public class JWTFilter extends GenericFilterBean {
         JwtDTO jwtDTO;
         try {
             jwtDTO= JWTUtil.decode(tooken);
-        }catch (JwtException e){
+        }catch (UnAuthorizedException | JwtException e){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setHeader("message",e.getMessage());
             return;

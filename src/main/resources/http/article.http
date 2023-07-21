@@ -1,0 +1,63 @@
+### create
+POST localhost:8080/api/v1/article/moderator
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzQ0NzksImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwMDIwODc5LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.uqP761OblL9jiXxL8f5mesokmflD7JAJanbkzxZ3gyLya0FLsCYBG3OtsL_u_GrW8wxMFAg_juLKAq6mDvCbKA
+
+{
+  "title": "mother father",
+  "description": "mazgi...",
+  "content": "msdsddsadasdsadsad",
+  "publisherId": 3,
+  "regionId": 1,
+  "categoryId": 1,
+  "sharedCount": 132,
+  "articleTypes": [1,2]
+}
+
+### update by moderator
+PUT localhost:8080/api/v1/article/moderator/b1fe4bad-01d8-4192-941d-511e4240f7f1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzQ0NzksImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwMDIwODc5LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.uqP761OblL9jiXxL8f5mesokmflD7JAJanbkzxZ3gyLya0FLsCYBG3OtsL_u_GrW8wxMFAg_juLKAq6mDvCbKA
+
+{
+    "title": "O‘zbekiston hududiga yanada issiq havo kirib kelishi kutilyapti",
+    "description": "Joriy yilning 24-27 iyul kunlari O‘zbekiston hududiga issiq havo kirib kelishi kutilyapti. Bu haqda “O‘zgidromet” bosh direktori Sherzodxo‘ja Habibullayev xabar berdi.",
+    "content": "dsadd",
+    "status": "PUBLISHED",
+    "regionID": 2,
+  "articleTypes": [1,2]
+}
+### delete article moderator
+DELETE localhost:8080/api/v1/article/moderator/3c257690-70b5-4b4b-8d64-ba9f2a9dacc0
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzI0NjEsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwMDE4ODYxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.yG1Dhx7nWlBkdgmItDjR0ejUIMxy43AH--LDNIw4L2A9iD5mfEemenV9MXs1E2XjivqrZgC40w-hmj5cWvbHGg
+### update status
+PUT localhost:8080/api/v1/article/closed/updateStatus/3c257690-70b5-4b4b-8d64-ba9f2a9dacc0
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzI0NjEsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwMDE4ODYxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.yG1Dhx7nWlBkdgmItDjR0ejUIMxy43AH--LDNIw4L2A9iD5mfEemenV9MXs1E2XjivqrZgC40w-hmj5cWvbHGg
+
+{
+  "status": "NOTPUBLISHED"
+}
+### get last five
+GET localhost:8080/api/v1/article/getLastFive
+Content-Type: application/json
+
+{
+  "articleTypes": [1,2]
+}
+### get last three by type
+GET localhost:8080/api/v1/article/getLastFive
+Content-Type: application/json
+
+{
+"articleTypes": [1]
+}
+
+### get last eight
+GET localhost:8080/api/v1/article/getLastEight
+Content-Type: application/json
+
+[
+  "6745d902-6b2f-4442-a140-9678a49a097c","10fec872-5e11-4c1e-8fcc-1625e34e0e96","6a93de29-b3b1-4331-bd10-a9765a0845ec",
+  "9757de0d-2c85-40cb-8e6d-901077623b9f"
+]
