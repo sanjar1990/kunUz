@@ -35,7 +35,7 @@ public class ArticleController {
                                         @PathVariable String id,
                                         HttpServletRequest request){
         JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
-        return ResponseEntity.ok(articleService.update(articleDTO,jwtDTO.getId(),id));
+        return ResponseEntity.ok(articleService. update(articleDTO,jwtDTO.getId(),id));
     }
     // delete moderator
     @DeleteMapping("/closed/{id}")

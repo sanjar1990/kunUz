@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.dto.ArticleDTO;
 import com.example.entity.*;
 import com.example.enums.ArticleStatus;
+import com.example.enums.Language;
 import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemNotFoundException;
 import com.example.mapper.ArticleMapperInterface;
@@ -78,6 +79,9 @@ public class ArticleService {
         Optional<ArticleEntity>optional=articleRepository.findByIdAndVisibleTrue(articleId);
         if(optional.isEmpty()) throw new ItemNotFoundException("Article not found");
         ArticleEntity articleEntity=optional.get();
+        if(!articleEntity.getModeratorId().getId().equals(moderatorId)){
+            throw new AppBadRequestException("This is not your id");
+        }
         if (articleDTO.getTitle()!=null){
             articleEntity.setTitle(articleDTO.getTitle());
         }
@@ -171,6 +175,9 @@ public class ArticleService {
         List<ArticleMapperInterface> mapperInterfaceList=articleRepository.getLastEight(idList);
         return mapperInterfaceList.stream().map(s->toDTOFromMapper(s)).toList();
     }
+
+    //8. Get Article By Id And Lang
+//    public List<ArticleDTO>getByLang(Language language)
     private ArticleDTO toDTO(ArticleEntity entity) {
         ArticleDTO articleDTO=new ArticleDTO();
         articleDTO.setId(entity.getId());

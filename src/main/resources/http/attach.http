@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="lola.jpg"
+
+< C:\Users\sanja\OneDrive\Рабочий стол\Lola Yuldasheva - Yaralangan qanot _ Лола Юлдашева.mp3
+
+### open
+GET localhost:8080/api/v1/attach/open/car4.jpg
