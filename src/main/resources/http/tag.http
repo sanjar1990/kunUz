@@ -1,0 +1,20 @@
+### create
+POST localhost:8080/api/v1/tag
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwNDYyMTIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTEwMjEyLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.xsPEaSAcoaehGcA3A9UBoVB6RLouLMdiyDyA0uhV1mjsqVOmGnbdV6YbSr2MQEeFsqyarhIroW5y28N0T0Ojkg
+
+{
+  "name": "#finance"
+}
+
+### get by id
+GET localhost:8080/api/v1/tag/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwNDYyMTIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTEwMjEyLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.xsPEaSAcoaehGcA3A9UBoVB6RLouLMdiyDyA0uhV1mjsqVOmGnbdV6YbSr2MQEeFsqyarhIroW5y28N0T0Ojkg
+
+### get all
+GET localhost:8080/api/v1/tag/getAll
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwNDYyMTIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTEwMjEyLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.xsPEaSAcoaehGcA3A9UBoVB6RLouLMdiyDyA0uhV1mjsqVOmGnbdV6YbSr2MQEeFsqyarhIroW5y28N0T0Ojkg
+
+### delete
+DELETE localhost:8080/api/v1/tag/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwNDYyMTIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTEwMjEyLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.xsPEaSAcoaehGcA3A9UBoVB6RLouLMdiyDyA0uhV1mjsqVOmGnbdV6YbSr2MQEeFsqyarhIroW5y28N0T0Ojkg

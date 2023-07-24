@@ -30,8 +30,9 @@ public class ArticleEntity {
     private String content;
     @Column(name = "shared_count")
     private Integer sharedCount;
-    @Column(name = "image_id")
-    private String imageId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private AttachEntity imageId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private RegionEntity regionId;
@@ -62,5 +63,11 @@ public class ArticleEntity {
             inverseJoinColumns = @JoinColumn(name = "article_type_id")
     )
     private List<ArticleTypeEntity> articleTypes;
+    @ManyToMany
+    @JoinTable(name = "article_tags",
+    joinColumns = @JoinColumn(name = "article_id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<TagEntity> tags;
+
 
 }

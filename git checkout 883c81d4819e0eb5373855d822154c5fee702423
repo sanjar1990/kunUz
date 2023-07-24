@@ -1,0 +1,86 @@
+[33mcommit 99f30f89522b4ed3cfb9e145f7a39bb28ab84b70[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Sat Jul 22 12:44:35 2023 +0500
+
+    dars attachlar
+
+[33mcommit 883c81d4819e0eb5373855d822154c5fee702423[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Fri Jul 21 18:52:20 2023 +0500
+
+    article filter
+
+[33mcommit 43d4076883e40d425e6fb44e12743ea9de70ac76[m
+Merge: 0d3ba5d 769725f
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Thu Jul 20 19:25:58 2023 +0500
+
+    Merge branch 'jwtFilter'
+    
+    # Conflicts:
+    #       src/main/java/com/example/config/JWTFilter.java
+    #       src/main/java/com/example/config/SecuredFilterConfig.java
+    #       src/main/java/com/example/controller/ProfileController.java
+    #       src/main/java/com/example/utility/JWTUtil.java
+    #       src/main/java/com/example/utility/SecurityUtil.java
+
+[33mcommit 769725f0c93a2e54723b5fa45ecda98c2578b5fd[m[33m ([m[1;31morigin/jwtFilter[m[33m, [m[1;32mjwtFilter[m[33m)[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Thu Jul 20 19:06:23 2023 +0500
+
+    JWT FILTER qilingan
+
+[33mcommit 0d3ba5d4f3fed6521f5e920018989e185525ef87[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Thu Jul 20 18:11:48 2023 +0500
+
+    dars jwt filter
+
+[33mcommit 2eecb38d5599f2f9d0c0e82527650dc2cb0777f1[m
+Merge: 268e953 9a986b6
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Wed Jul 19 18:31:27 2023 +0500
+
+    Merge branch 'master' of https://github.com/sanjar1990/kunUz
+
+[33mcommit 268e953ee8188417a03ada333904dae9fd0adb25[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Wed Jul 19 18:30:41 2023 +0500
+
+    Kunuz JWT
+
+[33mcommit 307ff0342c57a7999d868235a0c5772a7decda01[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Wed Jul 19 18:27:23 2023 +0500
+
+    kunuz JWT
+
+[33mcommit 9a986b6d0e447a9b2043e78baf8eb351ade4b7a1[m
+Author: sanjar1990 <121478528+sanjar1990@users.noreply.github.com>
+Date:   Tue Jul 18 13:16:01 2023 +0500
+
+    Update README.md
+
+[33mcommit 517ab166e26a7c050a68d2fea447506caadde542[m
+Author: sanjar1990 <121478528+sanjar1990@users.noreply.github.com>
+Date:   Tue Jul 18 13:14:34 2023 +0500
+
+    Create README.md
+
+[33mcommit 372ea1cf5e09a4f36a0f69bbb6f839195c20f54d[m[33m ([m[1;32mkasha[m[33m)[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Mon Jul 17 18:05:19 2023 +0500
+
+    3 commit
+
+[33mcommit bdfeac28bf4c49ed37485dacef583f15e56074ed[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Fri Jul 14 16:52:40 2023 +0500
+
+    2commit
+
+[33mcommit 2fa8b5b115a631b6aaedd331d8ca14b691f74815[m
+Author: sanjar1990 <sanjar902105@gmail.com>
+Date:   Wed Jul 12 21:07:41 2023 +0500
+
+    init commit

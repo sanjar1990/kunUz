@@ -38,11 +38,11 @@ public class ProfileEntity {
     private Boolean visible=true;
     @Column(name = "created_date")
     private LocalDateTime createdDate=LocalDateTime.now();
-    @Column(name = "photo_id")
-    private String photoId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    private AttachEntity photoId;
     @Column(name = "prt_id")
     private Integer prtId;
-
     public ProfileEntity(Integer id) {
         this.id = id;
     }
