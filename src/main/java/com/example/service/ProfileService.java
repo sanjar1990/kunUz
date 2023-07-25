@@ -1,14 +1,17 @@
 package com.example.service;
 
+import com.example.dto.AttachDTO;
 import com.example.dto.FilterProfileDTO;
 import com.example.dto.FilterResultDTO;
 import com.example.dto.ProfileDTO;
+import com.example.entity.AttachEntity;
 import com.example.entity.ProfileEntity;
 import com.example.enums.ProfileStatus;
 import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemAlreadyExists;
 import com.example.exception.ItemNotAvailable;
 import com.example.exception.ItemNotFoundException;
+import com.example.repository.AttachRepository;
 import com.example.repository.CustomProfileRepository;
 import com.example.repository.ProfileRepository;
 import com.example.utility.CheckValidationUtility;
@@ -16,7 +19,10 @@ import com.example.utility.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -26,6 +32,8 @@ public class ProfileService {
     private ProfileRepository profileRepository;
     @Autowired
     private CustomProfileRepository customProfileRepository;
+    @Autowired
+    private AttachRepository attachRepository;
     //Admin
     public ProfileDTO createProfile(ProfileDTO profileDTO, Integer adminId){
         //check
@@ -54,7 +62,7 @@ public class ProfileService {
             profileEntity.setRole(profileDTO.getRole());
         }
         if(profileDTO.getPassword()!=null){
-            profileEntity.setPassword(profileDTO.getPassword());
+            profileEntity.setPassword(MD5Util.encode(profileDTO.getPassword()));
         }
         if(profileDTO.getSurname()!=null){
             profileEntity.setSurname(profileDTO.getSurname());
@@ -90,7 +98,7 @@ public class ProfileService {
             profileEntity.setCreatedDate(profileDTO.getCreatedDate());
         }
         if(profileDTO.getPhotoId()!=null){
-            profileEntity.setPhotoId(profileDTO.getPhotoId());
+            profileEntity.setPhotoId(new AttachEntity());
         }
         //save
         profileRepository.save(profileEntity);
@@ -107,7 +115,7 @@ public class ProfileService {
         }
         //check validation
         if(profileDTO.getPassword()!=null){
-            profileEntity.setPassword(profileDTO.getPassword());
+            profileEntity.setPassword(MD5Util.encode(profileDTO.getPassword()));
         }
         if(profileDTO.getSurname()!=null){
             profileEntity.setSurname(profileDTO.getSurname());
@@ -139,6 +147,29 @@ public class ProfileService {
         }
         profileRepository.save(profileEntity);
         return "profile updated";
+    }
+
+    //6. Update Photo (ANY) (Murojat qilgan odamni rasmini upda qilish)
+    public String updatePhoto(Integer profileId,String photoId){
+        Optional<AttachEntity>newPhoto=attachRepository.findById(photoId);
+        if(newPhoto.isEmpty()){
+            throw new ItemNotFoundException("Attach not found!");
+        }
+        Optional<ProfileEntity>profile=profileRepository.findByIdAndVisibleTrue(profileId);
+        ProfileEntity profileEntity=profile.get();
+        if(profileEntity.getPhotoId()!=null){
+            String url=profileEntity.getPhotoId().getPath();
+            File file=new File(url);
+            if(file.exists()){
+                file.delete();
+            }
+            int n=profileRepository.deletePhoto(profileId);
+            if(n>0){
+                attachRepository.deleteById(profileEntity.getPhotoId().getId());
+            }
+        }
+        int n=profileRepository.updatePhoto(profileId,newPhoto.get());
+        return n>0?"photo updated":"photo not updated";
     }
 
     //ByAdmin
@@ -179,7 +210,7 @@ public class ProfileService {
         ProfileDTO profileDTO=new ProfileDTO();
         profileDTO.setId(profileEntity.getId());
         profileDTO.setCreatedDate(profileEntity.getCreatedDate());
-        profileDTO.setPhotoId(profileEntity.getPhotoId());
+        profileDTO.setPhotoId(profileEntity.getPhotoId().getId());
         profileDTO.setName(profileEntity.getName());
         profileDTO.setSurname(profileEntity.getSurname());
         profileDTO.setEmail(profileEntity.getEmail());

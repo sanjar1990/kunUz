@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 POST http://localhost:8080/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
@@ -8,3 +9,25 @@ Content-Disposition: form-data; name="file"; filename="lola.jpg"
 
 ### open
 GET localhost:8080/api/v1/attach/open/car4.jpg
+=======
+### upload
+POST localhost:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="photo_2023-06-13_14-42-14.jpg"
+
+< C:\Users\sanja\OneDrive\Рабочий стол\photo_2023-06-13_14-42-14.jpg
+
+### open by id
+GET localhost:8080/api/v1/attach/open/116cf764-c038-4e34-b4be-6da10737d9fa/img
+### open by id general
+GET localhost:8080/api/v1/attach/open/808e2492-184d-4b6f-8e91-63436611bf18/general
+### pagination
+GET localhost:8080/api/v1/attach/closed/pagination?page=1&size10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxODU0NTcsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTEwNDk0NTcsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.DyKUBu-sKs_KmmCPaNYD60Eh_hqqXkaq17K1fm4roW3wfCi_PKklYLFhgtH-ABLJrJDufXN9y58uD2ZtesLxLw
+
+### delete by id admin
+DELETE localhost:8080/api/v1/attach/closed/5ea14a42-65c8-47ac-9249-eb625607e77f
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxODU0NTcsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTEwNDk0NTcsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.DyKUBu-sKs_KmmCPaNYD60Eh_hqqXkaq17K1fm4roW3wfCi_PKklYLFhgtH-ABLJrJDufXN9y58uD2ZtesLxLw
+>>>>>>> attachPractise

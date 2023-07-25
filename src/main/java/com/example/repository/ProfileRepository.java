@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.dto.ProfileDTO;
+import com.example.entity.AttachEntity;
 import com.example.entity.ProfileEntity;
 import com.example.entity.RegionEntity;
 import com.example.enums.ProfileStatus;
@@ -29,4 +30,12 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer>
     Optional<ProfileEntity> findByIdAndVisibleTrue(Integer profileId);
     Page<ProfileEntity>findAllByVisibleTrue(Pageable pageable);
     Optional<ProfileEntity>findAllByPhoneAndPasswordAndVisibleTrue(String phone, String password);
+    @Transactional
+    @Modifying
+    @Query("update ProfileEntity set photoId=:photoId where id=:profileId and visible=true")
+    int updatePhoto(Integer profileId, AttachEntity photoId);
+    @Transactional
+    @Modifying
+    @Query("update ProfileEntity set photoId=null where id=?1")
+    int deletePhoto(Integer profileId);
 }

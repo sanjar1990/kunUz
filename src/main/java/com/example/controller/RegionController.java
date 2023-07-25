@@ -20,14 +20,14 @@ public class RegionController {
     public ResponseEntity<?> createRegion(@RequestBody RegionDTO regionDTO,
                                           HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
-        return ResponseEntity.ok(regionService.createRegion(regionDTO));
+        return ResponseEntity.ok(regionService.createRegion(regionDTO,jwtDTO.getId()));
     }
     @PutMapping("/admin/{id}")
     public ResponseEntity<?>updateRegion(@PathVariable Integer id,
                                          @RequestBody RegionDTO regionDTO,
                                          HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
-        return ResponseEntity.ok(regionService.updateRegion(regionDTO,id));
+        return ResponseEntity.ok(regionService.updateRegion(regionDTO,id,jwtDTO.getId()));
     }
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<?>deleteById(@PathVariable Integer id,

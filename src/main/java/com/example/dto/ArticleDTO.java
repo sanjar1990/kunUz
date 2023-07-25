@@ -33,8 +33,10 @@ public class ArticleDTO {
     private Integer publisherId;
     private ArticleStatus status;
     private LocalDateTime createdDate;
-    private LocalDate publishedDate;
+    private LocalDateTime publishedDate;
     private boolean visible=true;
     private Integer viewCount;
     private List<Integer> articleTypes;
+    private List<Integer>tags;
+    private String imageUrl;
 }

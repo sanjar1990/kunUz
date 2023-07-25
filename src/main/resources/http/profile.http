@@ -26,17 +26,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5Mjc1MTMsImlkIjoxLCJyb
 }
 
 ### staff Update By Admin
-PUT localhost:8080/profile/staffUpdateByAdmin/1
+PUT localhost:8080/api/v1/profile/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwMTg3NjksImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTA4ODI3NjksImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.gX0tCNbABOtMZZe9m9JHKMwQPRNs-LUAAd4c_j6cxHbRR974ll1AtHU6uGJnkWRV1mUJA_MlIR34zN8ZY-gGrA
 
 {
-  "name": "Vali",
-  "surname": "VAliyev",
-  "email": "vali@gmail.com",
-  "phone": "+998909090909",
-  "password": "ali123",
-  "role": "PUBLISHER"
+  "password": "12345"
 }
 ### updateStaffByStaff
 PUT localhost:8080/profile/updateStaffByStaff/1
@@ -50,6 +45,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
   "phone": "+998909099999",
   "password": "ali123"
 }
+
+### update photo any
+PUT localhost:8080/api/v1/profile/updatePhoto?photoId=116cf764-c038-4e34-b4be-6da10737d9fa
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTE1NDgsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkxMDU1NTQ4LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.un9b29Wrd9GJ7dJzIR9-VY1WnomVwOZQ1PVT0-sxaDOykNXHngjnwKDA_5SWKe7_dr1V9JNg92oloUkBpCdXzA
 ### profileListPaginationByAdmin
 GET localhost:8080/api/v1/profile/profileListPagination?page=1&size10
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw

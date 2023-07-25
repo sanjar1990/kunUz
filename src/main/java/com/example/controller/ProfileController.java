@@ -35,6 +35,15 @@ public class ProfileController {
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, null);
         return ResponseEntity.ok(profileService.updateProfile(profileDTO,jwtDTO.getId()));
     }
+
+    //6. Update Photo (ANY)
+    @PutMapping("/updatePhoto")
+    public ResponseEntity<String >updatePhoto(@RequestParam("photoId") String photoId,
+                              HttpServletRequest request){
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,null);
+        return ResponseEntity.ok(profileService.updatePhoto(jwtDTO.getId(),photoId));
+    }
+
     @GetMapping("/profileListPagination")
     public ResponseEntity<?>profileListPagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(value = "size",defaultValue = "10") Integer size,

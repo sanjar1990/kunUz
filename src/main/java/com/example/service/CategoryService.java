@@ -25,7 +25,7 @@ public class CategoryService {
     @Autowired
     private CheckValidationUtility checkValidationUtility;
     // 1 create by admin
-    public CategoryDTO createCategory(CategoryDTO categoryDTO){
+    public CategoryDTO createCategory(CategoryDTO categoryDTO,Integer prtId){
         checkValidationUtility.checkCategory(categoryDTO);
         Boolean exists=categoryRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
@@ -34,14 +34,16 @@ public class CategoryService {
 //        Optional<CategoryEntity>byOrderNum=categoryRepository.findByOrderNumber(categoryDTO.getOrderNumber());
 //        if (byOrderNum.isPresent())throw new ItemAlreadyExists("This order num is exists");
         CategoryEntity categoryEntity=toEntity(categoryDTO);
+        categoryEntity.setPrtId(prtId);
         categoryRepository.save(categoryEntity);
         categoryDTO.setId(categoryEntity.getId());
         categoryDTO.setCreatedDate(categoryEntity.getCreatedDate());
         categoryDTO.setVisible(categoryEntity.getVisible());
+        categoryDTO.setPrtId(prtId);
         return categoryDTO;
     }
     //2 update by admin
-    public String updateCategory(CategoryDTO categoryDTO, Integer id){
+    public String updateCategory(CategoryDTO categoryDTO, Integer id, Integer prtId){
        CategoryEntity categoryEntity=getCategoryEntity(id);
             Boolean isExists=categoryRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
@@ -59,6 +61,7 @@ public class CategoryService {
        if(categoryDTO.getNameRu()!=null){
            categoryEntity.setNameRu(categoryDTO.getNameRu());
        }
+       categoryEntity.setPrtId(prtId);
        categoryRepository.save(categoryEntity);
        return "Category is updated";
     }
@@ -78,7 +81,7 @@ public class CategoryService {
             CategoryDTO categoryDTO=new CategoryDTO();
             categoryDTO.setId(s.getId());
             categoryDTO.setOrderNumber(s.getOrderNumber());
-            categoryDTO.setCategoryName(s.getName());
+            categoryDTO.setName(s.getName());
             dtoList.add(categoryDTO);
         });
         System.out.println(dtoList);
@@ -101,6 +104,7 @@ public class CategoryService {
         categoryDTO.setNameUz(categoryEntity.getNameUz());
         categoryDTO.setNameRu(categoryEntity.getNameRu());
         categoryDTO.setVisible(categoryEntity.getVisible());
+        categoryDTO.setPrtId(categoryEntity.getPrtId());
         return categoryDTO;
     }
 

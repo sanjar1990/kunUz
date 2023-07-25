@@ -149,9 +149,6 @@ public class CheckValidationUtility {
         if (articleDTO.getContent() == null || articleDTO.getContent().isBlank()) {
             throw new AppBadRequestException("content not found!");
         }
-        if (articleDTO.getPublisherId() == null) {
-            throw new AppBadRequestException("publisher id not found!");
-        }
         if (articleDTO.getRegionId() == null) {
             throw new AppBadRequestException("region id not found!");
         }

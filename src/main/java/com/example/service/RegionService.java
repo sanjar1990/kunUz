@@ -21,7 +21,7 @@ public class RegionService {
     @Autowired
     private CheckValidationUtility checkValidationUtility;
     //1 create By Admin
-    public RegionDTO createRegion(RegionDTO regionDTO){
+    public RegionDTO createRegion(RegionDTO regionDTO, Integer prtId){
         checkValidationUtility.checkRegion(regionDTO);
         Boolean exists=regionRepository
                 .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
@@ -29,15 +29,17 @@ public class RegionService {
         Optional<RegionEntity>byOrderNum=regionRepository.findByOrderNumber(regionDTO.getOrderNumber());
         if (byOrderNum.isPresent())  throw new ItemAlreadyExists("This Region order number is exist");
     RegionEntity regionEntity=toEntity(regionDTO);
+    regionEntity.setPrtId(prtId);
     regionRepository.save(regionEntity);
     regionDTO.setId(regionEntity.getId());
     regionDTO.setVisible(regionEntity.getVisible());
     regionDTO.setCreatedDate(regionEntity.getCreatedDate());
+    regionDTO.setPrtId(prtId);
     return regionDTO;
     }
     //2 update region by Admin
 
-    public String updateRegion(RegionDTO regionDTO, Integer id){
+    public String updateRegion(RegionDTO regionDTO, Integer id,Integer prtId){
        RegionEntity regionEntity=getRegionEntity(id);
     Boolean exists=regionRepository
             .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
@@ -57,6 +59,7 @@ public class RegionService {
         if (regionDTO.getOrderNumber()!=null){
             regionEntity.setOrderNumber(regionDTO.getOrderNumber());
         }
+        regionEntity.setPrtId(prtId);
         regionRepository.save(regionEntity);
         return "Region updated";
     }
@@ -77,7 +80,7 @@ public class RegionService {
            RegionDTO regionDTO=new RegionDTO();
            regionDTO.setId(r.getId());
            regionDTO.setOrderNumber(r.getOrderNumber());
-           regionDTO.setRegionName(r.getName());
+           regionDTO.setName(r.getName());
            dtoList.add(regionDTO);
        }
        return dtoList;
@@ -99,6 +102,7 @@ public class RegionService {
         regionDTO.setVisible(regionEntity.getVisible());
         regionDTO.setCreatedDate(regionEntity.getCreatedDate());
         regionDTO.setId(regionEntity.getId());
+        regionDTO.setPrtId(regionEntity.getPrtId());
         return regionDTO;
     }
     private RegionEntity getRegionEntity(Integer regionId){
