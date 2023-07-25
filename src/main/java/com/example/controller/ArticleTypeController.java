@@ -20,14 +20,14 @@ public class ArticleTypeController {
     public ResponseEntity<?> create(@RequestBody ArticleTypeDTO articleTypeDTO,
                                     HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
-        return ResponseEntity.ok(articleTypeService.create(articleTypeDTO));
+        return ResponseEntity.ok(articleTypeService.create(articleTypeDTO,jwtDTO.getId()));
     }
     @PutMapping("/admin/{id}")
     public ResponseEntity<?>update(@PathVariable Integer id,
                                    @RequestBody ArticleTypeDTO articleTypeDTO,
                                    HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
-        return ResponseEntity.ok(articleTypeService.update(articleTypeDTO,id));
+        return ResponseEntity.ok(articleTypeService.update(articleTypeDTO,id,jwtDTO.getId()));
     }
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<?>delete(@PathVariable Integer id,

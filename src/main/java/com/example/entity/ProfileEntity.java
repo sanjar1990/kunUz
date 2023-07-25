@@ -5,19 +5,18 @@ import com.example.enums.ProfileStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "profile")
-public class ProfileEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class ProfileEntity extends BaseEntity {
     @Column(name = "name",length = 50)
     private String name;
     @Column(name = "surname", length = 50)
@@ -34,16 +33,11 @@ public class ProfileEntity {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ProfileRole role;
-    @Column(name = "visible")
-    private Boolean visible=true;
-    @Column(name = "created_date")
-    private LocalDateTime createdDate=LocalDateTime.now();
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private AttachEntity photoId;
-    @Column(name = "prt_id")
-    private Integer prtId;
+
     public ProfileEntity(Integer id) {
-        this.id = id;
+       super.setId(id);
     }
 }

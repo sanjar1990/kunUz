@@ -3,19 +3,18 @@ package com.example.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "region")
-public class RegionEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class RegionEntity extends BaseEntity {
     @Column(name = "order_number", unique = true)
     private Integer orderNumber;
     @Column(name = "name_uz")
@@ -24,12 +23,7 @@ public class RegionEntity {
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
-    @Column(name = "visible")
-    private Boolean visible=true;
-    @Column(name = "created_date")
-    private LocalDateTime createdDate=LocalDateTime.now();
-
     public RegionEntity(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 }

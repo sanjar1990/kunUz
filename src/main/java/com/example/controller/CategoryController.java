@@ -19,14 +19,14 @@ public class CategoryController {
     public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO,
                                             HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
-        return ResponseEntity.ok(categoryService.createCategory(categoryDTO));
+        return ResponseEntity.ok(categoryService.createCategory(categoryDTO,jwtDTO.getId()));
     }
     @PutMapping("/admin/{id}")
     public ResponseEntity<?>updateCategory(@PathVariable Integer id,
                                            @RequestBody CategoryDTO categoryDTO,
                                           HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
-        return ResponseEntity.ok(categoryService.updateCategory(categoryDTO,id));
+        return ResponseEntity.ok(categoryService.updateCategory(categoryDTO,id,jwtDTO.getId()));
     }
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<?>deleteCategory(@PathVariable Integer id,

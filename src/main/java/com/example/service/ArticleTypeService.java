@@ -26,21 +26,23 @@ public class ArticleTypeService {
     @Autowired
     private CheckValidationUtility checkValidationUtility;
     //1 create by admin
-    public ArticleTypeDTO create(ArticleTypeDTO articleTypeDTO){
+    public ArticleTypeDTO create(ArticleTypeDTO articleTypeDTO,Integer prtId){
         checkValidationUtility.checkArticleType(articleTypeDTO);
         Boolean isExists=articleTypeRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumberAndVisibleTrue(articleTypeDTO.getNameEn(),
                         articleTypeDTO.getNameUz(),articleTypeDTO.getNameRu(),articleTypeDTO.getOrderNumber());
         if (isExists) throw new ItemAlreadyExists("This Region already exists");
         ArticleTypeEntity articleTypeEntity=toEntity(articleTypeDTO);
+        articleTypeEntity.setPrtId(prtId);
         articleTypeRepository.save(articleTypeEntity);
         articleTypeDTO.setVisible(articleTypeEntity.getVisible());
         articleTypeDTO.setCreatedDate(articleTypeEntity.getCreatedDate());
         articleTypeDTO.setId(articleTypeEntity.getId());
+        articleTypeDTO.setPrtId(prtId);
         return articleTypeDTO;
     }
     //2 update admin
-    public String update(ArticleTypeDTO articleTypeDTO, Integer id){
+    public String update(ArticleTypeDTO articleTypeDTO, Integer id,Integer prtId){
        ArticleTypeEntity articleTypeEntity=get(id);
         Boolean isExists=articleTypeRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumberAndVisibleTrue
@@ -61,6 +63,7 @@ public class ArticleTypeService {
         if (articleTypeDTO.getOrderNumber()!=null){
             articleTypeEntity.setOrderNumber(articleTypeDTO.getOrderNumber());
         }
+        articleTypeEntity.setPrtId(prtId);
         articleTypeRepository.save(articleTypeEntity);
         return "Article type updated";
     }
@@ -83,7 +86,7 @@ public class ArticleTypeService {
             ArticleTypeDTO articleTypeDTO = new ArticleTypeDTO();
             articleTypeDTO.setId(s.getId());
             articleTypeDTO.setOrderNumber(s.getOrderNumber());
-            articleTypeDTO.setArticleTypeName(s.getName());
+            articleTypeDTO.setName(s.getName());
             dtoList.add(articleTypeDTO);
         });
         System.out.println(dtoList);
@@ -106,6 +109,7 @@ public class ArticleTypeService {
         articleTypeDTO.setNameEn(articleTypeEntity.getNameEn());
         articleTypeDTO.setNameUz(articleTypeEntity.getNameUz());
         articleTypeDTO.setNameRu(articleTypeEntity.getNameRu());
+        articleTypeDTO.setPrtId(articleTypeEntity.getPrtId());
         return articleTypeDTO;
     }
     private ArticleTypeEntity get(Integer id){
