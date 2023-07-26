@@ -1,6 +1,7 @@
 package com.example.controller;
 import com.example.dto.ArticleDTO;
 import com.example.dto.JwtDTO;
+import com.example.entity.ArticleEntity;
 import com.example.enums.ArticleStatus;
 import com.example.enums.Language;
 import com.example.enums.ProfileRole;
@@ -67,15 +68,16 @@ public class ArticleController {
     }
     // 8. Get Article By Id And Lang
     @GetMapping("/getByLang")
-    public ResponseEntity<ArticleFullInfoMapper>getByLang(@RequestParam("articleId") String articleId,
+    public ResponseEntity<ArticleDTO>getByLang(@RequestParam("articleId") String articleId,
                                                           @RequestParam(value = "lang", defaultValue = "UZ") Language language){
-        return ResponseEntity.ok(articleService.getByLang(articleId, language));
+        return ResponseEntity.ok(articleService.getArticleByIdAndLang(articleId, language));
     }
     //9. Get Last 4 Article By Types and except given article id.
-    @GetMapping("/getLastFour")
-    public ResponseEntity<List<ArticleDTO>>getLastFour(@RequestParam("typeId")Integer typeId,
-                                                       @RequestBody List<String> idList){
-        return ResponseEntity.ok(articleService.getLastFour(typeId,idList));
+    @GetMapping("/getLastFour/{articleId}")
+    public ResponseEntity<List<ArticleDTO>>getLastFour(@PathVariable String articleId,
+                                                       @RequestParam("typeId")Integer typeId
+                                                       ){
+        return ResponseEntity.ok(articleService.getLastFour(typeId,articleId));
     }
     //  10. Get 4 most read articles
     @GetMapping("/getMostViewed")
@@ -90,7 +92,7 @@ public class ArticleController {
     //12. Get Last 5 Article By Types  And By Region Key
     @GetMapping("/getByTypeAndRegion")
     public ResponseEntity<List<ArticleDTO>>getByTypeAndRegion(@RequestParam("typeId") Integer typeId,
-                                                              @RequestParam("regionId") Integer regionId){
+                                                                 @RequestParam("regionId") Integer regionId){
         return ResponseEntity.ok(articleService.getByTypeAndRegion(typeId,regionId));
     }
 

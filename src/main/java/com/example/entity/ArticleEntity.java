@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,21 +26,31 @@ public class ArticleEntity extends BaseStringEntity {
     private String content;
     @Column(name = "shared_count")
     private Integer sharedCount;
+    @Column(name = "image_id")
+    private String imageId;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private AttachEntity imageId;
+    @JoinColumn(name = "image_id", insertable = false,updatable = false)
+    private AttachEntity image;
+    @Column(name = "region_id")
+    private Integer regionId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
-    private RegionEntity regionId;
+    @JoinColumn(name = "region_id", insertable = false, updatable = false)
+    private RegionEntity region;
+    @Column(name = "category_id")
+    private Integer categoryId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private CategoryEntity categoryId;
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
+    private CategoryEntity category;
+    @Column(name = "moderator_id", nullable = false)
+    private Integer moderatorId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "moderator_id")
-    private ProfileEntity moderatorId;
+    @JoinColumn(name = "moderator_id", insertable = false, updatable = false)
+    private ProfileEntity moderator;
+    @Column(name = "publisher_id")
+    private Integer publisherId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publisher_id")
-    private ProfileEntity publisherId;
+    @JoinColumn(name = "publisher_id", insertable = false, updatable = false)
+    private ProfileEntity publisher;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ArticleStatus status=ArticleStatus.NOTPUBLISHED;
@@ -46,18 +58,9 @@ public class ArticleEntity extends BaseStringEntity {
     private LocalDateTime publishedDate;
     @Column(name = "view_count")
     private Integer viewCount;
-    @ManyToMany
-    @JoinTable(
-            name = "Article_releted_Types",
-            joinColumns =@JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_type_id")
-    )
-    private List<ArticleTypeEntity> articleTypes;
-    @ManyToMany
-    @JoinTable(name = "article_tags",
-    joinColumns = @JoinColumn(name = "article_id"),
-    inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<TagEntity> tags;
-
+    @OneToMany(mappedBy = "article")
+    private List<ArticleTypesEntity> articleTypeList;
+    @OneToMany(mappedBy = "article")
+    private List<ArticleTagEntity> articleTagList;
 
 }

@@ -21,6 +21,7 @@ public class SecuredFilterConfig {
         bean.addUrlPatterns("/api/v1/article/closed/*");
         bean.addUrlPatterns("/api/v1/tag/*");
         bean.addUrlPatterns("/api/v1/attach/closed/*");
+        bean.addUrlPatterns("/api/v1/comment/*");
         return bean;
     }
 }

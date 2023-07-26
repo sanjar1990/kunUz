@@ -25,7 +25,6 @@ public class CustomProfileRepository {
         StringBuilder countBuilder=new StringBuilder("select count(p) from ProfileEntity as p");
         StringBuilder builder=new StringBuilder(" where visible=true");
         Map<String,Object> params=new HashMap<>();
-
         if(filterProfileDTO.getName()!=null){
             builder.append(" and p.name=:name");
             params.put("name",filterProfileDTO.getName());
@@ -60,7 +59,7 @@ public class CustomProfileRepository {
             countQuery.setParameter(p.getKey(),p.getValue());
         }
         selectQuery.setFirstResult(page*size);
-        countQuery.setMaxResults(size);
+        selectQuery.setMaxResults(size);
         List<ProfileEntity> entityList=selectQuery.getResultList();
         Long totalElement=(Long) countQuery.getSingleResult();
         return new FilterResultDTO<>(entityList, totalElement);

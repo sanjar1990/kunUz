@@ -33,9 +33,11 @@ public class ProfileEntity extends BaseEntity {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ProfileRole role;
+    @Column(name = "photo_id")
+    private String photoId;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
-    private AttachEntity photoId;
+    @JoinColumn(name = "photo_id", insertable = false, updatable = false)
+    private AttachEntity photo;
 
     public ProfileEntity(Integer id) {
        super.setId(id);

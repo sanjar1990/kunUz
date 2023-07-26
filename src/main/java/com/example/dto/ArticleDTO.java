@@ -28,7 +28,9 @@ public class ArticleDTO {
     private Integer sharedCount;
     private String imageId;
     private Integer regionId;
+    private RegionDTO regionDTO;
     private Integer categoryId;
+    private CategoryDTO categoryDTO;
     private Integer moderatorId;
     private Integer publisherId;
     private ArticleStatus status;
@@ -37,6 +39,7 @@ public class ArticleDTO {
     private boolean visible=true;
     private Integer viewCount;
     private List<Integer> articleTypes;
-    private List<Integer>tags;
+    private List<Integer>tagList;
+    private List<TagDTO> tagDTOList;
     private String imageUrl;
 }

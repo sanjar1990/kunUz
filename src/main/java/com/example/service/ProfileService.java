@@ -91,14 +91,8 @@ public class ProfileService {
         if(profileDTO.getName()!=null){
             profileEntity.setName(profileDTO.getName());
         }
-        if(profileDTO.getVisible()!=null){
-            profileEntity.setVisible(profileDTO.getVisible());
-        }
-        if(profileDTO.getCreatedDate()!=null){
-            profileEntity.setCreatedDate(profileDTO.getCreatedDate());
-        }
         if(profileDTO.getPhotoId()!=null){
-            profileEntity.setPhotoId(new AttachEntity());
+            profileEntity.setPhotoId(profileDTO.getPhotoId());
         }
         //save
         profileRepository.save(profileEntity);
@@ -124,7 +118,6 @@ public class ProfileService {
             if(!profileDTO.getEmail().contains("@")){
                 throw new AppBadRequestException("Enter valid email!");
             }
-
             if( profileRepository.existsAllByEmailAndVisibleTrueAndStatus(profileDTO.getEmail(),ProfileStatus.ACTIVE))
                 throw new AppBadRequestException("this email is exist");
             profileEntity.setEmail(profileDTO.getEmail());
@@ -137,7 +130,6 @@ public class ProfileService {
             }else if(!profileDTO.getPhone().substring(2).chars().allMatch(Character::isDigit)){
                 throw new AppBadRequestException("invalid phone number");
             }
-
             if (profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(profileDTO.getPhone(),ProfileStatus.ACTIVE))
                 throw new AppBadRequestException("this phone is exists!");
             profileEntity.setPhone(profileDTO.getPhone());
@@ -145,31 +137,32 @@ public class ProfileService {
         if(profileDTO.getName()!=null){
             profileEntity.setName(profileDTO.getName());
         }
+
         profileRepository.save(profileEntity);
         return "profile updated";
     }
 
     //6. Update Photo (ANY) (Murojat qilgan odamni rasmini upda qilish)
     public String updatePhoto(Integer profileId,String photoId){
-        Optional<AttachEntity>newPhoto=attachRepository.findById(photoId);
-        if(newPhoto.isEmpty()){
-            throw new ItemNotFoundException("Attach not found!");
-        }
-        Optional<ProfileEntity>profile=profileRepository.findByIdAndVisibleTrue(profileId);
-        ProfileEntity profileEntity=profile.get();
-        if(profileEntity.getPhotoId()!=null){
-            String url=profileEntity.getPhotoId().getPath();
+        int n;
+        ProfileEntity profileEntity=getProfileEntity(profileId);
+        if(profileEntity.getPhotoId()!=null) {
+            String url = profileEntity.getPhoto().getPath();
+            String oldAttach=profileEntity.getPhoto().getId();
+            n=profileRepository.updatePhoto(profileId,photoId);
             File file=new File(url);
             if(file.exists()){
                 file.delete();
             }
-            int n=profileRepository.deletePhoto(profileId);
             if(n>0){
-                attachRepository.deleteById(profileEntity.getPhotoId().getId());
+                attachRepository.deleteById(oldAttach);
             }
+            return "photo updated";
+        }else {
+            n=profileRepository.updatePhoto(profileId,photoId);
+            return n>0?"photo updated":"photo not updated";
         }
-        int n=profileRepository.updatePhoto(profileId,newPhoto.get());
-        return n>0?"photo updated":"photo not updated";
+
     }
 
     //ByAdmin
@@ -210,7 +203,7 @@ public class ProfileService {
         ProfileDTO profileDTO=new ProfileDTO();
         profileDTO.setId(profileEntity.getId());
         profileDTO.setCreatedDate(profileEntity.getCreatedDate());
-        profileDTO.setPhotoId(profileEntity.getPhotoId().getId());
+        profileDTO.setPhotoId(profileEntity.getPhotoId());
         profileDTO.setName(profileEntity.getName());
         profileDTO.setSurname(profileEntity.getSurname());
         profileDTO.setEmail(profileEntity.getEmail());
@@ -222,7 +215,7 @@ public class ProfileService {
         return profileDTO;
     }
 
-    private ProfileEntity getProfileEntity(Integer profileId){
+    public ProfileEntity getProfileEntity(Integer profileId){
         return profileRepository.findByIdAndVisibleTrue(profileId)
                 .orElseThrow(()-> new ItemNotFoundException("profile not found"));
     }

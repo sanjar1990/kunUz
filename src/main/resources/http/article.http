@@ -4,37 +4,37 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwOTYxMDYsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTYwMTA2LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.orrnPQqSnNL5-UmF3DxPdWYb_Q5ZdO2nxS2wi1DMvycgLBYjMWa8GaqPCVGv0iQe0HeQwnRO0Pj_kCOLDLnckQ
 
 {
-  "title": "test14",
-  "description": "test14",
+  "title": "test3",
+  "description": "test3",
   "content": "msdsddsadasdsadsad",
   "regionId": 1,
   "categoryId": 1,
-  "sharedCount": 132,
-  "articleTypes": [2],
-  "viewCount": 12,
-  "tags": [4,1],
-  "imageId": "116cf764-c038-4e34-b4be-6da10737d9fa"
+  "articleTypes": [1],
+  "tagList": [1,4],
+  "imageId": "2747d28f-8e68-4736-9bee-1c800aade4c4"
 }
 
 ### update by moderator
-PUT localhost:8080/api/v1/article/closed/d657e201-a627-4d5d-ae01-8dba98fae2fd
+PUT localhost:8080/api/v1/article/closed/5499948d-b800-4639-9300-d768f9f75cc1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTQyNTcsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkxMDU4MjU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.pcxXqxPn_69U3r3tusUuVwEkofz4nm14B1MpH1zL8ZogB7ilzX-YkAStrjRBjwwf4AKrcVFIyCUfpWGiQocZ9Q
 
 {
-    "title": "test14 O‘zbekiston hududiga yanada issiq havo kirib kelishi kutilyapti",
-    "description": "Joriy yilning 24-27 iyul kunlari O‘zbekiston hududiga issiq havo kirib kelishi kutilyapti. Bu haqda “O‘zgidromet” bosh direktori Sherzodxo‘ja Habibullayev xabar berdi.",
+    "title": "test1  updated",
+    "description": "test1 updated",
     "content": "dsadd",
-    "status": "PUBLISHED",
-    "regionID": 2,
-    "imageId": "9b5b0c5a-cf54-4c58-9881-c1904a7babb7",
-  "articleTypes": [1,2]
+    "regionId": 1,
+    "categoryId": 1,
+    "articleTypes": [1,2],
+    "tags": [2,3],
+    "imageId": "d28cdbed-03d2-4137-98c6-b6b85a0c0725",
+    "articleTagList": [1,4]
 }
 ### delete article moderator
-DELETE localhost:8080/api/v1/article/moderator/3c257690-70b5-4b4b-8d64-ba9f2a9dacc0
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzI0NjEsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwMDE4ODYxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.yG1Dhx7nWlBkdgmItDjR0ejUIMxy43AH--LDNIw4L2A9iD5mfEemenV9MXs1E2XjivqrZgC40w-hmj5cWvbHGg
+DELETE localhost:8080/api/v1/article/closed/23c504e0-e29e-4a64-8000-4b9f5a83f9ac
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTQyNTcsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkxMDU4MjU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.pcxXqxPn_69U3r3tusUuVwEkofz4nm14B1MpH1zL8ZogB7ilzX-YkAStrjRBjwwf4AKrcVFIyCUfpWGiQocZ9Q
 ### update status
-PUT localhost:8080/api/v1/article/closed/updateStatus/261c96e4-f61b-47b8-ada8-1bc345d8060b?status=PUBLISHED
+PUT localhost:8080/api/v1/article/closed/updateStatus/5499948d-b800-4639-9300-d768f9f75cc1?status=PUBLISHED
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwMTkwNTcsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkwODgzMDU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.EREFn-5dtjOlEhl2AYwLQXHZKpvGlb-sTT5CNdLXPCKdrzzrH3mn04u1m419dtW3VpMMwO4BDNDm7pb9mZlhRg
 
@@ -58,15 +58,10 @@ Content-Type: application/json
 ]
 
 ###  8. Get Article By Id And Lang
-GET localhost:8080/api/v1/article/getByLang?articleId=2317cc68-0e44-4a55-a44a-0a2067767f7a&lang=En
+GET localhost:8080/api/v1/article/getByLang?articleId=5499948d-b800-4639-9300-d768f9f75cc1&lang=En
 
 ### 9. Get Last 4 Article By Types and except given article id.
-GET localhost:8080/api/v1/article/getLastFour?typeId=1
-Content-Type: application/json
-
-[
-  "6745d902-6b2f-4442-a140-9678a49a097c","10fec872-5e11-4c1e-8fcc-1625e34e0e96","6a93de29-b3b1-4331-bd10-a9765a0845ec"
-]
+GET localhost:8080/api/v1/article/getLastFour/5499948d-b800-4639-9300-d768f9f75cc1?typeId=1
 
 ###10. Get 4 most read articles
 GET localhost:8080/api/v1/article/getMostViewed

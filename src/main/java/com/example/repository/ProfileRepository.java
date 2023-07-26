@@ -33,9 +33,9 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer>
     @Transactional
     @Modifying
     @Query("update ProfileEntity set photoId=:photoId where id=:profileId and visible=true")
-    int updatePhoto(Integer profileId, AttachEntity photoId);
-    @Transactional
-    @Modifying
-    @Query("update ProfileEntity set photoId=null where id=?1")
-    int deletePhoto(Integer profileId);
+    int updatePhoto(Integer profileId, String photoId);
+//    @Transactional
+//    @Modifying
+//    @Query("update ProfileEntity set photoId=null where id=?1")
+//    int deletePhoto(Integer profileId);
 }
