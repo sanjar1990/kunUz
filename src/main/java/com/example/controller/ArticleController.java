@@ -1,5 +1,7 @@
 package com.example.controller;
 import com.example.dto.ArticleDTO;
+import com.example.dto.CategoryDTO;
+import com.example.dto.FilterArticleDTO;
 import com.example.dto.JwtDTO;
 import com.example.entity.ArticleEntity;
 import com.example.enums.ArticleStatus;
@@ -95,11 +97,41 @@ public class ArticleController {
                                                                  @RequestParam("regionId") Integer regionId){
         return ResponseEntity.ok(articleService.getByTypeAndRegion(typeId,regionId));
     }
-
+    // 13. Get Article list by Region Key (Pagination)
     @GetMapping("/paginationByRegion")
     public ResponseEntity<PageImpl<ArticleDTO>>paginationByRegion(@RequestParam("regionId") Integer regionId,
                                                       @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                       @RequestParam(value = "size", defaultValue = "10") Integer size){
         return ResponseEntity.ok(articleService.paginationByRegion(regionId,page-1,size));
     }
-}
+    //14. Get Last 5 Article Category Key
+    @GetMapping("/getLastFiveByCategory/{categoryId}")
+    public ResponseEntity<List<ArticleDTO>>getLastFiveByCategory(@PathVariable Integer categoryId){
+        return ResponseEntity.ok(articleService.getLastFiveByCategory(categoryId));
+    }
+    //15. Get Article By Category Key (Pagination)
+    @GetMapping("/getByCategoryPagination/{categoryId}")
+    public ResponseEntity<PageImpl<ArticleDTO>>getByCategoryPagination(@PathVariable Integer categoryId,
+                                                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                                        @RequestParam(value = "size", defaultValue = "10") Integer size){
+        return ResponseEntity.ok(articleService.getByCategoryPagination(categoryId,page-1,size));
+    }
+    //16. Increase Article View Count by Article Id
+    @PutMapping("/increaseViewCount/{articleId}")
+    public ResponseEntity<String>increaseViewCount(@PathVariable String articleId){
+        return ResponseEntity.ok(articleService.increaseViewCount(articleId));
+    }
+    //17. Increase Share View Count by Article Id
+    @PutMapping("/increaseShareCount/{articleId}")
+    public ResponseEntity<String>increaseShareCount(@PathVariable String articleId){
+        return ResponseEntity.ok(articleService.increaseShareCount(articleId));
+    }
+    //18ArticlePagination
+    @PostMapping("/closed/filterPagination")
+    public ResponseEntity<PageImpl<ArticleDTO>>filterPagination(@RequestBody FilterArticleDTO filterArticleDTO,
+                                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                                @RequestParam(value = "size",defaultValue = "10") Integer size,
+                                                                HttpServletRequest request) {
+        JwtDTO jwtDTO = SecurityUtil.hasRole(request, ProfileRole.PUBLISHER);
+        return ResponseEntity.ok(articleService.filterPagination(filterArticleDTO, page - 1, size));
+    }}

@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,10 @@ public class AttachController {
         return attachService.openByIdGeneral(id);
     }
     //4. Download (by id  with origin name)
-
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource>download(@PathVariable String id){
+       return attachService.download(id);
+    }
     //5. Pagination (ADMIN)
     @GetMapping("/closed/pagination")
     public ResponseEntity<PageImpl<AttachDTO>>pagination(@RequestParam(value = "page", defaultValue = "1") Integer page,

@@ -1,14 +1,10 @@
 package com.example.service;
-import com.example.dto.ArticleDTO;
-import com.example.dto.CategoryDTO;
-import com.example.dto.RegionDTO;
-import com.example.dto.TagDTO;
+import com.example.dto.*;
 import com.example.entity.*;
 import com.example.enums.ArticleStatus;
 import com.example.enums.Language;
 import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemNotFoundException;
-import com.example.mapper.ArticleFullInfoMapper;
 import com.example.mapper.ArticleMapperInterface;
 import com.example.mapper.ArticleShortInfoMapper;
 import com.example.repository.*;
@@ -17,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import java.io.File;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +25,6 @@ public class ArticleService {
     @Autowired
     private CheckValidationUtility checkValidationUtility;
     @Autowired
-    private ArticleTypeRepository articleTypeRepository;
-    @Autowired
     private TagRepository tagRepository;
     @Autowired
     private AttachRepository attachRepository;
@@ -40,6 +32,10 @@ public class ArticleService {
     private ArticleTypesService articleTypesService;
     @Autowired
     private ArticleTagsService articleTagsService;
+    @Autowired
+    private AttachService attachService;
+    @Autowired
+    private CustomArticleRepository customArticleRepository;
     public ArticleDTO create(Integer moderatorId,ArticleDTO articleDTO) {
     //check
         checkValidationUtility.checkForArticle(articleDTO);
@@ -128,7 +124,7 @@ public class ArticleService {
             articleDTO.setId(s.getId());
             articleDTO.setTitle(s.getTitle());
             articleDTO.setDescription(s.getDescription());
-            articleDTO.setImageId(s.getImageId());
+            articleDTO.setImage(attachService.getAttachURL(s.getImageId()));
             articleDTO.setPublishedDate(s.getPublishedDate());
             dtoList.add(articleDTO);
         });
@@ -162,7 +158,7 @@ public class ArticleService {
         }
         RegionDTO regionDTO=new RegionDTO();
         regionDTO.setId(entity.getRegionId());
-        regionDTO.setNameUz(regionName);
+        regionDTO.setName(regionName);
         dto.setRegionDTO(regionDTO);
         CategoryDTO categoryDTO=new CategoryDTO();
         categoryDTO.setId(entity.getCategoryId());
@@ -207,8 +203,7 @@ public class ArticleService {
             articleDTO.setId(s.getArticleId());
             articleDTO.setTitle(s.getTitle());
             articleDTO.setDescription(s.getDescription());
-            articleDTO.setImageId(s.getImageId());
-            articleDTO.setImageUrl(s.getImageUrl());
+            articleDTO.setImage(attachService.getAttachURL(s.getImageId()));
             articleDTO.setPublishedDate(s.getPublishedDate());
             return articleDTO;
         }).toList();
@@ -237,6 +232,18 @@ public class ArticleService {
         List<ArticleDTO>dtoList=shortInfo(pageObj.getContent());
         return new PageImpl<>(dtoList,pageable,pageObj.getTotalElements());
     }
+    //14. Get Last 5 Article Category Key
+    public List<ArticleDTO> getLastFiveByCategory(Integer categoryId) {
+        List<ArticleEntity> entityList=articleRepository.getLastFiveByCategory(categoryId);
+        return shortInfo(entityList);
+    }
+    //15. Get Article By Category Key (Pagination)
+    public PageImpl<ArticleDTO> getByCategoryPagination(Integer categoryId, Integer page, Integer size) {
+        Pageable pageable=PageRequest.of(page,size,Sort.by(Sort.Direction.DESC, "publishedDate"));
+        Page<ArticleEntity> pageObj=articleRepository.findAllByCategoryIdAndVisibleTrue(categoryId,pageable);
+        List<ArticleDTO>dtoList=shortInfo(pageObj.getContent());
+        return new PageImpl<>(dtoList,pageable,pageObj.getTotalElements());
+    }
     private List<ArticleDTO> shortInfo(List<ArticleEntity> entityList){
         List<ArticleDTO> dtoList=new LinkedList<>();
         entityList.forEach(s->{
@@ -244,7 +251,7 @@ public class ArticleService {
             articleDTO.setId(s.getId());
             articleDTO.setTitle(s.getTitle());
             articleDTO.setDescription(s.getDescription());
-            articleDTO.setImageId(s.getImageId());
+            articleDTO.setImage(attachService.getAttachURL(s.getImageId()));
             articleDTO.setPublishedDate(s.getPublishedDate());
             dtoList.add(articleDTO);
         });
@@ -273,7 +280,19 @@ public class ArticleService {
     private ArticleEntity get(String articleId){
         return articleRepository.findByIdAndVisibleTrue(articleId).orElseThrow(()->new ItemNotFoundException("Article not found"));
     }
+    //16. Increase Article View Count by Article Id
+    public String increaseViewCount(String articleId) {
+        return articleRepository.increaseViewCount(articleId)>0?"updated":"not updated";
+    }
+    //17. Increase Share View Count by Article Id
+    public String increaseShareCount(String articleId) {
+        return articleRepository.increaseShareCount(articleId)>0?"updated":"not updated";
+    }
 
-
-
+    public PageImpl<ArticleDTO> filterPagination(FilterArticleDTO filterArticleDTO, Integer page, Integer size) {
+        FilterResultDTO<ArticleEntity> filterResultDTO=customArticleRepository.filterPagination(filterArticleDTO,page,size);
+        Pageable pageable=PageRequest.of(page,size);
+        List<ArticleDTO>dtoList=shortInfo(filterResultDTO.getContent());
+        return new PageImpl<>(dtoList,pageable,filterResultDTO.getTotalElement());
+    }
 }

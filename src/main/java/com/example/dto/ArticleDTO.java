@@ -27,6 +27,7 @@ public class ArticleDTO {
     private String content;
     private Integer sharedCount;
     private String imageId;
+    private AttachDTO image;
     private Integer regionId;
     private RegionDTO regionDTO;
     private Integer categoryId;
@@ -36,10 +37,9 @@ public class ArticleDTO {
     private ArticleStatus status;
     private LocalDateTime createdDate;
     private LocalDateTime publishedDate;
-    private boolean visible=true;
+    private boolean visible;
     private Integer viewCount;
     private List<Integer> articleTypes;
     private List<Integer>tagList;
     private List<TagDTO> tagDTOList;
-    private String imageUrl;
 }

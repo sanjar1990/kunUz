@@ -85,5 +85,20 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
     List<ArticleEntity> findByTypeAndRegion(@Param("typeId") Integer typeId, @Param("regionId") Integer regionId);
     // 13. Get Article list by Region Key (Pagination)
     Page<ArticleEntity>findByRegionIdAndVisibleTrue(Integer regionId, Pageable pageable);
+    //14. Get Last 5 Article Category Key
+    @Query("from ArticleEntity where categoryId=:categoryId and visible=true " +
+            " order by publishedDate desc limit 5")
+    List<ArticleEntity>getLastFiveByCategory(@Param("categoryId") Integer categoryId);
+    //15. Get Article By Category Key (Pagination)
+    Page<ArticleEntity>findAllByCategoryIdAndVisibleTrue(Integer categoryId,Pageable pageable);
+
+   @Transactional
+   @Modifying
+   @Query("update ArticleEntity set viewCount=viewCount+1  where id=:articleId")
+    int increaseViewCount(String articleId);
+    @Transactional
+    @Modifying
+    @Query("update ArticleEntity set sharedCount=sharedCount+1  where id=:articleId")
+    int increaseShareCount(String articleId);
 }
 

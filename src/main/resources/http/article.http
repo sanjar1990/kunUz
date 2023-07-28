@@ -59,17 +59,30 @@ Content-Type: application/json
 
 ###  8. Get Article By Id And Lang
 GET localhost:8080/api/v1/article/getByLang?articleId=5499948d-b800-4639-9300-d768f9f75cc1&lang=En
-
 ### 9. Get Last 4 Article By Types and except given article id.
 GET localhost:8080/api/v1/article/getLastFour/5499948d-b800-4639-9300-d768f9f75cc1?typeId=1
-
 ###10. Get 4 most read articles
 GET localhost:8080/api/v1/article/getMostViewed
-
 ### 11 get by tag
 GET localhost:8080/api/v1/article/getByTag?tag=#UzAM
 ### 12. Get Last 5 Article By Types  And By Region Key
 GET localhost:8080/api/v1/article/getByTypeAndRegion?typeId=1&regionId=1
 ### 13. Get Article list by Region Key (Pagination)
 GET localhost:8080/api/v1/article/paginationByRegion?regionId=1&page=1&size=10
+### 14. Get Last 5 Article Category Key
+GET localhost:8080/api/v1/article/getLastFiveByCategory/1
+### 15. Get Article By Category Key (Pagination)
+GET localhost:8080/api/v1/article/getByCategoryPagination/1?page=1&size=10
+### 16. Increase Article View Count by Article Id
+PUT localhost:8080/api/v1/article/increaseViewCount/5499948d-b800-4639-9300-d768f9f75cc1
+###17. Increase Share View Count by Article Id
+PUT localhost:8080/api/v1/article/increaseShareCount/5499948d-b800-4639-9300-d768f9f75cc1
+### 18 filter pagination
+POST localhost:8080/api/v1/article/closed/filterPagination?page=1&size=10
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwMTkwNTcsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkwODgzMDU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.EREFn-5dtjOlEhl2AYwLQXHZKpvGlb-sTT5CNdLXPCKdrzzrH3mn04u1m419dtW3VpMMwO4BDNDm7pb9mZlhRg
+
+{
+  "publishedDateTo": "2023-07-30"
+}
 
