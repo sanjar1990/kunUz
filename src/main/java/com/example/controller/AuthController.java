@@ -3,13 +3,11 @@ package com.example.controller;
 import com.example.dto.ApiResponseDTO;
 import com.example.dto.AuthDTO;
 import com.example.dto.ProfileDTO;
+import com.example.dto.RegistrationDTO;
 import com.example.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -22,8 +20,13 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(authDTO));
     }
     //register user
-    @PostMapping("/register")
-    public ResponseEntity<ProfileDTO>register(@RequestBody ProfileDTO profileDTO){
-        return ResponseEntity.ok(authService.registration(profileDTO));
+    @PostMapping("/registration")
+    public ResponseEntity<ApiResponseDTO>registration(@RequestBody RegistrationDTO registrationDTO){
+        return ResponseEntity.ok(authService.registrationByEmail(registrationDTO));
+    }
+    //email verification
+    @GetMapping("/verification/email{jwt}")
+    public ResponseEntity<ApiResponseDTO>emailVerification(@PathVariable String jwt){
+        return ResponseEntity.ok(authService.emailVerification(jwt));
     }
 }

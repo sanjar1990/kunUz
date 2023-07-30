@@ -29,7 +29,7 @@ public class ProfileEntity extends BaseEntity {
     private String password;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ProfileStatus status=ProfileStatus.NOTACTIVE;
+    private ProfileStatus status;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ProfileRole role;

@@ -1,17 +1,18 @@
 package com.example.service;
 
-import com.example.dto.ApiResponseDTO;
-import com.example.dto.AuthDTO;
-import com.example.dto.ProfileDTO;
+import com.example.dto.*;
 import com.example.entity.ProfileEntity;
 import com.example.enums.ProfileRole;
 import com.example.enums.ProfileStatus;
+import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemAlreadyExists;
+import com.example.exception.ItemNotFoundException;
 import com.example.repository.ProfileRepository;
 import com.example.utility.CheckValidationUtility;
 import com.example.utility.JWTUtil;
 import com.example.utility.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,6 +23,10 @@ public class AuthService {
     private ProfileRepository profileRepository;
     @Autowired
     private CheckValidationUtility checkValidationUtility;
+    @Autowired
+    private MailSenderService mailSenderService;
+    @Value("${server.url}")
+    private String serverUrl;
 
     public ApiResponseDTO login(AuthDTO authDTO) {
         //check
@@ -44,31 +49,48 @@ public class AuthService {
         return new ApiResponseDTO(true, profileDTO);
     }
     //register user
-    public ProfileDTO registration(ProfileDTO dto){
+    public ApiResponseDTO registrationByEmail(RegistrationDTO dto){
         //check
         checkValidationUtility.checkForUser(dto);
         // check is exist phone
         Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
+        if(checkByPhone)return new ApiResponseDTO(false,"this phone is exists!");
         // check is exist email
-        Boolean checkByEmail=profileRepository.existsAllByEmailAndVisibleTrueAndStatus(dto.getEmail(),ProfileStatus.ACTIVE);
-        if(checkByPhone) throw new ItemAlreadyExists("this phone is exists!");
-        if(checkByEmail) throw new ItemAlreadyExists("this email is exist");
+       Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrueAndStatus(dto.getEmail(),ProfileStatus.ACTIVE);
+       if(optional.isPresent()){
+           return new ApiResponseDTO(false,"this email is exists!");
+       }
         ProfileEntity profileEntity =toEntity(dto);
         profileEntity.setRole(ProfileRole.USER);
+        profileEntity.setStatus(ProfileStatus.REGISTRATION);
         profileRepository.save(profileEntity);
-        dto.setId(profileEntity.getId());
-        dto.setStatus(profileEntity.getStatus());
-        dto.setRole(profileEntity.getRole());
-        return dto;
+        String jwt=JWTUtil.encodeEmailJWT(profileEntity.getId());
+        String url=serverUrl+"/api/v1/auth/verification/email"+jwt;
+        mailSenderService.sendEmail(dto.getEmail(), "Kun Uz verification Link","Click the link to verify: "+url);
+        return new ApiResponseDTO(true,"The verification link was send to your email");
+    }
+    public ApiResponseDTO emailVerification(String jwt) {
+        JwtDTO jwtDTO=JWTUtil.decodeEmailJWT(jwt);
+        Optional<ProfileEntity> optional=profileRepository.findById(jwtDTO.getId());
+        if(optional.isEmpty()) throw new ItemNotFoundException("Profile not found");
+        ProfileEntity entity=optional.get();
+        if(!entity.getStatus().equals(ProfileStatus.REGISTRATION)){
+            throw new AppBadRequestException("verification link is expired!");
+        }
+        entity.setStatus(ProfileStatus.ACTIVE);
+        profileRepository.save(entity);
+        return new ApiResponseDTO(true,"you have been successfully verified!");
     }
 
-    public ProfileEntity toEntity(ProfileDTO profileDTO){
+    public ProfileEntity toEntity(RegistrationDTO dto){
         ProfileEntity profileEntity=new ProfileEntity();
-        profileEntity.setName(profileDTO.getName());
-        profileEntity.setSurname(profileDTO.getSurname());
-        profileEntity.setEmail(profileDTO.getEmail());
-        profileEntity.setPhone(profileDTO.getPhone());
-        profileEntity.setPassword(MD5Util.encode(profileDTO.getPassword()));
+        profileEntity.setName(dto.getName());
+        profileEntity.setSurname(dto.getSurname());
+        profileEntity.setEmail(dto.getEmail());
+        profileEntity.setPhone(dto.getPhone());
+        profileEntity.setPassword(MD5Util.encode(dto.getPassword()));
         return profileEntity;
     }
+
+
 }

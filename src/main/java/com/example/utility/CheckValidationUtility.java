@@ -109,7 +109,7 @@ public class CheckValidationUtility {
         }
     }
 
-    public void checkForUser(ProfileDTO profileDTO) {
+    public void checkForUser(RegistrationDTO profileDTO) {
         if(profileDTO.getName()==null || profileDTO.getName().isBlank()
                 || profileDTO.getName().length()<3){
             throw new AppBadRequestException("name not found!");

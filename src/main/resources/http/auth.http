@@ -7,15 +7,15 @@ Content-Type: application/json
     "password": "12345"
 }
 
-### register user
-POST localhost:8080/api/v1/auth/register
+### registr user
+POST localhost:8080/api/v1/auth/registration
 Content-Type: application/json
 
 {
-  "name": "Vandam",
-  "surname": "VAliyev",
-  "email": "bandam@gmail.com",
-  "phone": "+998900102030",
+  "name": "test1",
+  "surname": "test1",
+  "email": "runnerpro1990@gmail.com",
+  "phone": "+998900101010",
   "password": "12345",
   "photoId" :"d474a0f4-2246-4e7b-b83d-53fb9d8d3112"
 }

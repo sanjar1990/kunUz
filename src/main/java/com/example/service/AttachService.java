@@ -103,7 +103,6 @@ public class AttachService {
             return new byte[0];
         }
     }
-
     //5. Pagination (ADMIN)
     public PageImpl<AttachDTO>pagination(Integer page, Integer size){
         Sort sort=Sort.by(Sort.Direction.ASC,"createdDate");
@@ -154,6 +153,9 @@ public class AttachService {
     }
     private String getUrl(String id){
         return attachUrl+"/open/"+id+"/img";
+    }
+    private String getUrlGeneral(String id){
+        return attachUrl+"/open/"+id+"/general";
     }
     public AttachDTO getAttachURL(String id){
          if(id==null){

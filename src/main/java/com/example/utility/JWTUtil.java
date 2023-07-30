@@ -9,16 +9,24 @@ import java.util.Date;
 
 public class JWTUtil {
     private static final String secretKey = "!maz234^gikey";
-    private static final int tokenLiveTime = 1000 * 3600 * 240; // 1-hour
+    private static final int tokenLiveTime = 1000 * 3600 * 10; // 1-hour
+    private static final int emailTokenLiveTime = tokenLiveTime* 24; // 1-hour
 
     public static String encode(Integer profileId, ProfileRole role) {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setIssuedAt(new Date());
         jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
-
         jwtBuilder.claim("id", profileId);
         jwtBuilder.claim("role", role.toString());
-
+        jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (emailTokenLiveTime)));
+        jwtBuilder.setIssuer("kunuz test portali");
+        return jwtBuilder.compact();
+    }
+    public static String encodeEmailJWT(Integer profileId) {
+        JwtBuilder jwtBuilder = Jwts.builder();
+        jwtBuilder.setIssuedAt(new Date());
+        jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
+        jwtBuilder.claim("id", profileId);
         jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (tokenLiveTime)));
         jwtBuilder.setIssuer("kunuz test portali");
         return jwtBuilder.compact();
@@ -34,6 +42,20 @@ public class JWTUtil {
             String role = (String) claims.get("role");
             ProfileRole profileRole = ProfileRole.valueOf(role);
             return new JwtDTO(id, profileRole);
+        }catch (ExpiredJwtException e){
+            throw new UnAuthorizedException("your session is expired");
+        }catch (JwtException e){
+            throw new UnAuthorizedException(e.getMessage());
+        }
+    }
+    public static JwtDTO decodeEmailJWT(String token) {
+        try {
+            JwtParser jwtParser = Jwts.parser();
+            jwtParser.setSigningKey(secretKey);
+            Jws<Claims> jws = jwtParser.parseClaimsJws(token);
+            Claims claims = jws.getBody();
+            Integer id = (Integer) claims.get("id");
+            return new JwtDTO(id, null);
         }catch (ExpiredJwtException e){
             throw new UnAuthorizedException("your session is expired");
         }catch (JwtException e){
