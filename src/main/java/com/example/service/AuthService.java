@@ -25,8 +25,7 @@ public class AuthService {
     private CheckValidationUtility checkValidationUtility;
     @Autowired
     private MailSenderService mailSenderService;
-    @Value("${server.url}")
-    private String serverUrl;
+
 
     public ApiResponseDTO login(AuthDTO authDTO) {
         //check
@@ -56,17 +55,17 @@ public class AuthService {
         Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
         if(checkByPhone)return new ApiResponseDTO(false,"this phone is exists!");
         // check is exist email
-       Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrueAndStatus(dto.getEmail(),ProfileStatus.ACTIVE);
-       if(optional.isPresent()){
+       Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
+       if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.ACTIVE)){
            return new ApiResponseDTO(false,"this email is exists!");
+       }else if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.REGISTRATION)){
+           profileRepository.deleteById(optional.get().getId());
        }
         ProfileEntity profileEntity =toEntity(dto);
         profileEntity.setRole(ProfileRole.USER);
         profileEntity.setStatus(ProfileStatus.REGISTRATION);
         profileRepository.save(profileEntity);
-        String jwt=JWTUtil.encodeEmailJWT(profileEntity.getId());
-        String url=serverUrl+"/api/v1/auth/verification/email"+jwt;
-        mailSenderService.sendEmail(dto.getEmail(), "Kun Uz verification Link","Click the link to verify: "+url);
+        mailSenderService.sendEmailVerification(dto.getEmail(),profileEntity,  profileEntity.getId());//send registration verification
         return new ApiResponseDTO(true,"The verification link was send to your email");
     }
     public ApiResponseDTO emailVerification(String jwt) {

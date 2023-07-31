@@ -1,0 +1,14 @@
+### get by email
+GET localhost:8080/api/v1/emailHistory/getByEmail?email=runnerpro1990@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA3OTY4ODAsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTE2NjA4ODAsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.z7ObDxAzpkkS-iWweUoVJJYmXQN0Uhlu-UwzuSsaBm9ts-weumO0QDQZyu7lp807AD0XtUJh1VR4VYwlc8B1Ew
+
+### get by date
+GET localhost:8080/api/v1/emailHistory/getByDate?date=2023-07-31
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA3OTY4ODAsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTE2NjA4ODAsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.z7ObDxAzpkkS-iWweUoVJJYmXQN0Uhlu-UwzuSsaBm9ts-weumO0QDQZyu7lp807AD0XtUJh1VR4VYwlc8B1Ew
+
+### pagination
+GET localhost:8080/api/v1/emailHistory/pagination?page=1&size=10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA3OTY4ODAsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTE2NjA4ODAsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.z7ObDxAzpkkS-iWweUoVJJYmXQN0Uhlu-UwzuSsaBm9ts-weumO0QDQZyu7lp807AD0XtUJh1VR4VYwlc8B1Ew
+
+
+
