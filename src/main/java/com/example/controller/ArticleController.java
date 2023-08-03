@@ -13,6 +13,7 @@ import com.example.service.ArticleService;
 import com.example.utility.SecurityUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ArticleController {
     private ArticleService articleService;
     // create article by moderator
     @PostMapping("/closed")
-    public ResponseEntity<ArticleDTO>create(@RequestBody ArticleDTO articleDTO,
+    public ResponseEntity<ArticleDTO>create(@Valid @RequestBody ArticleDTO articleDTO,
                                             HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.create(jwtDTO.getId(),articleDTO));
@@ -35,7 +36,7 @@ public class ArticleController {
     //update by moderator
 
     @PutMapping("/closed/{id}")
-    public ResponseEntity<String>update(@RequestBody ArticleDTO articleDTO,
+    public ResponseEntity<String>update(@Valid @RequestBody ArticleDTO articleDTO,
                                         @PathVariable String id,
                                         HttpServletRequest request){
         JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.MODERATOR);

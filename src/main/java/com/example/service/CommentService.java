@@ -26,8 +26,6 @@ public class CommentService {
     private CustomCommentRepository customCommentRepository;
 
     public CommentDTO create(Integer profileId, CommentDTO dto) {
-        //check
-        check(dto);
         CommentEntity entity=new CommentEntity();
         entity.setContent(dto.getContent());
         entity.setArticleId(dto.getArticleId());
@@ -40,15 +38,6 @@ public class CommentService {
     }
 //            2. UPDATE (ANY and owner)
 //         (content,article_id)
-    public void check(CommentDTO commentDTO){
-        if(commentDTO.getContent()==null||commentDTO.getContent().isBlank()){
-            throw  new AppBadRequestException("content not found");
-        }
-        if(commentDTO.getArticleId()==null|| commentDTO.getArticleId().isBlank()){
-            throw new AppBadRequestException("article id not found");
-        }
-    }
-
     public CommentDTO update(String commentId, Integer profileId, CommentDTO dto) {
         CommentEntity entity=get(commentId);
         if(!entity.getProfileId().equals(profileId)){

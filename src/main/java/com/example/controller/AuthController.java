@@ -5,6 +5,7 @@ import com.example.dto.AuthDTO;
 import com.example.dto.ProfileDTO;
 import com.example.dto.RegistrationDTO;
 import com.example.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class AuthController {
     private AuthService authService;
     //login
     @PostMapping("/login")
-    public ResponseEntity<ApiResponseDTO>login(@RequestBody AuthDTO authDTO){
+    public ResponseEntity<ApiResponseDTO>login(@Valid @RequestBody AuthDTO authDTO){
         return ResponseEntity.ok(authService.login(authDTO));
     }
     //register user
     @PostMapping("/registration")
-    public ResponseEntity<ApiResponseDTO>registration(@RequestBody RegistrationDTO registrationDTO){
+    public ResponseEntity<ApiResponseDTO>registration(@Valid @RequestBody RegistrationDTO registrationDTO){
         return ResponseEntity.ok(authService.registrationByEmail(registrationDTO));
     }
     //email verification

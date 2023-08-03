@@ -18,6 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "article")
 public class ArticleEntity extends BaseStringEntity {
+
     @Column(name = "title", columnDefinition = "text")
     private String title;
     @Column(name = "description", columnDefinition = "text")

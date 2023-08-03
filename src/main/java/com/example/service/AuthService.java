@@ -29,7 +29,7 @@ public class AuthService {
 
     public ApiResponseDTO login(AuthDTO authDTO) {
         //check
-        checkValidationUtility.checkForLogin(authDTO);
+        checkValidationUtility.checkForPhone(authDTO.getPhone());
         Optional<ProfileEntity> optional=profileRepository
                 .findAllByPhoneAndPasswordAndVisibleTrue(authDTO.getPhone(), MD5Util.encode(authDTO.getPassword()));
         if(optional.isEmpty()) return new ApiResponseDTO(false,"Profile not found");
@@ -50,7 +50,7 @@ public class AuthService {
     //register user
     public ApiResponseDTO registrationByEmail(RegistrationDTO dto){
         //check
-        checkValidationUtility.checkForUser(dto);
+        checkValidationUtility.checkForPhone(dto.getPhone());
         // check is exist phone
         Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
         if(checkByPhone)return new ApiResponseDTO(false,"this phone is exists!");

@@ -1,9 +1,6 @@
 package com.example.service;
 
-import com.example.dto.AttachDTO;
-import com.example.dto.FilterProfileDTO;
-import com.example.dto.FilterResultDTO;
-import com.example.dto.ProfileDTO;
+import com.example.dto.*;
 import com.example.entity.AttachEntity;
 import com.example.entity.ProfileEntity;
 import com.example.enums.ProfileStatus;
@@ -37,15 +34,15 @@ public class ProfileService {
     //Admin
     public ProfileDTO createProfile(ProfileDTO profileDTO, Integer adminId){
         //check
-        ProfileDTO dto= checkValidationUtility.checkForStaff(profileDTO);
+         checkValidationUtility.checkForPhone(profileDTO.getPhone());
         // check is exist phone
-        Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
+        Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(profileDTO.getPhone(),ProfileStatus.ACTIVE);
         // check is exist email
-        Boolean checkByEmail=profileRepository.existsAllByEmailAndVisibleTrueAndStatus(dto.getEmail(),ProfileStatus.ACTIVE);
+        Boolean checkByEmail=profileRepository.existsAllByEmailAndVisibleTrueAndStatus(profileDTO.getEmail(),ProfileStatus.ACTIVE);
         if(checkByPhone) throw new ItemAlreadyExists("this phone is exists!");
         if(checkByEmail) throw new ItemAlreadyExists("this email is exist");
         //to entity
-        ProfileEntity profileEntity=toEntity(dto);
+        ProfileEntity profileEntity=toEntity(profileDTO);
         profileEntity.setPrtId(adminId);
         profileRepository.save(profileEntity);
         profileDTO.setId(profileEntity.getId());
@@ -54,46 +51,17 @@ public class ProfileService {
     //By Admin
     public String staffUpdateByAdmin(ProfileDTO profileDTO, Integer id){
         ProfileEntity profileEntity=getProfileEntity(id);
-        //check validation
-        if(profileDTO.getStatus()!=null){
             profileEntity.setStatus(profileDTO.getStatus());
-        }
-        if(profileDTO.getRole()!=null){
             profileEntity.setRole(profileDTO.getRole());
-        }
-        if(profileDTO.getPassword()!=null){
             profileEntity.setPassword(MD5Util.encode(profileDTO.getPassword()));
-        }
-        if(profileDTO.getSurname()!=null){
             profileEntity.setSurname(profileDTO.getSurname());
-        }
-        if(profileDTO.getEmail()!=null){
-            if(!profileDTO.getEmail().contains("@")){
-                throw new AppBadRequestException("Enter valid email!");
-            }
-            if(profileRepository.existsAllByEmailAndVisibleTrueAndStatus(profileDTO.getEmail(),ProfileStatus.ACTIVE)){
-                throw new AppBadRequestException("this email is exist");
-            }
-            profileEntity.setEmail(profileDTO.getEmail());
-        }
-        if(profileDTO.getPhone()!=null){
-            if(!profileDTO.getPhone().startsWith("+998")){
-                throw new AppBadRequestException("phone number should start with +998");
-            } else if (profileDTO.getPhone().length()!=13) {
-                throw new AppBadRequestException("phone length should be 13");
-            }else if(!profileDTO.getPhone().substring(2).chars().allMatch(Character::isDigit)){
-                throw new AppBadRequestException("invalid phone number");
-            }
+            checkValidationUtility.checkForPhone(profileDTO.getPhone());
             if (profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(profileDTO.getPhone(),ProfileStatus.ACTIVE))
                 throw new AppBadRequestException("this phone is exists!");
             profileEntity.setPhone(profileDTO.getPhone());
-        }
-        if(profileDTO.getName()!=null){
             profileEntity.setName(profileDTO.getName());
-        }
-        if(profileDTO.getPhotoId()!=null){
             profileEntity.setPhotoId(profileDTO.getPhotoId());
-        }
+            profileEntity.setEmail(profileDTO.getEmail());
         //save
         profileRepository.save(profileEntity);
         return "Updated";
@@ -101,43 +69,14 @@ public class ProfileService {
 
     //Staff
 
-    public String updateProfile(ProfileDTO profileDTO, Integer id){
+    public String updateProfile(ProfileUpdateDetailDTO dto, Integer id){
         ProfileEntity profileEntity=getProfileEntity(id);
         //profile status
         if(!profileEntity.getStatus().equals(ProfileStatus.ACTIVE)){
             throw new ItemNotAvailable("Profile status is not active");
         }
-        //check validation
-        if(profileDTO.getPassword()!=null){
-            profileEntity.setPassword(MD5Util.encode(profileDTO.getPassword()));
-        }
-        if(profileDTO.getSurname()!=null){
-            profileEntity.setSurname(profileDTO.getSurname());
-        }
-        if(profileDTO.getEmail()!=null){
-            if(!profileDTO.getEmail().contains("@")){
-                throw new AppBadRequestException("Enter valid email!");
-            }
-            if( profileRepository.existsAllByEmailAndVisibleTrueAndStatus(profileDTO.getEmail(),ProfileStatus.ACTIVE))
-                throw new AppBadRequestException("this email is exist");
-            profileEntity.setEmail(profileDTO.getEmail());
-        }
-        if(profileDTO.getPhone()!=null){
-            if(!profileDTO.getPhone().startsWith("+998")){
-                throw new AppBadRequestException("phone number should start with +998");
-            } else if (profileDTO.getPhone().length()!=13) {
-                throw new AppBadRequestException("phone length should be 13");
-            }else if(!profileDTO.getPhone().substring(2).chars().allMatch(Character::isDigit)){
-                throw new AppBadRequestException("invalid phone number");
-            }
-            if (profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(profileDTO.getPhone(),ProfileStatus.ACTIVE))
-                throw new AppBadRequestException("this phone is exists!");
-            profileEntity.setPhone(profileDTO.getPhone());
-        }
-        if(profileDTO.getName()!=null){
-            profileEntity.setName(profileDTO.getName());
-        }
-
+        profileEntity.setName(dto.getName());
+        profileEntity.setSurname(dto.getSurname());
         profileRepository.save(profileEntity);
         return "profile updated";
     }

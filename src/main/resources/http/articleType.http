@@ -1,7 +1,7 @@
 ### create by admin
 POST localhost:8080/api/v1/articleType/admin
 Content-Type:  application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzM0MzcsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTAwMTk4MzcsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.1t4XM3srv4-STI1UzoHvjWM3e8xnEWgxdt5e2wLN4Tyq5YbglCQ7vs2dWFTVHna_QIxcB5qrvSX5wBo65I6hrQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA4OTI5MjUsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTE3NTY5MjUsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.NnTzYADYENhhgziKSis2JzWlszncV1rzX99UdfnFV87T1oF7kCoLPkj-ljSjOoMt4pUxNvTblXolC7zLUrHDQg
 
 {
   "orderNumber": 3,
@@ -9,12 +9,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzM0MzcsImlkIjoxLCJyb
   "nameUz": "Video yangiliklar",
   "nameRu": "Video novostiy"
 }
-//{
-//  "orderNumber": 1,
-//  "nameEn": "Main",
-//  "nameUz": "Asosiy",
-//  "nameRu": "Главный"
-//}
+
 
 ### update by admin
 PUT localhost:8080/api/v1/articleType/1

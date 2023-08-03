@@ -40,10 +40,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 
 {
   "name": "Ali",
-  "surname": "Aliyev",
-  "email": "ali@gmail.com",
-  "phone": "+998909099999",
-  "password": "ali123"
+  "surname": "Aliyev"
 }
 
 ### update photo any

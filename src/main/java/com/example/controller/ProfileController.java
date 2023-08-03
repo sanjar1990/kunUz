@@ -2,10 +2,12 @@ package com.example.controller;
 import com.example.dto.FilterProfileDTO;
 import com.example.dto.JwtDTO;
 import com.example.dto.ProfileDTO;
+import com.example.dto.ProfileUpdateDetailDTO;
 import com.example.enums.ProfileRole;
 import com.example.service.ProfileService;
 import com.example.utility.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,23 +18,23 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
     @PostMapping("")
-    public ResponseEntity<?> createProfile(@RequestBody ProfileDTO profileDTO,
+    public ResponseEntity<?> createProfile(@Valid @RequestBody ProfileDTO profileDTO,
                                            HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.createProfile(profileDTO,jwtDTO.getId()));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> staffUpdateByAdmin(@RequestBody ProfileDTO profileDTO,
+    public ResponseEntity<?> staffUpdateByAdmin(@Valid @RequestBody ProfileDTO profileDTO,
                                                 @PathVariable Integer id,
                                                 HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.staffUpdateByAdmin(profileDTO,id));
     }
     @PutMapping("/updateDetail")
-    public ResponseEntity<?>updateProfile(@RequestBody ProfileDTO profileDTO,
+    public ResponseEntity<?>updateProfile(@RequestBody ProfileUpdateDetailDTO dto,
                                                HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, null);
-        return ResponseEntity.ok(profileService.updateProfile(profileDTO,jwtDTO.getId()));
+        return ResponseEntity.ok(profileService.updateProfile(dto,jwtDTO.getId()));
     }
 
     //6. Update Photo (ANY)
@@ -42,7 +44,6 @@ public class ProfileController {
         JwtDTO jwtDTO=SecurityUtil.hasRole(request,null);
         return ResponseEntity.ok(profileService.updatePhoto(jwtDTO.getId(),photoId));
     }
-
     @GetMapping("/profileListPagination")
     public ResponseEntity<?>profileListPagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(value = "size",defaultValue = "10") Integer size,

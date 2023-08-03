@@ -26,13 +26,10 @@ public class CategoryService {
     private CheckValidationUtility checkValidationUtility;
     // 1 create by admin
     public CategoryDTO createCategory(CategoryDTO categoryDTO,Integer prtId){
-        checkValidationUtility.checkCategory(categoryDTO);
         Boolean exists=categoryRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
                         categoryDTO.getNameUz(), categoryDTO.getNameRu(),categoryDTO.getOrderNumber());
         if(exists)throw new ItemAlreadyExists("This category is exists");
-//        Optional<CategoryEntity>byOrderNum=categoryRepository.findByOrderNumber(categoryDTO.getOrderNumber());
-//        if (byOrderNum.isPresent())throw new ItemAlreadyExists("This order num is exists");
         CategoryEntity categoryEntity=toEntity(categoryDTO);
         categoryEntity.setPrtId(prtId);
         categoryRepository.save(categoryEntity);
@@ -49,21 +46,13 @@ public class CategoryService {
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
                         categoryDTO.getNameUz(), categoryDTO.getNameRu(),categoryDTO.getOrderNumber());
         if(isExists) throw new ItemAlreadyExists("this category already exists");
-       if(categoryDTO.getOrderNumber()!=null){
          categoryEntity.setOrderNumber(categoryDTO.getOrderNumber());
-       }
-       if(categoryDTO.getNameEn()!=null){
-           categoryEntity.setNameEn(categoryDTO.getNameEn());
-       }
-       if(categoryDTO.getNameUz()!=null){
-           categoryEntity.setNameUz(categoryDTO.getNameUz());
-       }
-       if(categoryDTO.getNameRu()!=null){
-           categoryEntity.setNameRu(categoryDTO.getNameRu());
-       }
-       categoryEntity.setPrtId(prtId);
-       categoryRepository.save(categoryEntity);
-       return "Category is updated";
+         categoryEntity.setNameEn(categoryDTO.getNameEn());
+         categoryEntity.setNameUz(categoryDTO.getNameUz());
+         categoryEntity.setNameRu(categoryDTO.getNameRu());
+         categoryEntity.setPrtId(prtId);
+         categoryRepository.save(categoryEntity);
+         return "Category is updated";
     }
     //3 delete by admin
     public String deleteCategory(Integer id){

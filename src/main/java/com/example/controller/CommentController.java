@@ -8,6 +8,7 @@ import com.example.service.CommentService;
 import com.example.utility.SecurityUtil;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.data.domain.PageImpl;
@@ -25,7 +26,7 @@ public class CommentController {
     // 1. CREATE (ANY)
     //        (content,article_id,reply_id)
     @PostMapping("")
-    public ResponseEntity<CommentDTO>create(@RequestBody CommentDTO commentDTO,
+    public ResponseEntity<CommentDTO>create(@Valid @RequestBody CommentDTO commentDTO,
                                             HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request,null);
         System.out.println(jwtDTO.getId());
@@ -35,7 +36,7 @@ public class CommentController {
 //         (content,article_id)
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentDTO>update(@PathVariable String commentId,
-                                        @RequestBody CommentDTO commentDTO,
+                                        @Valid @RequestBody CommentDTO commentDTO,
                                         HttpServletRequest request){
         JwtDTO jwtDTO=SecurityUtil.hasRole(request,null);
         return ResponseEntity.ok(commentService.update(commentId,jwtDTO.getId(),commentDTO));

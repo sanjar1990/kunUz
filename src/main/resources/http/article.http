@@ -4,8 +4,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwOTYxMDYsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTYwMTA2LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.orrnPQqSnNL5-UmF3DxPdWYb_Q5ZdO2nxS2wi1DMvycgLBYjMWa8GaqPCVGv0iQe0HeQwnRO0Pj_kCOLDLnckQ
 
 {
-  "title": "test3",
-  "description": "test3",
+  "title": "test4",
+  "description": "test4",
   "content": "msdsddsadasdsadsad",
   "regionId": 1,
   "categoryId": 1,

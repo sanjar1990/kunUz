@@ -6,6 +6,7 @@ import com.example.enums.ProfileRole;
 import com.example.service.TagService;
 import com.example.utility.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class TagController {
     private TagService tagService;
 
     @PostMapping("")
-    public ResponseEntity<TagDTO>create(@RequestBody TagDTO tagDTO,
+    public ResponseEntity<TagDTO>create(@Valid @RequestBody TagDTO tagDTO,
                                         HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.MODERATOR);
         return ResponseEntity.ok(tagService.create(tagDTO));
@@ -41,6 +42,4 @@ public class TagController {
         SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
         return ResponseEntity.ok(tagService.delete(id));
     }
-
-
 }

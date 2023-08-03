@@ -18,7 +18,7 @@ public class JWTUtil {
         jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
         jwtBuilder.claim("id", profileId);
         jwtBuilder.claim("role", role.toString());
-        jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (emailTokenLiveTime)));
+        jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (tokenLiveTime)));
         jwtBuilder.setIssuer("kunuz test portali");
         return jwtBuilder.compact();
     }
@@ -27,7 +27,7 @@ public class JWTUtil {
         jwtBuilder.setIssuedAt(new Date());
         jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
         jwtBuilder.claim("id", profileId);
-        jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (tokenLiveTime)));
+        jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (emailTokenLiveTime)));
         jwtBuilder.setIssuer("kunuz test portali");
         return jwtBuilder.compact();
     }

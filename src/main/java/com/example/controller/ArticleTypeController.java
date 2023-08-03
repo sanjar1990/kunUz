@@ -7,6 +7,7 @@ import com.example.enums.ProfileRole;
 import com.example.service.ArticleTypeService;
 import com.example.utility.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,13 @@ public class ArticleTypeController {
     @Autowired
     private ArticleTypeService articleTypeService;
     @PostMapping("/admin")
-    public ResponseEntity<?> create(@RequestBody ArticleTypeDTO articleTypeDTO,
+    public ResponseEntity<?> create(@Valid @RequestBody ArticleTypeDTO articleTypeDTO,
                                     HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(articleTypeService.create(articleTypeDTO,jwtDTO.getId()));
     }
     @PutMapping("/admin/{id}")
-    public ResponseEntity<?>update(@PathVariable Integer id,
+    public ResponseEntity<?>update(@Valid @PathVariable Integer id,
                                    @RequestBody ArticleTypeDTO articleTypeDTO,
                                    HttpServletRequest request){
         JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);

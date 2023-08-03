@@ -12,8 +12,8 @@ POST localhost:8080/api/v1/auth/registration
 Content-Type: application/json
 
 {
-  "name": "test1",
-  "surname": "test1",
+  "name": "test4",
+  "surname": "test4",
   "email": "runnerpro1990@gmail.com",
   "phone": "+998900101010",
   "password": "12345",

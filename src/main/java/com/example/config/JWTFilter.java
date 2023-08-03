@@ -17,8 +17,6 @@ import java.io.IOException;
 
 @Configuration
 public class JWTFilter extends GenericFilterBean {
-
-
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,

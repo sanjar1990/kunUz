@@ -1,7 +1,7 @@
 ### create by admin
 POST localhost:8080/api/v1/category/admin
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk5Mjk5ODksImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.LutDDXiH-2P7gdVOX4IM-Enj_tQlxDNd9aNE87G1hnn1mhhmdSk0-pN-e4eb7bE56UVZCJ-LgxMomST81h-c6Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA4OTI5MjUsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTE3NTY5MjUsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.NnTzYADYENhhgziKSis2JzWlszncV1rzX99UdfnFV87T1oF7kCoLPkj-ljSjOoMt4pUxNvTblXolC7zLUrHDQg
 
 {
   "orderNumber": 1,
@@ -11,14 +11,13 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb
 }
 
 ### update by admin
-PUT localhost:8080/api/v1/category/update/1
+PUT localhost:8080/api/v1/category/admin/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA4OTI5MjUsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTE3NTY5MjUsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.NnTzYADYENhhgziKSis2JzWlszncV1rzX99UdfnFV87T1oF7kCoLPkj-ljSjOoMt4pUxNvTblXolC7zLUrHDQg
 
 {
   "orderNumber": 2,
-  "nameEng": "Sport",
+  "nameEn": "Sport",
   "nameUz": "Sport",
   "nameRu": "Спорт"
 }

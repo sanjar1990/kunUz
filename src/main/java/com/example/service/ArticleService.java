@@ -38,7 +38,6 @@ public class ArticleService {
     private CustomArticleRepository customArticleRepository;
     public ArticleDTO create(Integer moderatorId,ArticleDTO articleDTO) {
     //check
-        checkValidationUtility.checkForArticle(articleDTO);
         articleDTO.setModeratorId(moderatorId);
         ArticleEntity articleEntity=new ArticleEntity();
         articleEntity.setTitle(articleDTO.getTitle());
@@ -72,7 +71,6 @@ public class ArticleService {
             articleEntity.setContent(articleDTO.getContent());
             articleEntity.setCategoryId(articleDTO.getCategoryId());
             articleEntity.setRegionId(articleDTO.getRegionId());
-        System.out.println("regionId: "+ articleDTO.getRegionId());
         if(articleDTO.getImageId()!=null){
             if(articleEntity.getImageId()!=null && !articleEntity.getImageId().equals(articleDTO.getImageId())){
                 String url=articleEntity.getImage().getPath();
