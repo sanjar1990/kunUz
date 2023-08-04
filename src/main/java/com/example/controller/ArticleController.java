@@ -1,14 +1,10 @@
 package com.example.controller;
 import com.example.dto.ArticleDTO;
-import com.example.dto.CategoryDTO;
 import com.example.dto.FilterArticleDTO;
 import com.example.dto.JwtDTO;
-import com.example.entity.ArticleEntity;
 import com.example.enums.ArticleStatus;
 import com.example.enums.Language;
 import com.example.enums.ProfileRole;
-import com.example.mapper.ArticleFullInfoMapper;
-import com.example.mapper.ArticleMapperInterface;
 import com.example.service.ArticleService;
 import com.example.utility.SecurityUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;

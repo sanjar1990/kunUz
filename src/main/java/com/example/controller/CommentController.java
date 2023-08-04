@@ -6,13 +6,10 @@ import com.example.dto.JwtDTO;
 import com.example.enums.ProfileRole;
 import com.example.service.CommentService;
 import com.example.utility.SecurityUtil;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +35,7 @@ public class CommentController {
     public ResponseEntity<CommentDTO>update(@PathVariable String commentId,
                                         @Valid @RequestBody CommentDTO commentDTO,
                                         HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,null);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request,null);
         return ResponseEntity.ok(commentService.update(commentId,jwtDTO.getId(),commentDTO));
     }
     //3. DELETE (ADMIN,ANY(only owner))

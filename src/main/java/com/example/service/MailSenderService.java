@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,8 +32,8 @@ public class MailSenderService {
         javaMailSender.send(message);
     }
 
-    public void sendEmailVerification(String toAccount, ProfileEntity entity, Integer id){
-        String jwt= JWTUtil.encodeEmailJWT(id);
+    public void sendEmailVerification(ProfileEntity entity){
+        String jwt= JWTUtil.encodeEmailJwt(entity.getId());
         String url=serverUrl+"/api/v1/auth/verification/email"+jwt;
             StringBuilder builder=new StringBuilder();
             builder.append( String.format("<h1>Hello %s</h1>",entity.getName()));
@@ -42,7 +41,7 @@ public class MailSenderService {
             builder.append(String.format("<a href=\"%s\">Click the link to verify your account! </a>",url));
             builder.append(" </p>");
 
-            sendMimeEmail(toAccount,"Kun uz Verification link",builder.toString());
+            sendMimeEmail(entity.getEmail(),"Kun uz Verification link",builder.toString());
             emailHistoryService.sendEmail(builder.toString(),entity );
     }
     public void sendMimeEmail(String toAccount, String subject, String text){

@@ -24,12 +24,12 @@ public class AttachController {
     public ResponseEntity<AttachDTO>upload(@RequestParam("file")MultipartFile file){
         return ResponseEntity.ok(attachService.upload(file));
     }
-    @GetMapping(value = "/open/{id}/img", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/{id}/img", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] openById(@PathVariable String id){
         return attachService.openById(id);
     }
     //3. open general
-    @GetMapping(value = "/open/{id}/general", produces = MediaType.ALL_VALUE)
+    @GetMapping(value = "/{id}/general", produces = MediaType.ALL_VALUE)
     public byte[]openGeneral(@PathVariable String id){
         return attachService.openByIdGeneral(id);
     }
@@ -41,16 +41,12 @@ public class AttachController {
     //5. Pagination (ADMIN)
     @GetMapping("/closed/pagination")
     public ResponseEntity<PageImpl<AttachDTO>>pagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                         @RequestParam(value = "size", defaultValue ="10") Integer size,
-                                                         HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+                                                         @RequestParam(value = "size", defaultValue ="10") Integer size){
         return ResponseEntity.ok(attachService.pagination(page-1,size));
     }
     //6. Delete by id (delete from system and table) (ADMIN)
     @DeleteMapping("/closed/{id}")
-    public ResponseEntity<Boolean>deleteById(@PathVariable String id,
-                                             HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.ADMIN);
+    public ResponseEntity<Boolean>deleteById(@PathVariable String id){
         return ResponseEntity.ok(attachService.deleteById(id));
     }
 

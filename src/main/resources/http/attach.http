@@ -8,9 +8,9 @@ Content-Disposition: form-data; name="file"; filename="car1.jpg"
 < C:\Users\sanja\OneDrive\Рабочий стол\car1.jpg
 
 ### open by id
-GET localhost:8080/api/v1/attach/open/3067e697-260f-4ab0-a82d-7f24e31e69c4/img
+GET localhost:8080/api/v1/attach/3067e697-260f-4ab0-a82d-7f24e31e69c4/img
 ### open by id general
-GET localhost:8080/api/v1/attach/open/808e2492-184d-4b6f-8e91-63436611bf18/general
+GET localhost:8080/api/v1/attach/808e2492-184d-4b6f-8e91-63436611bf18/general
 ### pagination
 GET localhost:8080/api/v1/attach/closed/pagination?page=1&size10
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxODU0NTcsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTEwNDk0NTcsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.DyKUBu-sKs_KmmCPaNYD60Eh_hqqXkaq17K1fm4roW3wfCi_PKklYLFhgtH-ABLJrJDufXN9y58uD2ZtesLxLw

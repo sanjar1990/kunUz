@@ -20,14 +20,25 @@ public class AuthController {
     public ResponseEntity<ApiResponseDTO>login(@Valid @RequestBody AuthDTO authDTO){
         return ResponseEntity.ok(authService.login(authDTO));
     }
-    //register user
-    @PostMapping("/registration")
-    public ResponseEntity<ApiResponseDTO>registration(@Valid @RequestBody RegistrationDTO registrationDTO){
+    //register user by email
+    @PostMapping("/registrationByEmail")
+    public ResponseEntity<ApiResponseDTO>registrationByEmail(@Valid @RequestBody RegistrationDTO registrationDTO){
         return ResponseEntity.ok(authService.registrationByEmail(registrationDTO));
+    }
+    //register user by phone
+    @PostMapping("/registrationByPhone")
+    public ResponseEntity<ApiResponseDTO>registrationByPhone(@Valid @RequestBody RegistrationDTO registrationDTO){
+        return ResponseEntity.ok(authService.registrationByPhone(registrationDTO));
     }
     //email verification
     @GetMapping("/verification/email{jwt}")
     public ResponseEntity<ApiResponseDTO>emailVerification(@PathVariable String jwt){
         return ResponseEntity.ok(authService.emailVerification(jwt));
+    }
+    //phone verification
+    @GetMapping("/verification/phone")
+    public ResponseEntity<?>phoneVerification(@RequestParam("phone") String phone,
+                                              @RequestParam("message") String message){
+        return ResponseEntity.ok(authService.phoneVerification(phone,message));
     }
 }

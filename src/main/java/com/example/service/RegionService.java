@@ -22,7 +22,6 @@ public class RegionService {
     private CheckValidationUtility checkValidationUtility;
     //1 create By Admin
     public RegionDTO createRegion(RegionDTO regionDTO, Integer prtId){
-        checkValidationUtility.checkRegion(regionDTO);
         Boolean exists=regionRepository
                 .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
         if (exists) throw new ItemAlreadyExists("This Region already exists");
