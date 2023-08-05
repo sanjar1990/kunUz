@@ -20,14 +20,14 @@ public class ProfileController {
     @PostMapping("")
     public ResponseEntity<?> createProfile(@Valid @RequestBody ProfileDTO profileDTO,
                                            HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.createProfile(profileDTO,jwtDTO.getId()));
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> staffUpdateByAdmin(@Valid @RequestBody ProfileDTO profileDTO,
                                                 @PathVariable Integer id,
                                                 HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.staffUpdateByAdmin(profileDTO,id));
     }
     @PutMapping("/updateDetail")
@@ -48,13 +48,13 @@ public class ProfileController {
     public ResponseEntity<?>profileListPagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(value = "size",defaultValue = "10") Integer size,
                                                   HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.profileListPagination(page-1,size));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?>deleteProfileById(@PathVariable Integer id,
                                               HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.deleteProfile(id));
     }
     @PostMapping("/filterPagination")
@@ -62,7 +62,7 @@ public class ProfileController {
                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                                              HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.filterPagination(filterProfileDTO,page-1,size));
     }
 }

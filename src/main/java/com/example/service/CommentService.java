@@ -13,7 +13,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -56,7 +55,7 @@ public class CommentService {
     public String  delete(String commentId, Integer profileId) {
         ProfileEntity profileEntity=profileService.getProfileEntity(profileId);
         CommentEntity entity=get(commentId);
-        if(profileEntity.getRole().equals(ProfileRole.ADMIN) || entity.getProfileId().equals(profileId)){
+        if(profileEntity.getRole().equals(ProfileRole.ROLE_ADMIN) || entity.getProfileId().equals(profileId)){
             int n=commentRepository.deleteComment(commentId);
             return n==1?"comment deleted":"comment not deleted";
         }

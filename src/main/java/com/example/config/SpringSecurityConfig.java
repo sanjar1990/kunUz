@@ -1,6 +1,5 @@
-/*
-package com.example.config;
 
+package com.example.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,7 +25,7 @@ public class SpringSecurityConfig {
 //        System.out.println("User password: "+password);
         UserDetails user= User.builder()
                 .username("user")
-                .password("{bcrypt}$2a$10$uWPqHv3Bk/4ruecj0xUtmeZDUhYJrdPUTGafCZUeydMMcPFWGx8Xa")
+                .password("{noop}12345")
                 .roles("USER")
                 .build();
         UserDetails admin=User.builder()
@@ -53,9 +52,11 @@ public class SpringSecurityConfig {
                          .requestMatchers("/api/v1/attach/admin/**").hasAnyRole("ADMIN","MODERATOR")
                          .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
-        http.csrf(Customizer.withDefaults());
+        http.csrf(c->c.disable());
         return http.build();
     }
 }
 
- */
+
+
+

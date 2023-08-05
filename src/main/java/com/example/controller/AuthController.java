@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     @Autowired
     private AuthService authService;
@@ -39,6 +39,6 @@ public class AuthController {
     @GetMapping("/verification/phone")
     public ResponseEntity<?>phoneVerification(@RequestParam("phone") String phone,
                                               @RequestParam("message") String message){
-        return ResponseEntity.ok(authService.phoneVerification(phone,message));
+        return ResponseEntity.ok(authService.phoneVerification("+"+phone,message));
     }
 }

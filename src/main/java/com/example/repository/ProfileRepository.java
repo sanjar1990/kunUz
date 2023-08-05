@@ -38,5 +38,7 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer>
     @Transactional
     @Modifying
     @Query("update ProfileEntity set status=:status where phone=:phone")
-    int updateStatusByPhone(@Param("status") ProfileStatus status, @Param("phone") String phone);
+    int updateStatusWithPhone(@Param("status")ProfileStatus status, @Param("phone") String phone);
+    Optional<ProfileEntity>findByPhoneAndVisibleTrue(String phone);
+
 }

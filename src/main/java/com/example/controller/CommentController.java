@@ -59,7 +59,7 @@ public class CommentController {
     public ResponseEntity<PageImpl<CommentDTO>>pagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                           @RequestParam(value = "size", defaultValue = "10") Integer size,
                                                           HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(commentService.pagination(page-1,size));
     }
 //    6. Comment Filter(id,created_date_from,created_date_to,profile_id,article_id) with Pagination (ADMIN)
@@ -69,7 +69,7 @@ public class CommentController {
                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                                              HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ADMIN);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(commentService.filterPagination(filterCommentDTO,page-1,size));
     }
 //     7. Get Replied Comment List by Comment Id

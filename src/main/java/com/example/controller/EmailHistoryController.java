@@ -25,20 +25,20 @@ public class EmailHistoryController {
     @GetMapping("/getByEmail")
     public ResponseEntity<List<EmailHistoryDTO>>getByEmail(@RequestParam("email") String email,
                                                            HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(emailHistoryService.getEmailHistoryByEmail(email));
     }
     @GetMapping("/getByDate")
     public ResponseEntity<List<EmailHistoryDTO>>getByDate(@RequestParam("date")LocalDate date,
                                                           HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ADMIN);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(emailHistoryService.getByDate(date));
     }
     @GetMapping("/pagination")
     public ResponseEntity<PageImpl<EmailHistoryDTO>>pagination(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                                                @RequestParam(value = "size",defaultValue = "10") Integer size,
                                                                HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ADMIN);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(emailHistoryService.pagination(page-1,size));
     }
 }

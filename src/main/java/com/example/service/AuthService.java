@@ -16,7 +16,6 @@ import com.example.utility.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -69,7 +68,7 @@ public class AuthService {
            profileRepository.deleteById(optional.get().getId());
        }
         ProfileEntity profileEntity =toEntity(dto);
-        profileEntity.setRole(ProfileRole.USER);
+        profileEntity.setRole(ProfileRole.ROLE_USER);
         profileEntity.setStatus(ProfileStatus.REGISTRATION);
         profileRepository.save(profileEntity);
         mailSenderService.sendEmailVerification(profileEntity);//send registration verification
@@ -79,23 +78,39 @@ public class AuthService {
     public ApiResponseDTO registrationByPhone(RegistrationDTO dto) {
         //check phone
         checkValidationUtility.checkForPhone(dto.getPhone());
-        // check is exist phone
-        Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
-        if(checkByPhone)return new ApiResponseDTO(false,"this phone is exists!");
         // check is exist email
         Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.ACTIVE)){
             return new ApiResponseDTO(false,"this email is exists!");
-        } else if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.REGISTRATION)){
-            profileRepository.deleteById(optional.get().getId());
         }
+        // check is exist phone
+       Optional<ProfileEntity>checkByPhone=profileRepository
+               .findByPhoneAndVisibleTrue(dto.getPhone());
+        if (checkByPhone.isPresent()){
+            ProfileEntity entity=checkByPhone.get();
+            if(entity.getStatus().equals(ProfileStatus.ACTIVE) ||
+                    entity.getStatus().equals(ProfileStatus.BLOCKED)){
+                return new ApiResponseDTO(false,"this phone is exists!");
+            }
+            if(entity.getStatus().equals(ProfileStatus.REGISTRATION)
+                    && entity.getCreatedDate().plusMinutes(2).isAfter(LocalDateTime.now())){
+                return new ApiResponseDTO(false,"try after 2 minutes");
+            } else if (entity.getStatus().equals(ProfileStatus.REGISTRATION)
+                    && entity.getCreatedDate().plusMinutes(2).isBefore(LocalDateTime.now())) {
+                profileRepository.deleteById(entity.getId());
+            }
+        }
+
         ProfileEntity profileEntity =toEntity(dto);
-        profileEntity.setRole(ProfileRole.USER);
+        profileEntity.setRole(ProfileRole.ROLE_USER);
         profileEntity.setStatus(ProfileStatus.REGISTRATION);
         profileRepository.save(profileEntity);
-       SmsDTO smsDTO= smsSenderService.SendRegistrationSms(profileEntity);
-
+        SmsDTO smsDTO= smsSenderService.SendRegistrationSms(profileEntity);
         return new ApiResponseDTO(true,smsDTO);
+
+
+
+
     }
     public ApiResponseDTO emailVerification(String jwt) {
         JwtDTO jwtDTO=JWTUtil.decodeEmailJWT(jwt);
@@ -119,23 +134,23 @@ public class AuthService {
         profileEntity.setPassword(MD5Util.encode(dto.getPassword()));
         return profileEntity;
     }
-
-
     public String phoneVerification(String phone, String message) {
-        Optional<SmsHistoryEntity>optional=smsHistoryRepository.findByPhoneAndMessage(phone,message);
+        System.out.println(phone+"  "+message);
+        Optional<SmsHistoryEntity>optional=smsHistoryRepository
+                .findByPhoneAndMessageOrderByCreatedDateDesc(phone,message);
         if(optional.isEmpty()){
             throw new AppBadRequestException("Verification is failed!");
         }
         SmsHistoryEntity entity=optional.get();
-        if(!entity.getStatus().equals(SmsStatus.USED)){
-            throw new AppBadRequestException("Sms cod is not valid");
+        if(entity.getStatus().equals(SmsStatus.USED)){
+            throw new AppBadRequestException("Sms code is not valid");
         }
-        if(entity.getCreatedDate().plusMinutes(2).isAfter(LocalDateTime.now())){
+        if(entity.getCreatedDate().plusMinutes(2).isBefore(LocalDateTime.now())){
             throw new AppBadRequestException("Sms code is expired");
         }
-        int n=profileRepository.updateStatusByPhone(ProfileStatus.ACTIVE,phone);
-        smsHistoryRepository.updateSmsHistory(SmsStatus.USED,phone);
-        return n>0?"your account is activated":"Status not activated";
+        int n=profileRepository.updateStatusWithPhone(ProfileStatus.ACTIVE,phone);
+         int m=smsHistoryRepository.updateSmsHistoryStatus(SmsStatus.USED, phone);
+        return n!=0?"your account is activated":"Status not activated";
     }
 
 

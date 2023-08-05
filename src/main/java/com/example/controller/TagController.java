@@ -22,24 +22,24 @@ public class TagController {
     @PostMapping("")
     public ResponseEntity<TagDTO>create(@Valid @RequestBody TagDTO tagDTO,
                                         HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.MODERATOR);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(tagService.create(tagDTO));
     }
     @GetMapping("/{id}")
     public ResponseEntity<TagDTO> getById(@PathVariable Integer id,
                                           HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+        SecurityUtil.hasRole(request,ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(tagService.getById(id));
     }
     @GetMapping("/getAll")
     public ResponseEntity<List<TagDTO>> getAll(HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+        SecurityUtil.hasRole(request,ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(tagService.getAll());
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String>delete(@PathVariable Integer id,
                                         HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+        SecurityUtil.hasRole(request,ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(tagService.delete(id));
     }
 }

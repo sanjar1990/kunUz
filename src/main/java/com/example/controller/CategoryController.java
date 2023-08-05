@@ -19,25 +19,25 @@ public class CategoryController {
     @PostMapping("/admin")
     public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO,
                                             HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.createCategory(categoryDTO,jwtDTO.getId()));
     }
     @PutMapping("/admin/{id}")
     public ResponseEntity<?>updateCategory(@PathVariable Integer id,
                                            @Valid @RequestBody CategoryDTO categoryDTO,
                                           HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.updateCategory(categoryDTO,id,jwtDTO.getId()));
     }
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<?>deleteCategory(@PathVariable Integer id,
                                            HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
     @GetMapping("/admin/getAll")
     public ResponseEntity<?>getAll(HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ADMIN);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.getAll());
     }
     @GetMapping("/language")

@@ -13,9 +13,9 @@ import java.util.Optional;
 
 public interface SmsHistoryRepository extends CrudRepository<SmsHistoryEntity, String>,
         PagingAndSortingRepository<SmsHistoryEntity,String> {
-    Optional<SmsHistoryEntity>findByPhoneAndMessage(String phone,String message);
+    Optional<SmsHistoryEntity>findByPhoneAndMessageOrderByCreatedDateDesc(String phone,String message);
     @Transactional
     @Modifying
-    @Query("update SmsHistoryEntity set status=:status where phone=:phone")
-    int updateSmsHistory(@Param("status") SmsStatus status, @Param("phone") String phone);
+    @Query(value = "update SmsHistoryEntity set status=:status where phone=:phone")
+    int updateSmsHistoryStatus(@Param("status")SmsStatus status,@Param("phone") String phone);
 }

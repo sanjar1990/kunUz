@@ -26,7 +26,7 @@ public class ArticleController {
     @PostMapping("/closed")
     public ResponseEntity<ArticleDTO>create(@Valid @RequestBody ArticleDTO articleDTO,
                                             HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.MODERATOR);
+        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(articleService.create(jwtDTO.getId(),articleDTO));
     }
     //update by moderator
@@ -35,14 +35,14 @@ public class ArticleController {
     public ResponseEntity<String>update(@Valid @RequestBody ArticleDTO articleDTO,
                                         @PathVariable String id,
                                         HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(articleService.update(articleDTO,jwtDTO.getId(),id));
     }
     // delete moderator
     @DeleteMapping("/closed/{id}")
     public ResponseEntity<String>delete(@PathVariable String id,
                                         HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(articleService.deleteArticle(id));
     }
     //update article status
@@ -50,7 +50,7 @@ public class ArticleController {
     public ResponseEntity<String>update(@PathVariable String id,
                                         @RequestParam("status") ArticleStatus status,
                                         HttpServletRequest request){
-        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.PUBLISHER);
+        JwtDTO jwtDTO=SecurityUtil.hasRole(request,ProfileRole.ROLE_PUBLISHER);
         return ResponseEntity.ok(articleService.updateStatus(id,status,jwtDTO.getId()));
     }
     //5)get five
@@ -129,6 +129,6 @@ public class ArticleController {
                                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(value = "size",defaultValue = "10") Integer size,
                                                                 HttpServletRequest request) {
-        JwtDTO jwtDTO = SecurityUtil.hasRole(request, ProfileRole.PUBLISHER);
+        JwtDTO jwtDTO = SecurityUtil.hasRole(request, ProfileRole.ROLE_PUBLISHER);
         return ResponseEntity.ok(articleService.filterPagination(filterArticleDTO, page - 1, size));
     }}
