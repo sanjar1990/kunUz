@@ -1,11 +1,11 @@
  ### create
 POST localhost:8080/api/v1/article/closed
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwOTYxMDYsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkwOTYwMTA2LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.orrnPQqSnNL5-UmF3DxPdWYb_Q5ZdO2nxS2wi1DMvycgLBYjMWa8GaqPCVGv0iQe0HeQwnRO0Pj_kCOLDLnckQ
+Authorization: Basic Kzk5ODk5MzAzMDMwMzoxMjM0NQ==
 
 {
-  "title": "test4",
-  "description": "test4",
+  "title": "test6",
+  "description": "test8",
   "content": "msdsddsadasdsadsad",
   "regionId": 1,
   "categoryId": 1,
@@ -17,11 +17,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwOTYxMDYsImlkIjozLCJyb
 ### update by moderator
 PUT localhost:8080/api/v1/article/closed/5499948d-b800-4639-9300-d768f9f75cc1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTQyNTcsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkxMDU4MjU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.pcxXqxPn_69U3r3tusUuVwEkofz4nm14B1MpH1zL8ZogB7ilzX-YkAStrjRBjwwf4AKrcVFIyCUfpWGiQocZ9Q
+Authorization: Basic Kzk5ODk5MzAzMDMwMzoxMjM0NQ==
 
 {
-    "title": "test1  updated",
-    "description": "test1 updated",
+    "title": "test6  updated",
+    "description": "test17 updated",
     "content": "dsadd",
     "regionId": 1,
     "categoryId": 1,
@@ -30,17 +30,17 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTQyNTcsImlkIjozLCJyb
     "imageId": "d28cdbed-03d2-4137-98c6-b6b85a0c0725",
     "articleTagList": [1,4]
 }
+
 ### delete article moderator
-DELETE localhost:8080/api/v1/article/closed/23c504e0-e29e-4a64-8000-4b9f5a83f9ac
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTQyNTcsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjkxMDU4MjU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.pcxXqxPn_69U3r3tusUuVwEkofz4nm14B1MpH1zL8ZogB7ilzX-YkAStrjRBjwwf4AKrcVFIyCUfpWGiQocZ9Q
+DELETE localhost:8080/api/v1/article/closed/6e75b2e5-f4c0-4750-b5c2-3e76b0e27cc8
+Authorization: Basic Kzk5ODk5MzAzMDMwMzoxMjM0NQ==
 ### update status
-PUT localhost:8080/api/v1/article/closed/updateStatus/5499948d-b800-4639-9300-d768f9f75cc1?status=PUBLISHED
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwMTkwNTcsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkwODgzMDU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.EREFn-5dtjOlEhl2AYwLQXHZKpvGlb-sTT5CNdLXPCKdrzzrH3mn04u1m419dtW3VpMMwO4BDNDm7pb9mZlhRg
+PUT localhost:8080/api/v1/article/closed/updateStatus/f0f0c982-18e4-4a59-b248-2037217384a7?status=PUBLISHED
+Authorization: Basic Kzk5ODk5OTA5MDkwOToxMjM0NQ==
 
 ### get last five
-GET localhost:8080/api/v1/article/getLast?typeId=1&amount=3
-Content-Type: application/json
+GET localhost:8080/api/v1/article/public/getLast?typeId=1&amount=5
+
 
 ### get last three by type
 #GET localhost:8080/api/v1/article/getLastThree?typeId=1
@@ -49,7 +49,7 @@ Content-Type: application/json
 
 
 ### get last eight
-GET localhost:8080/api/v1/article/getLastEight
+GET localhost:8080/api/v1/article/public/getLastEight
 Content-Type: application/json
 
 [
@@ -58,15 +58,15 @@ Content-Type: application/json
 ]
 
 ###  8. Get Article By Id And Lang
-GET localhost:8080/api/v1/article/getByLang?articleId=5499948d-b800-4639-9300-d768f9f75cc1&lang=En
+GET localhost:8080/api/v1/article/public/getByLang?articleId=5499948d-b800-4639-9300-d768f9f75cc1&lang=En
 ### 9. Get Last 4 Article By Types and except given article id.
-GET localhost:8080/api/v1/article/getLastFour/5499948d-b800-4639-9300-d768f9f75cc1?typeId=1
+GET localhost:8080/api/v1/article/public/getLastFour/5499948d-b800-4639-9300-d768f9f75cc1?typeId=1
 ###10. Get 4 most read articles
 GET localhost:8080/api/v1/article/getMostViewed
 ### 11 get by tag
 GET localhost:8080/api/v1/article/getByTag?tag=#UzAM
 ### 12. Get Last 5 Article By Types  And By Region Key
-GET localhost:8080/api/v1/article/getByTypeAndRegion?typeId=1&regionId=1
+GET localhost:8080/api/v1/article/open/getByTypeAndRegion?typeId=1&regionId=1
 ### 13. Get Article list by Region Key (Pagination)
 GET localhost:8080/api/v1/article/paginationByRegion?regionId=1&page=1&size=10
 ### 14. Get Last 5 Article Category Key
@@ -80,7 +80,7 @@ PUT localhost:8080/api/v1/article/increaseShareCount/5499948d-b800-4639-9300-d76
 ### 18 filter pagination
 POST localhost:8080/api/v1/article/closed/filterPagination?page=1&size=10
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAwMTkwNTcsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkwODgzMDU3LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.EREFn-5dtjOlEhl2AYwLQXHZKpvGlb-sTT5CNdLXPCKdrzzrH3mn04u1m419dtW3VpMMwO4BDNDm7pb9mZlhRg
+Authorization: Basic Kzk5ODk5OTA5MDkwOToxMjM0NQ==
 
 {
   "publishedDateTo": "2023-07-30"

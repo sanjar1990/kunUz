@@ -5,10 +5,12 @@ import com.example.enums.Language;
 import com.example.enums.ProfileRole;
 import com.example.service.CategoryService;
 import com.example.utility.SecurityUtil;
+import com.example.utility.SpringSecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,31 +18,30 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("/admin")
-    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO,
-                                            HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
-        return ResponseEntity.ok(categoryService.createCategory(categoryDTO,jwtDTO.getId()));
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("")
+    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
+        Integer prtId= SpringSecurityUtil.getProfileId();
+        return ResponseEntity.ok(categoryService.createCategory(categoryDTO,prtId));
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/{id}")
     public ResponseEntity<?>updateCategory(@PathVariable Integer id,
-                                           @Valid @RequestBody CategoryDTO categoryDTO,
-                                          HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
-        return ResponseEntity.ok(categoryService.updateCategory(categoryDTO,id,jwtDTO.getId()));
+                                           @Valid @RequestBody CategoryDTO categoryDTO){
+        Integer prtId= SpringSecurityUtil.getProfileId();
+        return ResponseEntity.ok(categoryService.updateCategory(categoryDTO,id,prtId));
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<?>deleteCategory(@PathVariable Integer id,
-                                           HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
+    public ResponseEntity<?>deleteCategory(@PathVariable Integer id){
         return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
-    @GetMapping("/admin/getAll")
-    public ResponseEntity<?>getAll(HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.ROLE_ADMIN);
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getAll")
+    public ResponseEntity<?>getAll(){
         return ResponseEntity.ok(categoryService.getAll());
     }
-    @GetMapping("/language")
+    @GetMapping("/public/language")
     public ResponseEntity<?>getByLang(@RequestParam(value = "lang", defaultValue = "Uz") Language language){
         return ResponseEntity.ok(categoryService.getByLang(language));
     }

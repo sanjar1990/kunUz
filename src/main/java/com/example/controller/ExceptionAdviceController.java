@@ -33,5 +33,10 @@ public class ExceptionAdviceController {
     public ResponseEntity<String>handler(AppMethodNotAllowedException e){
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(e.getMessage());
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handler(RuntimeException e) {
+        e.printStackTrace();
+        return ResponseEntity.internalServerError().body(e.getMessage());
+    }
 
 }
