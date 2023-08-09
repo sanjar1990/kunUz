@@ -45,10 +45,10 @@ public class CommentController {
     }
 //     4. Get Article Comment List By Article Id
 //    id,created_date,update_date,profile(id,name,surname)
-    @GetMapping("/getByArticleId/{articleId}")
+    @GetMapping("/public/getByArticleId/{articleId}")
     public ResponseEntity<List<CommentDTO>>getByArticleId(@PathVariable String articleId){
-        Integer prtId= SpringSecurityUtil.getProfileId();
-        return ResponseEntity.ok(commentService.getByArticleId(articleId,prtId));
+
+        return ResponseEntity.ok(commentService.getByArticleId(articleId));
     }
 //      5. Comment List (pagination) (ADMIN)
 //            (id,created_date,update_date,profile(id,name,surname),content,article(id,title),reply_id,)
@@ -56,7 +56,6 @@ public class CommentController {
     @GetMapping("/pagination")
     public ResponseEntity<PageImpl<CommentDTO>>pagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                           @RequestParam(value = "size", defaultValue = "10") Integer size){
-
         return ResponseEntity.ok(commentService.pagination(page-1,size));
     }
 //    6. Comment Filter(id,created_date_from,created_date_to,profile_id,article_id) with Pagination (ADMIN)
@@ -70,7 +69,7 @@ public class CommentController {
     }
 //     7. Get Replied Comment List by Comment Id
 //    id,created_date,update_date,profile(id,name,surname)
-    @GetMapping("/getRepliedComment/{commentId}")
+    @GetMapping("/public/getRepliedComment/{commentId}")
     public ResponseEntity<List<CommentDTO>>getRepliedComment(@PathVariable String commentId){
         return ResponseEntity.ok(commentService.getRepliedComment(commentId));
     }

@@ -19,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.UUID;
 @Configuration
@@ -28,23 +31,14 @@ public class SpringSecurityConfig {
     @Autowired
     @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
+    @Autowired
+    private JWTTokenFilter jwtTokenFilter;
 
-//    @Bean
-//    public AuthenticationProvider authenticationProvider(){
-//        UserDetails user= User.builder()
-//                .username("user")
-//                .password("{noop}12345")
-//                .roles("USER")
-//                .build();
-//        UserDetails admin=User.builder()
-//                .username("admin")
-//                .password("{bcrypt}$2a$10$uWPqHv3Bk/4ruecj0xUtmeZDUhYJrdPUTGafCZUeydMMcPFWGx8Xa")
-//                .roles("ADMIN")
-//                .build();
-//        final DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(new InMemoryUserDetailsManager(user,admin));
-//    return authenticationProvider;
-//    }
+    final public static String[] AUTH_WHITELIST={"/api/v1/auth/**","/api/v1/article/public/**",
+            "/api/v1/category/public/**","/api/v1/articleType/public/**","/api/v1/region/public/**",
+            "/api/v1/attach/public/**","/api/v1/comment/public/**"
+    };
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -73,18 +67,21 @@ public class SpringSecurityConfig {
         //authorization
         http.authorizeHttpRequests((request)->
                  request
-                         .requestMatchers("/api/v1/auth/**").permitAll()
-                         .requestMatchers("/api/v1/article/public/**").permitAll()
-                         .requestMatchers("/api/v1/articleType/public/**").permitAll()
-                         .requestMatchers("/api/v1/category/public/**").permitAll()
-                         .requestMatchers(HttpMethod.GET,"/api/v1/region/language").permitAll()
-                         .requestMatchers("/api/v1/attach/open/**").permitAll()
-                         .requestMatchers("/api/v1/region/admin/**").hasRole("ADMIN")
-                         .requestMatchers("/api/v1/attach/admin/**").hasAnyRole("ADMIN","MODERATOR")
+                         .requestMatchers(AUTH_WHITELIST).permitAll()
                          .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(c->c.disable()).cors(AbstractHttpConfigurer::disable);
         return http.build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**");
+            }
+        };
     }
 }
 

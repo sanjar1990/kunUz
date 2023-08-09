@@ -1,13 +1,13 @@
 ### create region by admin
-POST localhost:8080/api/v1/region/admin/
+POST localhost:8080/api/v1/region
 Content-Type: application/json
-Authorization: Basic Kzk5ODkwODA3MDE3NjoxMjM0NQ==
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0OTQyODEsInBob25lIjoiKzk5ODk5OTA5MDkwOSIsInJvbGUiOiJST0xFX1BVQkxJU0hFUiIsImV4cCI6MTY5MTU4MDY4MSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.hHRrmnvsUM5Cw3tbC5kmM8bORVIwlTJYC9_AJkqCaGqX1hRvB0yw3LBGD99N-opt0NPN7jTtzqGKAwRp8Yt65A
 
 {
-  "orderNumber": 3,
-  "nameEn": "Xorazm",
-  "nameUz": "Xorazm",
-  "nameRu": "Xarazem"
+  "orderNumber": 4,
+  "nameEn": "QARSHI",
+  "nameUz": "QARSHI",
+  "nameRu": "KARSHI"
 }
 
 ### update by Admin

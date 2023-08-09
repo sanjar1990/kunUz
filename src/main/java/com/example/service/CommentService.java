@@ -67,9 +67,9 @@ public class CommentService {
 
 //     4. Get Article Comment List By Article Id
 //    id,created_date,update_date,profile(id,name,surname)
-    public List<CommentDTO> getByArticleId(String articleId, Integer profileId) {
-        System.out.println(articleId + "   "+profileId);
-        List<CommentEntity> entityList=commentRepository.getWithArticleId(articleId,profileId);
+    public List<CommentDTO> getByArticleId(String articleId) {
+
+        List<CommentEntity> entityList=commentRepository.getWithArticleId(articleId);
         System.out.println(entityList);
         return entityList.stream().map(s->{
             CommentDTO commentDTO=new CommentDTO();

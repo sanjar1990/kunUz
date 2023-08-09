@@ -15,10 +15,10 @@ public class SecurityUtil {
         throw new UnAuthorizedException("Not Authorized");
     }
     public static JwtDTO hasRole(HttpServletRequest request, ProfileRole... requiredRole){
-        Integer id=(Integer) request.getAttribute("id");
+        String phone=(String) request.getAttribute("phone");
         ProfileRole role=(ProfileRole)request.getAttribute("role");
         if(requiredRole==null){
-            return new JwtDTO(id, role);
+            return new JwtDTO(phone, role);
         }
         boolean found=false;
         for (ProfileRole r: requiredRole){
@@ -29,7 +29,7 @@ public class SecurityUtil {
         if(!found){
             throw new AppMethodNotAllowedException("Method not allowed, profile role not match");
         }
-        return new JwtDTO(id, role);
+        return new JwtDTO(phone, role);
     }
     public static JwtDTO hasRole(String jwt, ProfileRole... requiredRole){
         JwtDTO jwtDTO=getJwtDTO(jwt);

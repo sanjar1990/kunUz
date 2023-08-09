@@ -18,8 +18,8 @@ public interface CommentRepository extends CrudRepository<CommentEntity, String>
     @Modifying
     @Query("update CommentEntity set visible=false where id=:id")
     int deleteComment(@Param("id") String commentId);
-    @Query("from CommentEntity as c where c.articleId=:articleId and c.profileId=:profileId and c.visible=true")
-    List<CommentEntity> getWithArticleId(@Param("articleId") String articleId, @Param("profileId") Integer profileId);
+    @Query("from CommentEntity as c where c.articleId=:articleId and c.visible=true")
+    List<CommentEntity> getWithArticleId(@Param("articleId") String articleId);
     Page<CommentEntity> findAllByVisibleTrue(Pageable pageable);
     List<CommentEntity>findAllByReplyIdAndVisibleTrue(String id);
 }

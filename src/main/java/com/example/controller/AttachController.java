@@ -21,21 +21,21 @@ public class AttachController {
     @Autowired
     private AttachService attachService;
 
-    @PostMapping("/open/upload")
+    @PostMapping("/public/upload")
     public ResponseEntity<AttachDTO>upload(@RequestParam("file")MultipartFile file){
         return ResponseEntity.ok(attachService.upload(file));
     }
-    @GetMapping(value = "/open/{id}/img", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/public/{id}/img", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] openById(@PathVariable String id){
         return attachService.openById(id);
     }
     //3. open general
-    @GetMapping(value = "/open/{id}/general", produces = MediaType.ALL_VALUE)
+    @GetMapping(value = "/public/{id}/general", produces = MediaType.ALL_VALUE)
     public byte[]openGeneral(@PathVariable String id){
         return attachService.openByIdGeneral(id);
     }
     //4. Download (by id  with origin name)
-    @GetMapping("/open/download/{id}")
+    @GetMapping("/public/download/{id}")
     public ResponseEntity<Resource>download(@PathVariable String id){
        return attachService.download(id);
     }

@@ -28,26 +28,26 @@ public class ArticleController {
     private ArticleService articleService;
     // create article by moderator
     @PreAuthorize("hasRole('MODERATOR')")
-    @PostMapping("/closed")
+    @PostMapping("")
     public ResponseEntity<ArticleDTO>create(@Valid @RequestBody ArticleDTO articleDTO){
         return ResponseEntity.ok(articleService.create(SpringSecurityUtil.getProfileId(),articleDTO));
     }
     //update by moderator
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_PUBLISHER')")
-    @PutMapping("/closed/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String>update(@Valid @RequestBody ArticleDTO articleDTO,
                                         @PathVariable String id){
         return ResponseEntity.ok(articleService.update(articleDTO,SpringSecurityUtil.getProfileId(),id));
     }
     // delete moderator
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_PUBLISHER')")
-    @DeleteMapping("/closed/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String>delete(@PathVariable String id){
         return ResponseEntity.ok(articleService.deleteArticle(id));
     }
     //update article status
     @PreAuthorize("hasRole('ROLE_PUBLISHER')")
-    @PutMapping("/closed/updateStatus/{id}")
+    @PutMapping("/updateStatus/{id}")
     public ResponseEntity<String>update(@PathVariable String id,
                                         @RequestParam("status") ArticleStatus status){
         return ResponseEntity.ok(articleService.updateStatus(id,status,SpringSecurityUtil.getProfileId()));

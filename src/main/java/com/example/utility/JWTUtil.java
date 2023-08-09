@@ -12,12 +12,12 @@ public class JWTUtil {
     private static final int tokenLiveTime = 1000 * 3600 * 24; // 1-hour
     private static final int emailTokenLiveTime = tokenLiveTime; // 1-hour
 
-    public static String encode(Integer profileId, ProfileRole role) {
+    public static String encode(String phone, ProfileRole role) {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setIssuedAt(new Date());
         jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
 
-        jwtBuilder.claim("id", profileId);
+        jwtBuilder.claim("phone", phone);
         jwtBuilder.claim("role", role.toString());
 
         jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (tokenLiveTime)));
@@ -31,10 +31,10 @@ public class JWTUtil {
             jwtParser.setSigningKey(secretKey);
             Jws<Claims> jws = jwtParser.parseClaimsJws(token);
             Claims claims = jws.getBody();
-            Integer id = (Integer) claims.get("id");
+            String phone = (String) claims.get("phone");
             String role = (String) claims.get("role");
             ProfileRole profileRole = ProfileRole.valueOf(role);
-            return new JwtDTO(id, profileRole);
+            return new JwtDTO(phone, profileRole);
         }catch (ExpiredJwtException e){
             throw new UnAuthorizedException("your session is expired");
         }catch (JwtException e){
@@ -60,7 +60,7 @@ public class JWTUtil {
             Jws<Claims> jws = jwtParser.parseClaimsJws(token);
             Claims claims = jws.getBody();
             Integer id = (Integer) claims.get("id");
-            return new JwtDTO(id, null);
+            return new JwtDTO(id);
         } catch (JwtException e) {
             throw new UnAuthorizedException("Your session expired");
         }

@@ -48,6 +48,8 @@ public class ArticleService {
         articleEntity.setModeratorId(moderatorId);
         articleEntity.setSharedCount(0);
         articleEntity.setViewCount(1);
+        articleEntity.setLikeCount(0);
+        articleEntity.setDislikeCount(0);
         if(articleDTO.getImageId()!=null){
             articleEntity.setImageId(articleDTO.getImageId());
         }

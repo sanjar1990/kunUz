@@ -50,7 +50,7 @@ public class AuthService {
         profileDTO.setEmail(profileEntity.getEmail());
         profileDTO.setPhone(profileDTO.getPhone());
         profileDTO.setRole(profileEntity.getRole());
-        profileDTO.setJwt(JWTUtil.encode(profileEntity.getId(),profileEntity.getRole()));
+        profileDTO.setJwt(JWTUtil.encode(profileEntity.getPhone(),profileEntity.getRole()));
         return new ApiResponseDTO(true, profileDTO);
     }
     //register user

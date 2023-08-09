@@ -36,7 +36,7 @@ public class ExceptionAdviceController {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handler(RuntimeException e) {
         e.printStackTrace();
-        return ResponseEntity.internalServerError().body(e.getMessage());
+        return ResponseEntity.internalServerError().build();
     }
 
 }
