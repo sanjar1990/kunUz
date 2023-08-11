@@ -28,7 +28,7 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
-    private CustomProfileRepository customProfileRepository;
+    private CustomProfileRep aository customProfileRepository;
     @Autowired
     private AttachRepository attachRepository;
     //Admin
@@ -123,7 +123,6 @@ public class ProfileService {
         FilterResultDTO<ProfileEntity> result=customProfileRepository.filterPagination(filterProfileDTO,page,size);
         Pageable pageable=PageRequest.of(page,size,Sort.by(Sort.Direction.ASC,"createdDate"));
         List<ProfileDTO> dtoList=result.getContent().stream().map(s->toDto(s)).toList();
-        dtoList.forEach(System.out::println);
         return new PageImpl<>(dtoList,pageable,result.getTotalElement());
     }
 
