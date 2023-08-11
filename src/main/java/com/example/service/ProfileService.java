@@ -28,7 +28,7 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
-    private CustomProfileRep aository customProfileRepository;
+    private CustomProfileRepository customProfileRepository;
     @Autowired
     private AttachRepository attachRepository;
     //Admin
