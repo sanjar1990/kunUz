@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.controller.AuthController;
 import com.example.dto.*;
 import com.example.entity.ProfileEntity;
 import com.example.entity.SmsHistoryEntity;
@@ -13,6 +14,8 @@ import com.example.repository.SmsHistoryRepository;
 import com.example.utility.CheckValidationUtility;
 import com.example.utility.JWTUtil;
 import com.example.utility.MD5Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,7 @@ public class AuthService {
     private SmsSenderService smsSenderService;
     @Autowired
     private SmsHistoryRepository smsHistoryRepository;
+    private Logger log= LoggerFactory.getLogger(AuthService.class);
 
 
     public ApiResponseDTO login(AuthDTO authDTO) {
@@ -38,7 +42,11 @@ public class AuthService {
         checkValidationUtility.checkForPhone(authDTO.getPhone());
         Optional<ProfileEntity> optional=profileRepository
                 .findAllByPhoneAndPasswordAndVisibleTrue(authDTO.getPhone(), MD5Util.encode(authDTO.getPassword()));
-        if(optional.isEmpty()) return new ApiResponseDTO(false,"Profile not found");
+        if(optional.isEmpty()) {
+            log.warn("profile not found {}",authDTO.getPhone());
+            return new ApiResponseDTO(false,"Profile not found");
+
+        }
         ProfileEntity profileEntity=optional.get();
         if(!profileEntity.getStatus().equals(ProfileStatus.ACTIVE)){
             return new ApiResponseDTO(false,"Profile not active");

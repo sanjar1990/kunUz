@@ -1,0 +1,65 @@
+2023-08-15T15:12:11.127+05:00  INFO 11912 --- [main] com.example.KunUzApplication             : Starting KunUzApplication using Java 18.0.1.1 with PID 11912 (D:\PROGRAMMING\1STAGE\OOpjava\kunUzProject\kun_uz\target\classes started by sanja in D:\PROGRAMMING\1STAGE\OOpjava\kunUzProject\kun_uz)
+2023-08-15T15:12:11.129+05:00 DEBUG 11912 --- [main] com.example.KunUzApplication             : Running with Spring Boot v3.1.1, Spring v6.0.10
+2023-08-15T15:12:11.129+05:00  INFO 11912 --- [main] com.example.KunUzApplication             : The following 1 profile is active: "local"
+2023-08-15T15:12:11.922+05:00  INFO 11912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-15T15:12:12.051+05:00  INFO 11912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 15 JPA repository interfaces.
+2023-08-15T15:12:12.665+05:00  INFO 11912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-08-15T15:12:12.674+05:00  INFO 11912 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-08-15T15:12:12.674+05:00  INFO 11912 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-08-15T15:12:12.763+05:00  INFO 11912 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-08-15T15:12:12.763+05:00  INFO 11912 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1591 ms
+2023-08-15T15:12:12.901+05:00  INFO 11912 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-15T15:12:12.951+05:00  INFO 11912 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-08-15T15:12:12.954+05:00  INFO 11912 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-08-15T15:12:13.074+05:00  INFO 11912 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-15T15:12:13.217+05:00  INFO 11912 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-08-15T15:12:13.232+05:00  INFO 11912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-08-15T15:12:13.388+05:00  INFO 11912 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@56e5c8fb
+2023-08-15T15:12:13.390+05:00  INFO 11912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-08-15T15:12:13.767+05:00  INFO 11912 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-15T15:12:14.674+05:00  INFO 11912 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-15T15:12:14.950+05:00  INFO 11912 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-15T15:12:15.193+05:00  INFO 11912 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-08-15T15:12:15.668+05:00 DEBUG 11912 --- [main] com.example.config.JWTTokenFilter        : Filter 'JWTTokenFilter' configured for use
+2023-08-15T15:12:16.364+05:00  WARN 11912 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-15T15:12:16.683+05:00  INFO 11912 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3637e628, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6990f6af, org.springframework.security.web.context.SecurityContextHolderFilter@5a6dd1e7, org.springframework.security.web.header.HeaderWriterFilter@648e25f2, org.springframework.security.web.authentication.logout.LogoutFilter@71e6bac0, com.example.config.JWTTokenFilter@354ff4f6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@75ad7531, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4d619aa0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@27d38370, org.springframework.security.web.access.ExceptionTranslationFilter@635900ef, org.springframework.security.web.access.intercept.AuthorizationFilter@334d96af]
+2023-08-15T15:12:16.901+05:00  INFO 11912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-08-15T15:12:16.910+05:00  INFO 11912 --- [main] com.example.KunUzApplication             : Started KunUzApplication in 7.75 seconds (process running for 8.59)
+2023-08-15T15:12:31.886+05:00  INFO 11912 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-15T15:12:31.889+05:00  INFO 11912 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-08-15T15:12:31.891+05:00  INFO 11912 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-08-15T15:12:35.093+05:00  INFO 14852 --- [main] com.example.KunUzApplication             : Starting KunUzApplication using Java 18.0.1.1 with PID 14852 (D:\PROGRAMMING\1STAGE\OOpjava\kunUzProject\kun_uz\target\classes started by sanja in D:\PROGRAMMING\1STAGE\OOpjava\kunUzProject\kun_uz)
+2023-08-15T15:12:35.095+05:00 DEBUG 14852 --- [main] com.example.KunUzApplication             : Running with Spring Boot v3.1.1, Spring v6.0.10
+2023-08-15T15:12:35.096+05:00  INFO 14852 --- [main] com.example.KunUzApplication             : The following 1 profile is active: "local"
+2023-08-15T15:12:35.796+05:00  INFO 14852 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-15T15:12:35.897+05:00  INFO 14852 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 95 ms. Found 15 JPA repository interfaces.
+2023-08-15T15:12:36.526+05:00  INFO 14852 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-08-15T15:12:36.535+05:00  INFO 14852 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-08-15T15:12:36.536+05:00  INFO 14852 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-08-15T15:12:36.660+05:00  INFO 14852 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-08-15T15:12:36.660+05:00  INFO 14852 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1517 ms
+2023-08-15T15:12:36.817+05:00  INFO 14852 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-15T15:12:36.875+05:00  INFO 14852 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-08-15T15:12:36.878+05:00  INFO 14852 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-08-15T15:12:37.022+05:00  INFO 14852 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-15T15:12:37.179+05:00  INFO 14852 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-08-15T15:12:37.197+05:00  INFO 14852 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-08-15T15:12:37.363+05:00  INFO 14852 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@71dd4624
+2023-08-15T15:12:37.365+05:00  INFO 14852 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-08-15T15:12:37.742+05:00  INFO 14852 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-15T15:12:38.670+05:00  INFO 14852 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-15T15:12:38.908+05:00  INFO 14852 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-15T15:12:39.132+05:00  INFO 14852 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-08-15T15:12:39.478+05:00 DEBUG 14852 --- [main] com.example.config.JWTTokenFilter        : Filter 'JWTTokenFilter' configured for use
+2023-08-15T15:12:40.061+05:00  WARN 14852 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-15T15:12:40.342+05:00  INFO 14852 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@251ed676, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@616e7884, org.springframework.security.web.context.SecurityContextHolderFilter@71e6bac0, org.springframework.security.web.header.HeaderWriterFilter@21339b6f, org.springframework.security.web.authentication.logout.LogoutFilter@4e22fdc0, com.example.config.JWTTokenFilter@7ec01440, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5698a866, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1c6ab85, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ee4aad3, org.springframework.security.web.access.ExceptionTranslationFilter@71b75f99, org.springframework.security.web.access.intercept.AuthorizationFilter@7306f65f]
+2023-08-15T15:12:40.555+05:00  INFO 14852 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-08-15T15:12:40.562+05:00  INFO 14852 --- [main] com.example.KunUzApplication             : Started KunUzApplication in 5.949 seconds (process running for 6.685)
+2023-08-15T15:12:43.082+05:00  INFO 14852 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-08-15T15:12:43.082+05:00  INFO 14852 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-08-15T15:12:43.084+05:00  INFO 14852 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2023-08-15T15:12:43.211+05:00  INFO 14852 --- [http-nio-8080-exec-1] com.example.controller.AuthController    : Logging info
+2023-08-15T15:12:43.285+05:00  WARN 14852 --- [http-nio-8080-exec-1] com.example.service.AuthService          : profile not found +998900102035
+2023-08-15T15:20:55.606+05:00  INFO 14852 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-15T15:20:55.609+05:00  INFO 14852 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-08-15T15:20:55.612+05:00  INFO 14852 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

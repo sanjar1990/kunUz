@@ -42,8 +42,7 @@ public class AttachService {
         }
         String key= UUID.randomUUID().toString();
         String extension=getExtension(file.getOriginalFilename());
-        System.out.println(extension);
-        System.out.println(file.getContentType());
+
         try {
             byte [] bytes=file.getBytes();
             Path path= Paths.get(folderName+"/"+pathFolder+"/"+key+"."+extension);
