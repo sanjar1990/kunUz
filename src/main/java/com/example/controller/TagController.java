@@ -6,8 +6,10 @@ import com.example.enums.ProfileRole;
 import com.example.service.TagService;
 import com.example.utility.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,30 +19,25 @@ import java.util.List;
 public class TagController {
     @Autowired
     private TagService tagService;
-
+    @PreAuthorize("hasRole('MODERATOR')")
     @PostMapping("")
-    public ResponseEntity<TagDTO>create(@RequestBody TagDTO tagDTO,
-                                        HttpServletRequest request){
-        JwtDTO jwtDTO= SecurityUtil.hasRole(request, ProfileRole.MODERATOR);
+    public ResponseEntity<TagDTO>create(@Valid @RequestBody TagDTO tagDTO){
+
         return ResponseEntity.ok(tagService.create(tagDTO));
     }
+    @PreAuthorize("hasRole('MODERATOR')")
     @GetMapping("/{id}")
-    public ResponseEntity<TagDTO> getById(@PathVariable Integer id,
-                                          HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+    public ResponseEntity<TagDTO> getById(@PathVariable Integer id){
         return ResponseEntity.ok(tagService.getById(id));
     }
+    @PreAuthorize("hasRole('MODERATOR')")
     @GetMapping("/getAll")
-    public ResponseEntity<List<TagDTO>> getAll(HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+    public ResponseEntity<List<TagDTO>> getAll(){
         return ResponseEntity.ok(tagService.getAll());
     }
+    @PreAuthorize("hasRole('MODERATOR')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String>delete(@PathVariable Integer id,
-                                        HttpServletRequest request){
-        SecurityUtil.hasRole(request,ProfileRole.MODERATOR);
+    public ResponseEntity<String>delete(@PathVariable Integer id){
         return ResponseEntity.ok(tagService.delete(id));
     }
-
-
 }

@@ -3,13 +3,11 @@ package com.example.entity;
 import com.example.enums.ProfileRole;
 import com.example.enums.ProfileStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
@@ -29,13 +27,15 @@ public class ProfileEntity extends BaseEntity {
     private String password;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ProfileStatus status=ProfileStatus.NOTACTIVE;
+    private ProfileStatus status;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ProfileRole role;
+    @Column(name = "photo_id")
+    private String photoId;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
-    private AttachEntity photoId;
+    @JoinColumn(name = "photo_id", insertable = false, updatable = false)
+    private AttachEntity photo;
 
     public ProfileEntity(Integer id) {
        super.setId(id);

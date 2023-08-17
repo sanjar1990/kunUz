@@ -1,0 +1,10 @@
+### save
+POST localhost:8080/api/v1/savedArticle/e2b85b6d-2c48-494a-89e8-46c0c6bc6cf9
+Authorization: Basic Kzk5ODk5MzAzMDMwMzoxMjM0NQ==
+
+### delete
+DELETE localhost:8080/api/v1/savedArticle/e2b85b6d-2c48-494a-89e8-46c0c6bc6cf9
+Authorization: Basic Kzk5ODk5MzAzMDMwMzoxMjM0NQ==
+### getAll
+GET localhost:8080/api/v1/savedArticle
+Authorization: Basic Kzk5ODk5MzAzMDMwMzoxMjM0NQ==

@@ -1,12 +1,10 @@
 package com.example.service;
-
-import com.example.dto.ArticleDTO;
+import com.example.dto.*;
 import com.example.entity.*;
 import com.example.enums.ArticleStatus;
 import com.example.enums.Language;
 import com.example.exception.AppBadRequestException;
 import com.example.exception.ItemNotFoundException;
-import com.example.mapper.ArticleFullInfoMapper;
 import com.example.mapper.ArticleMapperInterface;
 import com.example.mapper.ArticleShortInfoMapper;
 import com.example.repository.*;
@@ -14,11 +12,8 @@ import com.example.utility.CheckValidationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -30,144 +25,75 @@ public class ArticleService {
     @Autowired
     private CheckValidationUtility checkValidationUtility;
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private RegionRepository regionRepository;
-    @Autowired
-    private ProfileRepository profileRepository;
-    @Autowired
-    private ArticleTypeRepository articleTypeRepository;
-    @Autowired
     private TagRepository tagRepository;
     @Autowired
     private AttachRepository attachRepository;
-    public ArticleDTO create(Integer id,ArticleDTO articleDTO) {
+    @Autowired
+    private ArticleTypesService articleTypesService;
+    @Autowired
+    private ArticleTagsService articleTagsService;
+    @Autowired
+    private AttachService attachService;
+    @Autowired
+    private CustomArticleRepository customArticleRepository;
+    public ArticleDTO create(Integer moderatorId,ArticleDTO articleDTO) {
     //check
-        checkValidationUtility.checkForArticle(articleDTO);
-        articleDTO.setModeratorId(id);
-        Optional<CategoryEntity>category=categoryRepository.findByIdAndVisibleTrue(articleDTO.getCategoryId());
-        Optional<RegionEntity> region=regionRepository.findByIdAndVisibleTrue(articleDTO.getRegionId());
-        Optional<ProfileEntity>moderator=profileRepository.findByIdAndVisibleTrue(id);
-        List<ArticleTypeEntity> allTypes=articleTypeRepository.findAllByVisibleTrue();
-        List<ArticleTypeEntity>artTypes=new LinkedList<>();
-        if(!articleDTO.getArticleTypes().isEmpty()){
-            for (ArticleTypeEntity n: allTypes){
-                for (Integer i:articleDTO.getArticleTypes()){
-                    if (n.getId().equals(i)){
-                        artTypes.add(n);
-                    }
-                }
-            }
-        }
-        List<TagEntity> tagEntityList=tagRepository.findAllByVisibleTrue();
-        List<TagEntity> selectedTagList=new LinkedList<>();
-        if(!articleDTO.getTags().isEmpty()){
-            for (TagEntity t: tagEntityList) {
-                for (Integer i:articleDTO.getTags()) {
-                    if(t.getId().equals(i)){
-                        selectedTagList.add(t);
-                    }
-                }
-            }
-        }
-        if(category.isEmpty()) throw new ItemNotFoundException("Category not found");
-        if(region.isEmpty()) throw new ItemNotFoundException("Region not found");
-        if(moderator.isEmpty())throw new ItemNotFoundException("moderator not found");
+        articleDTO.setModeratorId(moderatorId);
         ArticleEntity articleEntity=new ArticleEntity();
         articleEntity.setTitle(articleDTO.getTitle());
         articleEntity.setDescription(articleDTO.getDescription());
         articleEntity.setContent(articleDTO.getContent());
-        articleEntity.setCategoryId(category.get());
-        articleEntity.setArticleTypes(artTypes);
-        articleEntity.setRegionId(region.get());
-        articleEntity.setModeratorId(moderator.get());
-        articleEntity.setSharedCount(articleDTO.getSharedCount());
-        articleEntity.setTags(selectedTagList);
-        articleEntity.setViewCount(articleDTO.getViewCount());
+        articleEntity.setCategoryId(articleDTO.getCategoryId());
+        articleEntity.setRegionId(articleDTO.getRegionId());
+        articleEntity.setModeratorId(moderatorId);
+        articleEntity.setSharedCount(0);
+        articleEntity.setViewCount(1);
+        articleEntity.setLikeCount(0);
+        articleEntity.setDislikeCount(0);
         if(articleDTO.getImageId()!=null){
-            Optional<AttachEntity>optional=attachRepository.findById(articleDTO.getImageId());
-            if(optional.isEmpty()) throw new ItemNotFoundException("Attach not found");
-            articleEntity.setImageId(optional.get());
+            articleEntity.setImageId(articleDTO.getImageId());
         }
+        //save article
         articleRepository.save(articleEntity);
+        //save article types
+        articleTypesService.create(articleEntity.getId(),articleDTO.getArticleTypes());
+        // save article tags
+        if(articleDTO.getTagList()!=null){
+            articleTagsService.create(articleEntity.getId(),articleDTO.getTagList());
+        }
         articleDTO.setId(articleEntity.getId());
         articleDTO.setStatus(articleEntity.getStatus());
         return articleDTO;
     }
-
     //update moderator
     public String update(ArticleDTO articleDTO, Integer moderatorId,String articleId){
-        Optional<ArticleEntity>optional=articleRepository.findByIdAndVisibleTrue(articleId);
-        if(optional.isEmpty()) throw new ItemNotFoundException("Article not found");
-        ArticleEntity articleEntity=optional.get();
-        if(!articleEntity.getModeratorId().getId().equals(moderatorId)){
-            throw new AppBadRequestException("This is not your id");
-        }
-        if (articleDTO.getTitle()!=null){
+        ArticleEntity articleEntity=get(articleId);
             articleEntity.setTitle(articleDTO.getTitle());
-        }
-        if(articleDTO.getDescription()!=null){
             articleEntity.setDescription(articleDTO.getDescription());
-        }
-        if(articleDTO.getContent()!=null){
             articleEntity.setContent(articleDTO.getContent());
-        }
-        if(articleDTO.getCategoryId()!=null){
-            Optional<CategoryEntity>category=categoryRepository.findByIdAndVisibleTrue(articleDTO.getCategoryId());
-            if(category.isEmpty())throw new ItemNotFoundException("Category not found");
-            articleEntity.setCategoryId(category.get());
-        }
-        if(articleDTO.getRegionId()!=null){
-            Optional<RegionEntity>region=regionRepository.findByIdAndVisibleTrue(articleDTO.getRegionId());
-            if(region.isEmpty())throw new ItemNotFoundException("region not found");
-            articleEntity.setRegionId(region.get());
-        }
-        if(articleDTO.getPublishedDate()!=null){
-            articleEntity.setPublishedDate(articleDTO.getPublishedDate());
-        }
-        if(articleDTO.getPublisherId()!=null){
-            Optional<ProfileEntity> publisher=profileRepository.findByIdAndVisibleTrue(articleDTO.getPublisherId());
-            if(publisher.isEmpty()) throw new ItemNotFoundException("Publisher not found");
-            articleEntity.setPublisherId(publisher.get());
-        }
-        if(articleDTO.getStatus()!=null){
-            articleEntity.setStatus(articleDTO.getStatus());
-        }
+            articleEntity.setCategoryId(articleDTO.getCategoryId());
+            articleEntity.setRegionId(articleDTO.getRegionId());
         if(articleDTO.getImageId()!=null){
-            Optional<AttachEntity>attach=attachRepository.findById(articleDTO.getImageId());
-            if(attach.isEmpty()) throw new ItemNotFoundException("Attach not found");
-            if(articleEntity.getImageId()!=null){
-                String url=articleEntity.getImageId().getPath();
+            if(articleEntity.getImageId()!=null && !articleEntity.getImageId().equals(articleDTO.getImageId())){
+                String url=articleEntity.getImage().getPath();
+                String oldAttach=articleEntity.getImage().getId();
                 File file=new File(url);
                 if(file.exists()){
                     file.delete();
                 }
-               int n= articleRepository.deletePhoto(articleEntity.getId());
-                if(n>0){
-                    attachRepository.deleteById(articleEntity.getImageId().getId());
-                }
-                }
-
-            articleEntity.setImageId(attach.get());
-        }
-        if(articleDTO.getSharedCount()!=null){
-            articleEntity.setSharedCount(articleDTO.getSharedCount());
-        }
-        if(articleDTO.getArticleTypes()!=null ){
-            List<ArticleTypeEntity> allTypes=articleTypeRepository.findAllByVisibleTrue();
-            List<ArticleTypeEntity>artTypes=new LinkedList<>();
-            for (ArticleTypeEntity n: allTypes){
-                for (Integer i:articleDTO.getArticleTypes()){
-                    if (n.getId().equals(i)){
-                        artTypes.add(n);
-                    }
-                }
+                articleEntity.setImageId(articleDTO.getImageId());
+                attachRepository.deleteById(oldAttach);
+                }else {
+                articleEntity.setImageId(articleDTO.getImageId());
             }
-            articleEntity.setArticleTypes(artTypes);
         }
-        Optional<ProfileEntity>moderator=profileRepository.findByIdAndVisibleTrue(moderatorId);
-        if(moderator.isEmpty()) throw new ItemNotFoundException("Publisher not found");
-        articleEntity.setModeratorId(moderator.get());
+        articleTypesService.merge(articleId,articleDTO.getArticleTypes());
+        if(articleDTO.getTagList()!=null){
+            articleTagsService.merge(articleId,articleDTO.getTagList());
+        }
+        articleEntity.setModeratorId(moderatorId);
+        articleEntity.setStatus(ArticleStatus.NOTPUBLISHED);
+        articleEntity.setPublishedDate(null);
         articleRepository.save(articleEntity);
         return "saved";
     }
@@ -176,15 +102,10 @@ public class ArticleService {
     public String deleteArticle(String articleId){
     return  articleRepository.deleteArticle(articleId)!=0?"Article deleted":"article not deleted";
     }
-
     //update status by publisher
     public String updateStatus(String  id, ArticleStatus status, Integer publisherId){
-        Optional<ArticleEntity>optional=articleRepository.findByIdAndVisibleTrue(id);
-        Optional<ProfileEntity>publisher=profileRepository.findById(publisherId);
-        if(optional.isEmpty()) throw new ItemNotFoundException("Article not found");
-        if(publisher.isEmpty()) throw new ItemNotFoundException("Publisher not found");
-       int n=articleRepository.updateStatus(status, publisher.get(),id, LocalDateTime.now());
-        System.out.println(status);
+       get(id);
+       int n=articleRepository.updateStatus(status, publisherId,id,LocalDateTime.now());
         return n>0?"Article status updated":"status not updated";
     }
     //5 5. Get Last 5 Article By Types  ordered_by_created_date
@@ -203,50 +124,86 @@ public class ArticleService {
             articleDTO.setId(s.getId());
             articleDTO.setTitle(s.getTitle());
             articleDTO.setDescription(s.getDescription());
-            articleDTO.setImageId(s.getImageId());
+            articleDTO.setImage(attachService.getAttachURL(s.getImageId()));
             articleDTO.setPublishedDate(s.getPublishedDate());
             dtoList.add(articleDTO);
         });
         return dtoList;
     }
      // 8. Get Article By Id And Lang
-    public ArticleFullInfoMapper getByLang(String articleId, Language language) {
-        List<Object[]> objList=articleRepository.findByLang(articleId,language.name().toLowerCase());
-        ArticleFullInfoMapper mapper=new ArticleFullInfoMapper();
-        for (Object[] obj: objList) {
-            mapper.setId(obj[0].toString());
-            mapper.setTitle(obj[1].toString());
-            mapper.setDescription(obj[2].toString());
-            mapper.setContent(obj[3].toString());
-            mapper.setImageId(obj[4].toString());
-            mapper.setSharedCount(Integer.valueOf(obj[5].toString()));
-            mapper.setRegionOrderNumber(Integer.valueOf(obj[6].toString()));
-            mapper.setRegionName(obj[7].toString());
-            mapper.setCategoryOrderNumber(Integer.valueOf(obj[8].toString()));
-            mapper.setCategoryName(obj[9].toString());
-            mapper.setPublishedDate(Timestamp.valueOf(obj[10].toString()).toLocalDateTime());
-            mapper.setViewCount(Integer.valueOf(obj[11].toString()));
-            String  [] tags=obj[12].toString().split("#");
-            System.out.println(Arrays.toString(tags));
-            mapper.setTagNameList(Arrays.stream(tags).toList());
-//            mapper.setTagNameList(List.of(obj[12].toString()));
+
+    public ArticleDTO getArticleByIdAndLang(String articleId,Language language){
+        ArticleEntity entity=get(articleId);
+        ArticleDTO dto=new ArticleDTO();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setContent(entity.getContent());
+        dto.setSharedCount(entity.getSharedCount());
+        String regionName="";
+        String categoryName="";
+        switch (language){
+            case En -> {
+                regionName=entity.getRegion().getNameEn();
+                categoryName=entity.getCategory().getNameEn();
+            }
+            case Uz -> {
+                regionName=entity.getRegion().getNameUz();
+                categoryName=entity.getCategory().getNameUz();
+            }
+            case Ru -> {
+                regionName=entity.getRegion().getNameRu();
+                categoryName=entity.getCategory().getNameRu();
+            }
         }
-        return mapper;
+        RegionDTO regionDTO=new RegionDTO();
+        regionDTO.setId(entity.getRegionId());
+        regionDTO.setName(regionName);
+        dto.setRegionDTO(regionDTO);
+        CategoryDTO categoryDTO=new CategoryDTO();
+        categoryDTO.setId(entity.getCategoryId());
+        categoryDTO.setName(categoryName);
+        dto.setCategoryDTO(categoryDTO);
+        dto.setPublishedDate(entity.getPublishedDate());
+        dto.setViewCount(entity.getViewCount());
+        // TODO: 7/26/2023 like count qilish
+        List<TagDTO> tagDTOList=articleTagsService.getTagListByArticleId(articleId);
+        dto.setTagDTOList(tagDTOList);
+        return dto;
     }
+//    public ArticleFullInfoMapper getByLang(String articleId, Language language) {
+//        List<Object[]> objList=articleRepository.findByLang(articleId,language.name().toLowerCase());
+//        ArticleFullInfoMapper mapper=new ArticleFullInfoMapper();
+//        for (Object[] obj: objList) {
+//            mapper.setId(obj[0].toString());
+//            mapper.setTitle(obj[1].toString());
+//            mapper.setDescription(obj[2].toString());
+//            mapper.setContent(obj[3].toString());
+//            mapper.setImageId(obj[4].toString());
+//            mapper.setSharedCount(Integer.valueOf(obj[5].toString()));
+//            mapper.setRegionOrderNumber(Integer.valueOf(obj[6].toString()));
+//            mapper.setRegionName(obj[7].toString());
+//            mapper.setCategoryOrderNumber(Integer.valueOf(obj[8].toString()));
+//            mapper.setCategoryName(obj[9].toString());
+//            mapper.setPublishedDate(Timestamp.valueOf(obj[10].toString()).toLocalDateTime());
+//            mapper.setViewCount(Integer.valueOf(obj[11].toString()));
+//            String  [] tags=obj[12].toString().split("#");
+//            System.out.println(Arrays.toString(tags));
+//            mapper.setTagNameList(Arrays.stream(tags).toList());
+////            mapper.setTagNameList(List.of(obj[12].toString()));
+//        }
+//        return mapper;
+//    }
     //9. Get Last 4 Article By Types and except given article id.
     //        ArticleShortInfo
-    public List<ArticleDTO> getLastFour(Integer typeId, List<String>idList){
-        Optional<ArticleTypeEntity>articleType=articleTypeRepository.findByIdAndVisibleTrue(typeId);
-        if(articleType.isEmpty())throw new ItemNotFoundException("Article type not found!");
-
-        List<ArticleShortInfoMapper>mapper=articleRepository.getLastFour(typeId,idList);
+    public List<ArticleDTO> getLastFour(Integer typeId, String articleId){
+        List<ArticleShortInfoMapper>mapper=articleRepository.getLastFour(typeId,articleId);
         return  mapper.stream().map(s->{
             ArticleDTO articleDTO= new ArticleDTO();
             articleDTO.setId(s.getArticleId());
             articleDTO.setTitle(s.getTitle());
             articleDTO.setDescription(s.getDescription());
-            articleDTO.setImageId(s.getImageId());
-            articleDTO.setImageUrl(s.getImageUrl());
+            articleDTO.setImage(attachService.getAttachURL(s.getImageId()));
             articleDTO.setPublishedDate(s.getPublishedDate());
             return articleDTO;
         }).toList();
@@ -265,19 +222,25 @@ public class ArticleService {
     }
     //12. Get Last 5 Article By Types  And By Region Key
     public List<ArticleDTO>getByTypeAndRegion(Integer typeId, Integer regionId){
-        Optional<ArticleTypeEntity>type=articleTypeRepository.findByIdAndVisibleTrue(typeId);
-        Optional<RegionEntity>region=regionRepository.findByIdAndVisibleTrue(regionId);
-        if(type.isEmpty()) throw new ItemNotFoundException("type not found");
-        if(region.isEmpty()) throw new ItemNotFoundException("region not found");
         List<ArticleEntity>entityList=articleRepository.findByTypeAndRegion(typeId,regionId);
         return shortInfo(entityList);
     }
     //  13. Get Article list by Region Key (Pagination)
     public PageImpl<ArticleDTO>paginationByRegion(Integer regionId, Integer page, Integer size){
-        Optional<RegionEntity>optional=regionRepository.findByIdAndVisibleTrue(regionId);
-        if (optional.isEmpty()) throw new ItemNotFoundException("");
         Pageable pageable= PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "publishedDate"));
-        Page<ArticleEntity> pageObj=articleRepository.findByRegionIdAndVisibleTrue(optional.get(),pageable);
+        Page<ArticleEntity> pageObj=articleRepository.findByRegionIdAndVisibleTrue(regionId,pageable);
+        List<ArticleDTO>dtoList=shortInfo(pageObj.getContent());
+        return new PageImpl<>(dtoList,pageable,pageObj.getTotalElements());
+    }
+    //14. Get Last 5 Article Category Key
+    public List<ArticleDTO> getLastFiveByCategory(Integer categoryId) {
+        List<ArticleEntity> entityList=articleRepository.getLastFiveByCategory(categoryId);
+        return shortInfo(entityList);
+    }
+    //15. Get Article By Category Key (Pagination)
+    public PageImpl<ArticleDTO> getByCategoryPagination(Integer categoryId, Integer page, Integer size) {
+        Pageable pageable=PageRequest.of(page,size,Sort.by(Sort.Direction.DESC, "publishedDate"));
+        Page<ArticleEntity> pageObj=articleRepository.findAllByCategoryIdAndVisibleTrue(categoryId,pageable);
         List<ArticleDTO>dtoList=shortInfo(pageObj.getContent());
         return new PageImpl<>(dtoList,pageable,pageObj.getTotalElements());
     }
@@ -288,39 +251,48 @@ public class ArticleService {
             articleDTO.setId(s.getId());
             articleDTO.setTitle(s.getTitle());
             articleDTO.setDescription(s.getDescription());
-            articleDTO.setImageId(s.getImageId().getId());
+            articleDTO.setImage(attachService.getAttachURL(s.getImageId()));
             articleDTO.setPublishedDate(s.getPublishedDate());
             dtoList.add(articleDTO);
         });
         return dtoList;
     }
-
-    //8. Get Article By Id And Lang
-//    public List<ArticleDTO>getByLang(Language language)
     private ArticleDTO toDTO(ArticleEntity entity) {
         ArticleDTO articleDTO=new ArticleDTO();
         articleDTO.setId(entity.getId());
         articleDTO.setTitle(entity.getTitle());
         articleDTO.setDescription(entity.getDescription());
         articleDTO.setContent(entity.getContent());
-        articleDTO.setCategoryId(entity.getCategoryId().getId());
-        articleDTO.setRegionId(entity.getRegionId().getId());
+        articleDTO.setCategoryId(entity.getCategoryId());
+        articleDTO.setRegionId(entity.getRegionId());
         List<Integer> articleTypeId=new LinkedList<>();
-        for (ArticleTypeEntity at: entity.getArticleTypes()){
-            articleTypeId.add(at.getId());
-        }
         articleDTO.setArticleTypes(articleTypeId);
-        articleDTO.setImageId(entity.getImageId().getId());
-        articleDTO.setPublisherId(entity.getPublisherId().getId());
+        articleDTO.setImageId(entity.getImageId());
+        articleDTO.setPublisherId(entity.getPublisherId());
         articleDTO.setStatus(entity.getStatus());
         articleDTO.setSharedCount(entity.getSharedCount());
         articleDTO.setViewCount(entity.getViewCount());
-        articleDTO.setModeratorId(entity.getModeratorId().getId());
+        articleDTO.setModeratorId(entity.getModeratorId());
         articleDTO.setPublishedDate(entity.getPublishedDate());
         articleDTO.setCreatedDate(entity.getCreatedDate());
         return articleDTO;
     }
+    private ArticleEntity get(String articleId){
+        return articleRepository.findByIdAndVisibleTrue(articleId).orElseThrow(()->new ItemNotFoundException("Article not found"));
+    }
+    //16. Increase Article View Count by Article Id
+    public String increaseViewCount(String articleId) {
+        return articleRepository.increaseViewCount(articleId)>0?"updated":"not updated";
+    }
+    //17. Increase Share View Count by Article Id
+    public String increaseShareCount(String articleId) {
+        return articleRepository.increaseShareCount(articleId)>0?"updated":"not updated";
+    }
 
-
-
+    public PageImpl<ArticleDTO> filterPagination(FilterArticleDTO filterArticleDTO, Integer page, Integer size) {
+        FilterResultDTO<ArticleEntity> filterResultDTO=customArticleRepository.filterPagination(filterArticleDTO,page,size);
+        Pageable pageable=PageRequest.of(page,size);
+        List<ArticleDTO>dtoList=shortInfo(filterResultDTO.getContent());
+        return new PageImpl<>(dtoList,pageable,filterResultDTO.getTotalElement());
+    }
 }

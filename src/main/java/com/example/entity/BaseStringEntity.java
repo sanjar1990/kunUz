@@ -17,8 +17,6 @@ public class BaseStringEntity {
     private String id;
     @Column(name = "visible")
     private Boolean visible=true;
-    @Column(name = "prt_id")
-    private Integer prtId;
     @Column(name = "created_date")
     private LocalDateTime createdDate=LocalDateTime.now();
 }

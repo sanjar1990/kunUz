@@ -23,7 +23,5 @@ public class RegionEntity extends BaseEntity {
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
-    public RegionEntity(Integer id) {
-        super.setId(id);
-    }
+
 }

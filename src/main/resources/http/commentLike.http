@@ -1,0 +1,10 @@
+###1. Like (ANY)
+POST localhost:8080/api/v1/commentLike/like/f956c08b-0121-4c3c-a193-db8f9adb91b5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE1NzU2MzgsInBob25lIjoiKzk5ODkwMDEwMTAyMiIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE2OTE2NjIwMzgsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.BxMNSJksDoj_Sqkun0vWReDRC2fGRU1uDI68mbosVRmUr10tqvT4y5kSY2Rn9l8WGfKKipQspVHPH7tiNNRnIA
+###    2. Dislike (ANY
+POST localhost:8080/api/v1/commentLike/dislike/f956c08b-0121-4c3c-a193-db8f9adb91b5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA0NzQ1NjEsImlkIjo0LCJyb2xlIjoiVVNFUiIsImV4cCI6MTY5MTMzODU2MSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.Sk-Km65N0_zqLfbaW-s7Di4gxkmWnMgV-3p8O43x4IFhUhy1i8g3QH9lks7CmWFMtNUjuskz09JHlSCHVFJYEw
+
+###   3. Remove (ANY
+DELETE localhost:8080/api/v1/commentLike/02f6b698-23b2-429d-b395-727346882470
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTA0NzQ1NjEsImlkIjo0LCJyb2xlIjoiVVNFUiIsImV4cCI6MTY5MTMzODU2MSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.Sk-Km65N0_zqLfbaW-s7Di4gxkmWnMgV-3p8O43x4IFhUhy1i8g3QH9lks7CmWFMtNUjuskz09JHlSCHVFJYEw

@@ -1,20 +1,15 @@
 ### create by admin
 POST localhost:8080/api/v1/articleType/admin
 Content-Type:  application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MzM0MzcsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTAwMTk4MzcsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.1t4XM3srv4-STI1UzoHvjWM3e8xnEWgxdt5e2wLN4Tyq5YbglCQ7vs2dWFTVHna_QIxcB5qrvSX5wBo65I6hrQ
+Authorization: Basic Kzk5ODkwODA3MDE3NjoxMjM0NQ==
 
 {
-  "orderNumber": 3,
-  "nameEn": "Video news",
-  "nameUz": "Video yangiliklar",
-  "nameRu": "Video novostiy"
+  "orderNumber": 4,
+  "nameEn": "Breaking news",
+  "nameUz": "dolzarb xabarlar",
+  "nameRu": "srochniy novosti"
 }
-//{
-//  "orderNumber": 1,
-//  "nameEn": "Main",
-//  "nameUz": "Asosiy",
-//  "nameRu": "Главный"
-//}
+
 
 ### update by admin
 PUT localhost:8080/api/v1/articleType/1
@@ -30,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 }
 ### delete by admin
 DELETE localhost:8080/api/v1/articleType/1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+Authorization: Basic Kzk5ODkwODA3MDE3NjoxMjM0NQ==
 
 ### get all admin
 GET localhost:8080/api/v1/articleType/getAll?page=1&size=10
@@ -38,4 +33,4 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 
 ### get by lang
 GET localhost:8080/api/v1/articleType/language?lang=En
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
+Authorization: Basic Kzk5ODkwODA3MDE3NjoxMjM0NQ==

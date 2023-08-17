@@ -27,11 +27,10 @@ public class ArticleTypeService {
     private CheckValidationUtility checkValidationUtility;
     //1 create by admin
     public ArticleTypeDTO create(ArticleTypeDTO articleTypeDTO,Integer prtId){
-        checkValidationUtility.checkArticleType(articleTypeDTO);
         Boolean isExists=articleTypeRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumberAndVisibleTrue(articleTypeDTO.getNameEn(),
                         articleTypeDTO.getNameUz(),articleTypeDTO.getNameRu(),articleTypeDTO.getOrderNumber());
-        if (isExists) throw new ItemAlreadyExists("This Region already exists");
+        if (isExists) throw new ItemAlreadyExists("This Article type already exists");
         ArticleTypeEntity articleTypeEntity=toEntity(articleTypeDTO);
         articleTypeEntity.setPrtId(prtId);
         articleTypeRepository.save(articleTypeEntity);
@@ -47,22 +46,11 @@ public class ArticleTypeService {
         Boolean isExists=articleTypeRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumberAndVisibleTrue
                         (articleTypeDTO.getNameEn(),articleTypeDTO.getNameRu(),articleTypeDTO.getNameUz(),articleTypeDTO.getOrderNumber());
-        if (isExists) throw new ItemAlreadyExists(" Article Type already exists");
-        if(articleTypeDTO.getNameEn()!=null){
+        if (isExists) {throw new ItemAlreadyExists(" Article Type already exists");}
             articleTypeEntity.setNameEn(articleTypeDTO.getNameEn());
-        }
-        if (articleTypeDTO.getNameUz()!=null){
             articleTypeEntity.setNameUz(articleTypeDTO.getNameUz());
-        }
-        if(articleTypeDTO.getNameRu()!=null){
             articleTypeEntity.setNameRu(articleTypeDTO.getNameRu());
-        }
-        if(articleTypeDTO.getVisible()!=null){
-            articleTypeEntity.setVisible(articleTypeDTO.getVisible());
-        }
-        if (articleTypeDTO.getOrderNumber()!=null){
             articleTypeEntity.setOrderNumber(articleTypeDTO.getOrderNumber());
-        }
         articleTypeEntity.setPrtId(prtId);
         articleTypeRepository.save(articleTypeEntity);
         return "Article type updated";

@@ -40,14 +40,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 
 {
   "name": "Ali",
-  "surname": "Aliyev",
-  "email": "ali@gmail.com",
-  "phone": "+998909099999",
-  "password": "ali123"
+  "surname": "Aliyev"
 }
 
 ### update photo any
-PUT localhost:8080/api/v1/profile/updatePhoto?photoId=116cf764-c038-4e34-b4be-6da10737d9fa
+PUT localhost:8080/api/v1/profile/updatePhoto?photoId=2747d28f-8e68-4736-9bee-1c800aade4c4
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTE1NDgsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkxMDU1NTQ4LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.un9b29Wrd9GJ7dJzIR9-VY1WnomVwOZQ1PVT0-sxaDOykNXHngjnwKDA_5SWKe7_dr1V9JNg92oloUkBpCdXzA
 ### profileListPaginationByAdmin
 GET localhost:8080/api/v1/profile/profileListPagination?page=1&size10

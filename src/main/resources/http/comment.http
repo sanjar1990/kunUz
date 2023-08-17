@@ -1,0 +1,47 @@
+### create any
+POST localhost:8080/api/v1/comment
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE1NzYzNTUsInBob25lIjoiKzk5ODkwMDEwMTAyMiIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE2OTE2NjI3NTUsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.QO_xGKK3XJmkB2S2wPZrEzFjyvGoG5FdMgxTWtdrRZ5eoMypS6swIHqt_Oww7Jfgvo8K9gFsShlp1SDs_nU_0A
+
+{
+ "content": "nimadur7",
+  "articleId": "5499948d-b800-4639-9300-d768f9f75cc1",
+  "replyId": "a9ddf7e2-2418-4e20-9aba-605404101fe6"
+}
+
+### update any owner
+PUT localhost:8080/api/v1/comment/dedc9823-7334-498f-98b8-2446a690d7de
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAzNjU4OTIsImlkIjo0LCJyb2xlIjoiVVNFUiIsImV4cCI6MTY5MTIyOTg5MiwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.jU7X57TQnehLeXq6g-RIJzRpACGPayq_QxCKujpMGFrddRGd4J8_I-CJrnbF6qFaQlQqDjby_bhY-QG8TakNFQ
+
+{
+  "articleId": "5499948d-b800-4639-9300-d768f9f75cc1",
+  "content": "update comment2"
+}
+
+### delete admin any owner
+DELETE localhost:8080/api/v1/comment/dedc9823-7334-498f-98b8-2446a690d7de
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAzNzAzMzgsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTEyMzQzMzgsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.F1qOPcNL5uxOl3coZ6B8SCKQl4g-eF1u30XEqJmeiI9vb-7XFahsTh4_nzjo6NvcDhs70l-XV2FZXSsEbgmWYA
+
+###  4. Get Article Comment List By Article Id
+GET localhost:8080/api/v1/comment/public/getByArticleId/5499948d-b800-4639-9300-d768f9f75cc1
+
+###   5. Comment List (pagination) (ADMIN)
+GET localhost:8080/api/v1/comment/pagination?page=1&size=10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAzNzAzMzgsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTEyMzQzMzgsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.F1qOPcNL5uxOl3coZ6B8SCKQl4g-eF1u30XEqJmeiI9vb-7XFahsTh4_nzjo6NvcDhs70l-XV2FZXSsEbgmWYA
+
+### 6. filter pagination
+POST localhost:8080/api/v1/comment/filterPagination?page=1&size=10
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAzNzAzMzgsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2OTEyMzQzMzgsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.F1qOPcNL5uxOl3coZ6B8SCKQl4g-eF1u30XEqJmeiI9vb-7XFahsTh4_nzjo6NvcDhs70l-XV2FZXSsEbgmWYA
+
+{
+  "createdDateFrom": "2023-07-01",
+  "createdDateTo": "2023-07-27",
+  "profileId": 4,
+  "articleId": "5499948d-b800-4639-9300-d768f9f75cc1"
+}
+
+### 7. Get Replied Comment List by Comment Id
+GET localhost:8080/api/v1/comment/public/getRepliedComment/a9ddf7e2-2418-4e20-9aba-605404101fe6

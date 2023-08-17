@@ -1,13 +1,13 @@
 ### create region by admin
-POST localhost:8080/api/v1/region/admin
+POST localhost:8080/api/v1/region
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk5Mjk5ODksImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.LutDDXiH-2P7gdVOX4IM-Enj_tQlxDNd9aNE87G1hnn1mhhmdSk0-pN-e4eb7bE56UVZCJ-LgxMomST81h-c6Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0OTQyODEsInBob25lIjoiKzk5ODk5OTA5MDkwOSIsInJvbGUiOiJST0xFX1BVQkxJU0hFUiIsImV4cCI6MTY5MTU4MDY4MSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.hHRrmnvsUM5Cw3tbC5kmM8bORVIwlTJYC9_AJkqCaGqX1hRvB0yw3LBGD99N-opt0NPN7jTtzqGKAwRp8Yt65A
 
 {
-  "orderNumber": 1,
-  "nameEn": "Tashkent",
-  "nameUz": "Toshkent",
-  "nameRu": "Ташкент"
+  "orderNumber": 4,
+  "nameEn": "QARSHI",
+  "nameUz": "QARSHI",
+  "nameRu": "KARSHI"
 }
 
 ### update by Admin
@@ -17,10 +17,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb
 
 
 {
-  "orderNumber": 2,
-  "nameEn": "Bukhara",
-  "nameUz": "Buxoro",
-  "nameRu": "Бухара"
+  "orderNumber": 3,
+  "nameEn": "Xorazm",
+  "nameUz": "Xorazm",
+  "nameRu": "Xarazem"
 }
 
 ### deleted region by admin
@@ -28,8 +28,7 @@ DELETE localhost:8080/api/v1/region/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
 ### get all by id admin
-GET localhost:/api/v1/8080/region/getAll
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
-
+GET localhost:8080/api/v1/region/admin/getAll
+Authorization: Basic YWRtaW46MTIzNDU=
 ### get by language
 GET localhost:8080/api/v1/region/language?lang=Uz
