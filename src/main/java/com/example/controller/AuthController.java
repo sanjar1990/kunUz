@@ -2,6 +2,7 @@ package com.example.controller;
 import com.example.dto.ApiResponseDTO;
 import com.example.dto.AuthDTO;
 import com.example.dto.RegistrationDTO;
+import com.example.enums.Language;
 import com.example.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +27,9 @@ public class AuthController {
     }
     //register user by email
     @PostMapping("/registrationByEmail")
-    public ResponseEntity<ApiResponseDTO>registrationByEmail(@Valid @RequestBody RegistrationDTO registrationDTO){
-        return ResponseEntity.ok(authService.registrationByEmail(registrationDTO));
+    public ResponseEntity<ApiResponseDTO>registrationByEmail(@Valid @RequestBody RegistrationDTO registrationDTO,
+                                                             @RequestParam(value = "lang",defaultValue = "Uz")Language language){
+        return ResponseEntity.ok(authService.registrationByEmail(registrationDTO,language));
     }
     //register user by phone
     @PostMapping("/registrationByPhone")

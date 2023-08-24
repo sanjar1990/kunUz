@@ -4,6 +4,7 @@ import com.example.controller.AuthController;
 import com.example.dto.*;
 import com.example.entity.ProfileEntity;
 import com.example.entity.SmsHistoryEntity;
+import com.example.enums.Language;
 import com.example.enums.ProfileRole;
 import com.example.enums.ProfileStatus;
 import com.example.enums.SmsStatus;
@@ -17,9 +18,11 @@ import com.example.utility.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -34,6 +37,9 @@ public class AuthService {
     private SmsSenderService smsSenderService;
     @Autowired
     private SmsHistoryRepository smsHistoryRepository;
+    @Autowired
+    private ResourceBundleService  messageSource;
+
     private Logger log= LoggerFactory.getLogger(AuthService.class);
 
 
@@ -62,16 +68,18 @@ public class AuthService {
         return new ApiResponseDTO(true, profileDTO);
     }
     //register user
-    public ApiResponseDTO registrationByEmail(RegistrationDTO dto){
+    public ApiResponseDTO registrationByEmail(RegistrationDTO dto,Language language){
         //check
         checkValidationUtility.checkForPhone(dto.getPhone());
         // check is exist phone
         Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
-        if(checkByPhone)return new ApiResponseDTO(false,"this phone is exists!");
+        if(checkByPhone)return new ApiResponseDTO(false,messageSource.getMessage("this.phone.exists",language));
         // check is exist email
        Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
        if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.ACTIVE)){
-           return new ApiResponseDTO(false,"this email is exists!");
+           return new ApiResponseDTO(
+                   false,
+                   messageSource.getMessage("email.already.exists",language));
        }else if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.REGISTRATION)){
            profileRepository.deleteById(optional.get().getId());
        }
@@ -122,6 +130,7 @@ public class AuthService {
     }
     public ApiResponseDTO emailVerification(String jwt) {
         JwtDTO jwtDTO=JWTUtil.decodeEmailJWT(jwt);
+        System.out.println(jwtDTO.getId());
         Optional<ProfileEntity> optional=profileRepository.findById(jwtDTO.getId());
         if(optional.isEmpty()) throw new ItemNotFoundException("Profile not found");
         ProfileEntity entity=optional.get();

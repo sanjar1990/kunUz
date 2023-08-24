@@ -8,13 +8,13 @@ Content-Type: application/json
 }
 
 ### registr user by email
-POST localhost:8080/api/v1/auth/registrationByEmail
+POST localhost:8080/api/v1/auth/registrationByEmail?lang=En
 Content-Type: application/json
 
 {
   "name": "test5",
   "surname": "test5",
-  "email": "runnerpro1790@gmail.com",
+  "email": "sanjar902105@gmail.com",
   "phone": "+998900101077",
   "password": "12345",
   "photoId" :"d474a0f4-2246-4e7b-b83d-53fb9d8d3112"

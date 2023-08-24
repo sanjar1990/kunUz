@@ -10,6 +10,8 @@ import com.example.service.ArticleService;
 import com.example.utility.SecurityUtil;
 import com.example.utility.SpringSecurityUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/article")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Tag(name = "Article", description = "Article api list.")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
     // create article by moderator
     @PreAuthorize("hasRole('MODERATOR')")
     @PostMapping("")
+    @Operation(summary = "Create article", description = "This api used for article creation...")
     public ResponseEntity<ArticleDTO>create(@Valid @RequestBody ArticleDTO articleDTO){
         return ResponseEntity.ok(articleService.create(SpringSecurityUtil.getProfileId(),articleDTO));
     }
     //update by moderator
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_PUBLISHER')")
     @PutMapping("/{id}")
+    @Operation(summary = "update article by moderator ", description = "This api used for article update...")
     public ResponseEntity<String>update(@Valid @RequestBody ArticleDTO articleDTO,
                                         @PathVariable String id){
         return ResponseEntity.ok(articleService.update(articleDTO,SpringSecurityUtil.getProfileId(),id));
@@ -42,12 +47,14 @@ public class ArticleController {
     // delete moderator
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_PUBLISHER')")
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete article by moderator ", description = "This api used for deleting article ...")
     public ResponseEntity<String>delete(@PathVariable String id){
         return ResponseEntity.ok(articleService.deleteArticle(id));
     }
     //update article status
     @PreAuthorize("hasRole('ROLE_PUBLISHER')")
     @PutMapping("/updateStatus/{id}")
+    @Operation(summary = "update article status by publisher ", description = "This api used for updating status article ...")
     public ResponseEntity<String>update(@PathVariable String id,
                                         @RequestParam("status") ArticleStatus status){
         return ResponseEntity.ok(articleService.updateStatus(id,status,SpringSecurityUtil.getProfileId()));
@@ -55,12 +62,14 @@ public class ArticleController {
     //5)get five
     //6)get last three
     @GetMapping("/public/getLast")
+    @Operation(summary = "get last article ", description = "This api used for getting last article entering amount and type ...")
     public ResponseEntity<List<ArticleDTO>>getLastFive(@RequestParam("typeId") Integer typeId,
                                                        @RequestParam("amount") Integer limit){
         return ResponseEntity.ok(articleService.getLastArticle(typeId, limit));
     }
     //7
     @GetMapping("/public/getLastEight")
+    @Operation(summary = " getLastEight ", description = "This api used for getting last eight  ...")
     public ResponseEntity<List<ArticleDTO>>getLastEight(@RequestBody List<String> idList){
         return ResponseEntity.ok(articleService.getLastEight(idList));
     }
