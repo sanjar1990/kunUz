@@ -47,7 +47,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 PUT localhost:8080/api/v1/profile/updatePhoto?photoId=2747d28f-8e68-4736-9bee-1c800aade4c4
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTAxOTE1NDgsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjkxMDU1NTQ4LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.un9b29Wrd9GJ7dJzIR9-VY1WnomVwOZQ1PVT0-sxaDOykNXHngjnwKDA_5SWKe7_dr1V9JNg92oloUkBpCdXzA
 ### profileListPaginationByAdmin
-GET localhost:8080/api/v1/profile/profileListPagination?page=1&size10
+GET 5.180.180.29:8080/api/v1/profile/profileListPagination?page=1&size10
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
 ### delete profile by id
