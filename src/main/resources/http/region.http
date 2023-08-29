@@ -11,24 +11,25 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0OTQyODEsInBob25lIjoiK
 }
 
 ### update by Admin
-PUT localhost:8080/api/v1/region/1
+PUT localhost:8080/api/v1/region/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk5MjYzODksImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk5Mjk5ODksImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.LutDDXiH-2P7gdVOX4IM-Enj_tQlxDNd9aNE87G1hnn1mhhmdSk0-pN-e4eb7bE56UVZCJ-LgxMomST81h-c6Q
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTMxMzMzOTMsInBob25lIjoiKzk5ODkwMDAxMDEwMSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkzMjE5NzkzLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.zeXHQ7bhj_aVe7YScem8ULdy80T-UmMk4Skm3b8GHMvoM44-fDlYkHh5wIlvRwWiwHTFv1CCwM_lku1LLIzTZg
 
 {
-  "orderNumber": 3,
-  "nameEn": "Xorazm",
-  "nameUz": "Xorazm",
-  "nameRu": "Xarazem"
+  "orderNumber": 2,
+  "nameEn": "XorazmUpdated",
+  "nameUz": "XorazmUpdated",
+  "nameRu": "XarazemUpdated"
 }
 
 ### deleted region by admin
 DELETE localhost:8080/api/v1/region/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODk3Njk3MTYsImlzcyI6Imt1bnV6IHRlc3QgcG9ydGFsaSJ9.pHV1kTy7tUzOZ-TmTT5CmE_Ma92PENYd85YJFQDUef3Myxp_9Hi_2yJrmxZgCgZwwkiScXMFNgKiW56v2QQxKw
 
-### get all by id admin
-GET localhost:8080/api/v1/region/admin/getAll
-Authorization: Basic YWRtaW46MTIzNDU=
+### get all admin
+GET localhost:8080/api/v1/region/getAll
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTMyOTcyNjksInBob25lIjoiKzk5ODkwMDAxMDEwMSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkzMzgzNjY5LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.RD6RwiqJ-ygSi1pRIsIlh8f8-aLWjFaByAGz2CevcJlm2v-48xoV_AQPIIvJUu50UDUXNX1lP4ftrk_7t15UtA
 ### get by language
-GET localhost:8080/api/v1/region/language?lang=Uz
+GET localhost:8080/api/v1/region/public/language?lang=Uz
+### get by id
+GET localhost:8080/api/v1/region/public/2

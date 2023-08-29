@@ -7,9 +7,17 @@ import com.example.exception.ItemAlreadyExists;
 import com.example.exception.ItemNotFoundException;
 import com.example.mapper.RegionLanguageMapper;
 import com.example.repository.RegionRepository;
-import com.example.utility.CheckValidationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +26,10 @@ import java.util.Optional;
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
-    @Autowired
-    private CheckValidationUtility checkValidationUtility;
+
     //1 create By Admin
     public RegionDTO createRegion(RegionDTO regionDTO, Integer prtId){
+
         Boolean exists=regionRepository
                 .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
         if (exists) throw new ItemAlreadyExists("This Region already exists");
@@ -37,8 +45,8 @@ public class RegionService {
     return regionDTO;
     }
     //2 update region by Admin
-
-    public String updateRegion(RegionDTO regionDTO, Integer id,Integer prtId){
+    @Cacheable(value = "region",key = "#id")
+    public RegionDTO updateRegion(RegionDTO regionDTO, Integer id,Integer prtId){
        RegionEntity regionEntity=getRegionEntity(id);
     Boolean exists=regionRepository
             .existsAllByNameEnOrNameUzOrNameRu(regionDTO.getNameEn(),regionDTO.getNameRu(),regionDTO.getNameUz());
@@ -60,17 +68,22 @@ public class RegionService {
         }
         regionEntity.setPrtId(prtId);
         regionRepository.save(regionEntity);
-        return "Region updated";
+        regionDTO.setId(id);
+        return regionDTO;
     }
     //3 delete by Admin
+    @CacheEvict(value = "region",key = "#id")
     public String deleteRegion(Integer id){
         return regionRepository.deleteRegionById(id)>0?"region deleted":"region not deleted";
     }
     //4 region list
+    @Cacheable(value = "region")
     public List<RegionDTO>getAllRegion(){
-       return regionRepository.findAllByVisibleTrueOrderByOrderNumberAsc().stream().map(s->toDto(s)).toList();
+       return regionRepository.findAllByVisibleTrueOrderByOrderNumberAsc()
+               .stream().map(s->toDto(s)).toList();
     }
     //5 getBy language
+    @Cacheable(value = "region",key = "#language")
     public List<RegionDTO>getByLanguage(Language language){
         if(language==null) throw new AppBadRequestException("Enter language!");
        List<RegionLanguageMapper> regionLanguageMapper= regionRepository.getByLanguage(language.name().toLowerCase());
@@ -83,6 +96,12 @@ public class RegionService {
            dtoList.add(regionDTO);
        }
        return dtoList;
+    }
+
+    //get by id
+    @Cacheable(value = "region",key = "#id")
+    public RegionDTO getById(Integer id){
+        return toDto(getRegionEntity(id));
     }
     private RegionEntity toEntity(RegionDTO dto){
         RegionEntity regionEntity=new RegionEntity();
@@ -104,10 +123,13 @@ public class RegionService {
         regionDTO.setPrtId(regionEntity.getPrtId());
         return regionDTO;
     }
-    private RegionEntity getRegionEntity(Integer regionId){
-        return regionRepository.findByIdAndVisibleTrue(regionId)
+    private RegionEntity getRegionEntity(Integer id){
+        return regionRepository.findByIdAndVisibleTrue(id)
                 .orElseThrow(()-> new ItemNotFoundException("region not found"));
     }
-
+    @CacheEvict(value = "region",allEntries = true)
+    public void deleteAll(Integer id){
+       regionRepository.deleteAll();
+    }
 
 }
