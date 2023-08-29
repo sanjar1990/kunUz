@@ -10,6 +10,8 @@ import com.example.mapper.CategoryLanguageMapper;
 import com.example.repository.CategoryRepository;
 import com.example.utility.CheckValidationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,8 +24,6 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private CheckValidationUtility checkValidationUtility;
     // 1 create by admin
     public CategoryDTO createCategory(CategoryDTO categoryDTO,Integer prtId){
         Boolean exists=categoryRepository
@@ -40,12 +40,15 @@ public class CategoryService {
         return categoryDTO;
     }
     //2 update by admin
+    @Cacheable(value = "category",key = "#id")
     public String updateCategory(CategoryDTO categoryDTO, Integer id, Integer prtId){
        CategoryEntity categoryEntity=getCategoryEntity(id);
             Boolean isExists=categoryRepository
                 .existsAllByNameEnOrNameUzOrNameRuOrOrderNumber(categoryDTO.getNameEn(),
                         categoryDTO.getNameUz(), categoryDTO.getNameRu(),categoryDTO.getOrderNumber());
-        if(isExists) throw new ItemAlreadyExists("this category already exists");
+        if(isExists) {
+            throw new ItemAlreadyExists("this category already exists");
+        }
          categoryEntity.setOrderNumber(categoryDTO.getOrderNumber());
          categoryEntity.setNameEn(categoryDTO.getNameEn());
          categoryEntity.setNameUz(categoryDTO.getNameUz());
@@ -55,14 +58,17 @@ public class CategoryService {
          return "Category is updated";
     }
     //3 delete by admin
+    @CacheEvict(value = "category",key = "#id")
     public String deleteCategory(Integer id){
         return categoryRepository.deleteCategory(id)>0?"category deleted":"category not deleted";
     }
     //4 get all admin
+    @Cacheable(value = "category")
     public List<CategoryDTO>getAll(){
      return categoryRepository.findAllByVisibleTrueOrderByOrderNumberAsc().stream().map(s->toDto(s)).toList();
     }
     //5 get by language
+    @Cacheable(value = "category",key = "language")
     public List<CategoryDTO>getByLang(Language language){
         List<CategoryLanguageMapper>mapperList=categoryRepository.getAllByLang(language.name().toLowerCase());
         List<CategoryDTO> dtoList=new LinkedList<>();

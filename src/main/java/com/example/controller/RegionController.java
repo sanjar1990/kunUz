@@ -54,4 +54,8 @@ public class RegionController {
     public ResponseEntity<?>getByLanguage(@RequestParam(value = "lang",defaultValue = "Uz") Language language){
         return ResponseEntity.ok(regionService.getByLanguage(language));
     }
+    @GetMapping("/public/{id}")
+    public ResponseEntity<RegionDTO>getById(@PathVariable Integer id){
+        return ResponseEntity.ok(regionService.getById(id));
+    }
 }

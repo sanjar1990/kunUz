@@ -11,6 +11,8 @@ import com.example.mapper.ArticleTypeLangMapper;
 import com.example.repository.ArticleTypeRepository;
 import com.example.utility.CheckValidationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,7 @@ public class ArticleTypeService {
         return articleTypeDTO;
     }
     //2 update admin
+    @Cacheable(value = "articleType", key = "#id")
     public String update(ArticleTypeDTO articleTypeDTO, Integer id,Integer prtId){
        ArticleTypeEntity articleTypeEntity=get(id);
         Boolean isExists=articleTypeRepository
@@ -57,6 +60,7 @@ public class ArticleTypeService {
     }
 
     //3 delete admin
+    @CacheEvict(value = "region",key = "#id")
     public String delete(Integer id){
         return articleTypeRepository.deleteArticleType(id)>0?"type deleted":"type not deleted";
     }
@@ -67,6 +71,7 @@ public class ArticleTypeService {
        List<ArticleTypeDTO> dtoList=pageObj.getContent().stream().map(s->toDto(s)).toList();
        return new PageImpl<>(dtoList,pageable,pageObj.getTotalElements());
     }
+    @Cacheable(value = "articleType",key = "#language")
     public List<ArticleTypeDTO>getByLanguage(Language language){
         List<ArticleTypeLangMapper> mapperList=articleTypeRepository.getByLang(language.name().toLowerCase());
         List<ArticleTypeDTO> dtoList=new LinkedList<>();
