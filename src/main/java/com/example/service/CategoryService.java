@@ -63,9 +63,9 @@ public class CategoryService {
         return categoryRepository.deleteCategory(id)>0?"category deleted":"category not deleted";
     }
     //4 get all admin
-    @Cacheable(value = "category")
+    @Cacheable(value ="region")
     public List<CategoryDTO>getAll(){
-     return categoryRepository.findAllByVisibleTrueOrderByOrderNumberAsc().stream().map(s->toDto(s)).toList();
+     return categoryRepository.findAllByVisibleTrueOrderByCreatedDateDesc().stream().map(this::toDto).toList();
     }
     //5 get by language
     @Cacheable(value = "category",key = "language")

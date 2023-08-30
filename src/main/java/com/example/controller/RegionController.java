@@ -45,10 +45,8 @@ public class RegionController {
     }
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAll")
-    public ResponseEntity<?>getAll(Authentication authentication){
-        UserDetails userDetails=(UserDetails)authentication.getPrincipal();
-        String userName= SpringSecurityUtil.getCurrentUserName();
-        return ResponseEntity.ok(regionService.getAllRegion());
+    public ResponseEntity<?>getAll(){
+        return ResponseEntity.ok(regionService.getAll());
     }
     @GetMapping("/public/language")
     public ResponseEntity<?>getByLanguage(@RequestParam(value = "lang",defaultValue = "Uz") Language language){

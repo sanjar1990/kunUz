@@ -1,7 +1,7 @@
 ### create by admin
 POST localhost:8080/api/v1/category
 Content-Type: application/json
-Authorization: Basic Kzk5ODkwODA3MDE3NjoxMjM0NQ==
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTM0MTM2ODAsInBob25lIjoiKzk5ODkwMDAxMDEwMSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkzNTAwMDgwLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.-uIeqKoevCLiIuveXtgsDJbS1on6MmJR1dOjRBqITxnEIZqg3L7-sBAw8ysRGvNRTM8pLkLoC1eVXbrsGhiTXQ
 
 {
   "orderNumber": 1,
@@ -27,7 +27,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 
 ### get all by admin
 GET localhost:8080/api/v1/category/getAll
-Authorization: Basic Kzk5ODkwODA3MDE3NjoxMjM0NQ==
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTM0MTM2ODAsInBob25lIjoiKzk5ODkwMDAxMDEwMSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkzNTAwMDgwLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.-uIeqKoevCLiIuveXtgsDJbS1on6MmJR1dOjRBqITxnEIZqg3L7-sBAw8ysRGvNRTM8pLkLoC1eVXbrsGhiTXQ
 
 ### get by language
 GET localhost:8080/api/v1/category/public/language?lang=Uz

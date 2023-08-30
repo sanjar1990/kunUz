@@ -10,14 +10,7 @@ import com.example.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -77,8 +70,8 @@ public class RegionService {
         return regionRepository.deleteRegionById(id)>0?"region deleted":"region not deleted";
     }
     //4 region list
-    @Cacheable(value = "region")
-    public List<RegionDTO>getAllRegion(){
+    @Cacheable(cacheNames ="region")
+    public List<RegionDTO>getAll(){
        return regionRepository.findAllByVisibleTrueOrderByOrderNumberAsc()
                .stream().map(s->toDto(s)).toList();
     }
@@ -127,7 +120,7 @@ public class RegionService {
         return regionRepository.findByIdAndVisibleTrue(id)
                 .orElseThrow(()-> new ItemNotFoundException("region not found"));
     }
-    @CacheEvict(value = "region",allEntries = true)
+//    @CacheEvict(value = "region",allEntries = true)
     public void deleteAll(Integer id){
        regionRepository.deleteAll();
     }

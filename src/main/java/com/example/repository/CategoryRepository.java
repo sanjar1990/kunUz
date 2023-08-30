@@ -22,7 +22,7 @@ public interface CategoryRepository extends CrudRepository<CategoryEntity, Integ
     @Query("update CategoryEntity set visible=false where id=:id")
     int deleteCategory(@Param("id") Integer id);
     Optional<CategoryEntity> findByIdAndVisibleTrue(Integer id);
-    List<CategoryEntity>findAllByVisibleTrueOrderByOrderNumberAsc();
+    List<CategoryEntity>findAllByVisibleTrueOrderByCreatedDateDesc();
 
     @Query(value = "select id, order_number as orderNumber, " +
             "(case :lang" +

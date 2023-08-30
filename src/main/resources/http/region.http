@@ -28,7 +28,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODk3NjYxMTYsImlkIjoxLCJyb
 
 ### get all admin
 GET localhost:8080/api/v1/region/getAll
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTMyOTcyNjksInBob25lIjoiKzk5ODkwMDAxMDEwMSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkzMzgzNjY5LCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.RD6RwiqJ-ygSi1pRIsIlh8f8-aLWjFaByAGz2CevcJlm2v-48xoV_AQPIIvJUu50UDUXNX1lP4ftrk_7t15UtA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTM0MTM2ODAsInBob25lIjoiKzk5ODkwMDAxMDEwMSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkzNTAwMDgwLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.-uIeqKoevCLiIuveXtgsDJbS1on6MmJR1dOjRBqITxnEIZqg3L7-sBAw8ysRGvNRTM8pLkLoC1eVXbrsGhiTXQ
+
 ### get by language
 GET localhost:8080/api/v1/region/public/language?lang=Uz
 ### get by id
