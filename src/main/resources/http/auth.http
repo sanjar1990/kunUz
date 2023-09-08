@@ -28,7 +28,7 @@ Content-Type: application/json
   "name": "test6",
   "surname": "test6",
   "email": "test1960@gmail.com",
-  "phone": "+998900161022",
+  "phone": "998900101010",
   "password": "12345",
   "photoId" :"d474a0f4-2246-4e7b-b83d-53fb9d8d3112"
 }

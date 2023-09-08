@@ -68,4 +68,30 @@ public class ArticleEntity extends BaseStringEntity {
     @Column(name = "dislike_count")
     private int dislikeCount;
 
+    @Override
+    public String toString() {
+        return "ArticleEntity{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", content='" + content + '\'' +
+                ", sharedCount=" + sharedCount +
+                ", imageId='" + imageId + '\'' +
+                ", image=" + image +
+                ", regionId=" + regionId +
+                ", region=" + region +
+                ", categoryId=" + categoryId +
+                ", category=" + category +
+                ", moderatorId=" + moderatorId +
+                ", moderator=" + moderator +
+                ", publisherId=" + publisherId +
+                ", publisher=" + publisher +
+                ", status=" + status +
+                ", publishedDate=" + publishedDate +
+                ", viewCount=" + viewCount +
+                ", articleTypeList=" + articleTypeList +
+                ", articleTagList=" + articleTagList +
+                ", likeCount=" + likeCount +
+                ", dislikeCount=" + dislikeCount +
+                '}';
+    }
 }

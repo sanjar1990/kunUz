@@ -1,0 +1,47 @@
+2023-08-31T12:30:20.505+05:00  INFO 16360 --- [main] com.example.KunUzApplication             : Starting KunUzApplication using Java 18.0.1.1 with PID 16360 (D:\PROGRAMMING\1STAGE\OOpjava\kunUzProject\kun_uz\target\classes started by sanja in D:\PROGRAMMING\1STAGE\OOpjava\kunUzProject\kun_uz)
+2023-08-31T12:30:20.508+05:00 DEBUG 16360 --- [main] com.example.KunUzApplication             : Running with Spring Boot v3.1.1, Spring v6.0.10
+2023-08-31T12:30:20.508+05:00  INFO 16360 --- [main] com.example.KunUzApplication             : The following 1 profile is active: "local"
+2023-08-31T12:30:22.609+05:00  INFO 16360 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-31T12:30:22.704+05:00  INFO 16360 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 88 ms. Found 15 JPA repository interfaces.
+2023-08-31T12:30:23.339+05:00  INFO 16360 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-08-31T12:30:23.346+05:00  INFO 16360 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-08-31T12:30:23.347+05:00  INFO 16360 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-08-31T12:30:23.433+05:00  INFO 16360 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-08-31T12:30:23.434+05:00  INFO 16360 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2865 ms
+2023-08-31T12:30:23.577+05:00  INFO 16360 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-31T12:30:23.654+05:00  INFO 16360 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-08-31T12:30:23.657+05:00  INFO 16360 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-08-31T12:30:23.833+05:00  INFO 16360 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-31T12:30:23.978+05:00  INFO 16360 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-08-31T12:30:23.996+05:00  INFO 16360 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-08-31T12:30:24.271+05:00  INFO 16360 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@d85b399
+2023-08-31T12:30:24.273+05:00  INFO 16360 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-08-31T12:30:24.857+05:00  INFO 16360 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-31T12:30:26.018+05:00  INFO 16360 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-31T12:30:26.475+05:00  INFO 16360 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-31T12:30:26.770+05:00  INFO 16360 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-08-31T12:30:27.313+05:00 DEBUG 16360 --- [main] com.example.config.JWTTokenFilter        : Filter 'JWTTokenFilter' configured for use
+2023-08-31T12:30:28.059+05:00  WARN 16360 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-31T12:30:28.425+05:00  INFO 16360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b3606e8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2395c168, org.springframework.security.web.context.SecurityContextHolderFilter@348523f2, org.springframework.security.web.header.HeaderWriterFilter@da51aa8, org.springframework.security.web.authentication.logout.LogoutFilter@632d8166, com.example.config.JWTTokenFilter@461e479c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5afb0a4f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1c8bf01d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@28322fd3, org.springframework.security.web.access.ExceptionTranslationFilter@21dfec, org.springframework.security.web.access.intercept.AuthorizationFilter@8a607a9]
+2023-08-31T12:30:28.758+05:00  WARN 16360 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2023-08-31T12:30:28.763+05:00  INFO 16360 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-31T12:30:28.766+05:00  INFO 16360 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-08-31T12:30:28.772+05:00  INFO 16360 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-08-31T12:30:28.775+05:00  INFO 16360 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-08-31T12:30:28.791+05:00  INFO 16360 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-08-31T12:30:28.807+05:00 ERROR 16360 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+

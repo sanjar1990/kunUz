@@ -16,16 +16,10 @@ public class CategoryEntity extends BaseEntity{
 
     @Column(name = "order_number",unique = true)
     private Integer orderNumber;
-    @Column(name = "name_uz")
+    @Column(name = "name_uz",nullable = false)
     private String nameUz;
-    @Column(name = "name_ru")
+    @Column(name = "name_ru",nullable = false)
     private String nameRu;
-    @Column(name = "name_en")
+    @Column(name = "name_en",nullable = false)
     private String nameEn;
-
-
-
-    public CategoryEntity(Integer id) {
-      super.setId(id);
-    }
 }

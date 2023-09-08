@@ -114,6 +114,7 @@ public class ArticleService {
         List<ArticleEntity> entityList=articleRepository.findArticleByTape(typeId,limit);
        return shortInfo(entityList);
     }
+
     //7 get last 8
     public List<ArticleDTO>getLastEight(List<String> idList){
         if (idList==null) throw new AppBadRequestException("Id not found");

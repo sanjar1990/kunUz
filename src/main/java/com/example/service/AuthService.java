@@ -15,6 +15,7 @@ import com.example.repository.SmsHistoryRepository;
 import com.example.utility.CheckValidationUtility;
 import com.example.utility.JWTUtil;
 import com.example.utility.MD5Util;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Service
+@Setter
 public class AuthService {
     @Autowired
     private ProfileRepository profileRepository;
@@ -62,7 +64,7 @@ public class AuthService {
         profileDTO.setName(profileEntity.getName());
         profileDTO.setSurname(profileEntity.getSurname());
         profileDTO.setEmail(profileEntity.getEmail());
-        profileDTO.setPhone(profileDTO.getPhone());
+        profileDTO.setPhone(profileEntity.getPhone());
         profileDTO.setRole(profileEntity.getRole());
         profileDTO.setJwt(JWTUtil.encode(profileEntity.getPhone(),profileEntity.getRole()));
         return new ApiResponseDTO(true, profileDTO);
@@ -70,10 +72,10 @@ public class AuthService {
     //register user
     public ApiResponseDTO registrationByEmail(RegistrationDTO dto,Language language){
         //check
-        checkValidationUtility.checkForPhone(dto.getPhone());
+//        checkValidationUtility.checkForPhone(dto.getPhone());
         // check is exist phone
-        Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
-        if(checkByPhone)return new ApiResponseDTO(false,messageSource.getMessage("this.phone.exists",language));
+//        Boolean checkByPhone=profileRepository.existsAllByPhoneAndVisibleTrueAndStatus(dto.getPhone(),ProfileStatus.ACTIVE);
+//        if(checkByPhone)return new ApiResponseDTO(false,messageSource.getMessage("this.phone.exists",language));
         // check is exist email
        Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
        if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.ACTIVE)){
@@ -93,7 +95,11 @@ public class AuthService {
     //registration by phone
     public ApiResponseDTO registrationByPhone(RegistrationDTO dto) {
         //check phone
-        checkValidationUtility.checkForPhone(dto.getPhone());
+      boolean result=  checkValidationUtility.checkForPhone(dto.getPhone());
+      if(!result){
+          throw new AppBadRequestException("invalid phone number");
+      }
+
         // check is exist email
         Optional<ProfileEntity> optional=profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if(optional.isPresent() && optional.get().getStatus().equals(ProfileStatus.ACTIVE)){
@@ -169,6 +175,7 @@ public class AuthService {
          int m=smsHistoryRepository.updateSmsHistoryStatus(SmsStatus.USED, phone);
         return n!=0?"your account is activated":"Status not activated";
     }
+
 
 
 }

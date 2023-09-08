@@ -34,6 +34,7 @@ public interface CategoryRepository extends CrudRepository<CategoryEntity, Integ
             " from category where visible=true" +
             " order by order_number asc ", nativeQuery = true)
     List<CategoryLanguageMapper>getAllByLang(@Param("lang") String lang);
+    Optional<CategoryEntity>findByNameUz(String nameUz);
 
 
 
